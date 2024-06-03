@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE.Base
+namespace Interfaces
 {
-    public class BaseEntity : BaseAuditEntity
-    {
-        public int Id { get; set; } 
+    public interface IBaseEntity
+    { 
+        public Guid Id { get; set; }
     }
 }

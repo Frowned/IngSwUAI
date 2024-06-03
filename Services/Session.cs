@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE.Base
+namespace Services
 {
-    public class BaseEntity : BaseAuditEntity
+    internal class Session
     {
-        public int Id { get; set; } 
     }
 }

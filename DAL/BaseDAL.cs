@@ -1,6 +1,9 @@
-﻿namespace DAL
+﻿using Interfaces;
+using System.Linq;
+
+namespace DAL
 {
-    public abstract class BaseDAL<T>
+    public abstract class BaseDAL<T> where T : IBaseEntity
     {
         protected IList<T> context;
         public BaseDAL()
@@ -20,7 +23,7 @@
 
         public T GetById(Guid id)
         {
-            return context.Where(i => i.Id.Equals(id)).FirstOrDefault();
+            return context.Where(i => i.Id.Equals(id)).FirstOrDefault() == null ? default! : context.Where(i => i.Id.Equals(id)).First();
         }
 
         public void Save(T entity)
