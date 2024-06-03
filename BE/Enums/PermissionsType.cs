@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace BE.Enums
 {
-    internal class Session
+    public enum PermissionsType
     {
+        ViewProducts,
+        IsAdmin
     }
 }

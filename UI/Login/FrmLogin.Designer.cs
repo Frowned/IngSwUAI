@@ -29,39 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
-            button1 = new Button();
-            textBox1 = new TextBox();
+            BtnLogin = new Button();
+            TxtUsername = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            textBox2 = new TextBox();
-            checkBox1 = new CheckBox();
-            button2 = new Button();
+            TxtPassword = new TextBox();
             pictureBox1 = new PictureBox();
-            label3 = new Label();
+            LblError = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // BtnLogin
             // 
-            button1.BackColor = Color.ForestGreen;
-            button1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(17, 538);
-            button1.Margin = new Padding(4, 5, 4, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(347, 70);
-            button1.TabIndex = 0;
-            button1.Text = "Iniciar sesión";
-            button1.UseVisualStyleBackColor = false;
+            BtnLogin.BackColor = Color.ForestGreen;
+            BtnLogin.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BtnLogin.ForeColor = SystemColors.ButtonHighlight;
+            BtnLogin.Location = new Point(16, 469);
+            BtnLogin.Margin = new Padding(4, 5, 4, 5);
+            BtnLogin.Name = "BtnLogin";
+            BtnLogin.Size = new Size(347, 70);
+            BtnLogin.TabIndex = 0;
+            BtnLogin.Text = "Iniciar sesión";
+            BtnLogin.UseVisualStyleBackColor = false;
+            BtnLogin.Click += BtnLogin_Click;
             // 
-            // textBox1
+            // TxtUsername
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(17, 280);
-            textBox1.Margin = new Padding(4, 5, 4, 5);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(346, 31);
-            textBox1.TabIndex = 1;
+            TxtUsername.BorderStyle = BorderStyle.FixedSingle;
+            TxtUsername.Location = new Point(17, 280);
+            TxtUsername.Margin = new Padding(4, 5, 4, 5);
+            TxtUsername.Name = "TxtUsername";
+            TxtUsername.Size = new Size(346, 31);
+            TxtUsername.TabIndex = 1;
             // 
             // label1
             // 
@@ -85,40 +84,15 @@
             label2.TabIndex = 4;
             label2.Text = "Contraseña";
             // 
-            // textBox2
+            // TxtPassword
             // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Location = new Point(17, 367);
-            textBox2.Margin = new Padding(4, 5, 4, 5);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(346, 31);
-            textBox2.TabIndex = 3;
-            textBox2.UseSystemPasswordChar = true;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.ForeColor = SystemColors.ControlDarkDark;
-            checkBox1.Location = new Point(17, 415);
-            checkBox1.Margin = new Padding(4, 5, 4, 5);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(135, 29);
-            checkBox1.TabIndex = 5;
-            checkBox1.Text = "Recuerdame";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.ForestGreen;
-            button2.Location = new Point(157, 411);
-            button2.Margin = new Padding(4, 5, 4, 5);
-            button2.Name = "button2";
-            button2.Size = new Size(207, 38);
-            button2.TabIndex = 6;
-            button2.Text = "Olvidé mi contraseña";
-            button2.UseVisualStyleBackColor = true;
+            TxtPassword.BorderStyle = BorderStyle.FixedSingle;
+            TxtPassword.Location = new Point(17, 367);
+            TxtPassword.Margin = new Padding(4, 5, 4, 5);
+            TxtPassword.Name = "TxtPassword";
+            TxtPassword.Size = new Size(346, 31);
+            TxtPassword.TabIndex = 3;
+            TxtPassword.UseSystemPasswordChar = true;
             // 
             // pictureBox1
             // 
@@ -130,37 +104,36 @@
             pictureBox1.TabIndex = 8;
             pictureBox1.TabStop = false;
             // 
-            // label3
+            // LblError
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.ForeColor = Color.Firebrick;
-            label3.Location = new Point(44, 482);
-            label3.Name = "label3";
-            label3.Size = new Size(281, 25);
-            label3.TabIndex = 9;
-            label3.Text = "Usuario y/o contraseña incorrecta.";
-            label3.Visible = false;
+            LblError.AutoSize = true;
+            LblError.BackColor = Color.Transparent;
+            LblError.ForeColor = Color.Firebrick;
+            LblError.Location = new Point(17, 412);
+            LblError.Name = "LblError";
+            LblError.Size = new Size(281, 25);
+            LblError.TabIndex = 9;
+            LblError.Text = "Usuario y/o contraseña incorrecta.";
+            LblError.TextAlign = ContentAlignment.MiddleLeft;
+            LblError.Visible = false;
             // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(381, 682);
-            Controls.Add(label3);
+            ClientSize = new Size(397, 602);
+            Controls.Add(LblError);
             Controls.Add(pictureBox1);
-            Controls.Add(button2);
-            Controls.Add(checkBox1);
             Controls.Add(label2);
-            Controls.Add(textBox2);
+            Controls.Add(TxtPassword);
             Controls.Add(label1);
-            Controls.Add(textBox1);
-            Controls.Add(button1);
-            FormBorderStyle = FormBorderStyle.None;
+            Controls.Add(TxtUsername);
+            Controls.Add(BtnLogin);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Margin = new Padding(4, 5, 4, 5);
             Name = "FrmLogin";
-            Text = "FrmLogin";
+            Text = "Iniciar sesión";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -168,14 +141,12 @@
 
         #endregion
 
-        private Button button1;
-        private TextBox textBox1;
+        private Button BtnLogin;
+        private TextBox TxtUsername;
         private Label label1;
         private Label label2;
-        private TextBox textBox2;
-        private CheckBox checkBox1;
-        private Button button2;
+        private TextBox TxtPassword;
         private PictureBox pictureBox1;
-        private Label label3;
+        private Label LblError;
     }
 }

@@ -13,6 +13,6 @@ namespace BE
         {
             Id = Guid.NewGuid();
         }
-        public Guid Id { get; }
+        public Guid Id { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace BE
+namespace BE.Entities
 {
     public class User : BaseGuidEntity
     {
@@ -9,8 +9,8 @@ namespace BE
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public bool IsBlocked { get; set; } 
-        public Language Language { get; set; } 
+        public bool IsBlocked { get; set; }
+        public Language Language { get; set; }
         public RoleComponent Role { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE
+namespace BE.Entities
 {
     public class Language : BaseEntity
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Session;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,18 +18,15 @@ namespace UI.Login
             InitializeComponent();
         }
 
-        private void FrmLogout_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
+
+        private void BtnAceptar_Click(object sender, EventArgs e)
+        {
+            SingletonSession.Instancia.Logout();
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

@@ -45,7 +45,7 @@
             BtnAceptar.TabIndex = 1;
             BtnAceptar.Text = "Aceptar";
             BtnAceptar.UseVisualStyleBackColor = false;
-            BtnAceptar.Click += button1_Click;
+            BtnAceptar.Click += BtnAceptar_Click;
             // 
             // BtnCancelar
             // 
@@ -81,10 +81,9 @@
             Controls.Add(label1);
             Controls.Add(BtnCancelar);
             Controls.Add(BtnAceptar);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FrmLogout";
-            Text = "FrmLogout";
-            Load += FrmLogout_Load;
+            Text = "Cerrar sesión";
             ResumeLayout(false);
             PerformLayout();
         }

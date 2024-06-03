@@ -1,12 +1,13 @@
-﻿using System;
+﻿using BE.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE
+namespace BE.Entities
 {
-    public abstract class RoleComponent
+    public abstract class RoleComponent : BaseEntity
     {
         public List<RoleComponent> Children { get; set; }
 
@@ -17,9 +18,9 @@ namespace BE
 
         public RoleComponent(string name, string type, string label)
         {
-            this.Name = name;
-            this.Label = label;
-            this.Type = type;
+            Name = name;
+            Label = label;
+            Type = type;
         }
 
         public int Id { get; set; }
