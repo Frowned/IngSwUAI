@@ -59,13 +59,6 @@ namespace DAL.Helper
                 }
             }
         }
-
-        public SqlTransaction BeginTransaction()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            return connection.BeginTransaction();
-        }
     }
 
 }

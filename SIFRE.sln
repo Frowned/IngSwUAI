@@ -19,9 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Data Access Layer", "0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Infrastructure Layer", "02 - Infrastructure Layer", "{32D44611-4DDE-43DB-BF59-F751BA9F3416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{D1989EA4-EB16-4239-9806-534D3E8925BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{D1989EA4-EB16-4239-9806-534D3E8925BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Business Entity", "04 - Business Entity", "{611D92D0-108D-4C96-8548-2C5D0FD26622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagramsLayer", "DiagramsLayer\DiagramsLayer.csproj", "{9DC26C0F-08ED-44AE-857E-B74E3647374C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{D1989EA4-EB16-4239-9806-534D3E8925BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1989EA4-EB16-4239-9806-534D3E8925BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1989EA4-EB16-4239-9806-534D3E8925BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC26C0F-08ED-44AE-857E-B74E3647374C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC26C0F-08ED-44AE-857E-B74E3647374C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC26C0F-08ED-44AE-857E-B74E3647374C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC26C0F-08ED-44AE-857E-B74E3647374C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

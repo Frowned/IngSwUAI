@@ -27,4 +27,8 @@ namespace Infrastructure.Mappers
             };
         }
     }
+
+    public class Class1
+    {
+    }
 }

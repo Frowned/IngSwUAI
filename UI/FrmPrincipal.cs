@@ -36,9 +36,14 @@ namespace UI
                 {
                     iniciarSesiónToolStripMenuItem.Visible = false;
                     cambiarIdiomaToolStripMenuItem.Visible =
+                    cambiarClaveToolStripMenuItem.Visible =
+                    puntosToolStripMenuItem.Visible =
+                    administraciónToolStripMenuItem.Visible =
+                    reporteríaToolStripMenuItem.Visible =
+                    ayudaToolStripMenuItem.Visible =
                     cerrarSesiónToolStripMenuItem.Visible = true;
 
-                    productosToolStripMenuItem.Visible = SingletonSession.Instancia.IsInRole(PermissionsType.ViewProducts);
+                    puntosToolStripMenuItem.Visible = SingletonSession.Instancia.IsInRole(PermissionsType.ViewProducts);
                     administraciónToolStripMenuItem.Visible = SingletonSession.Instancia.IsInRole(PermissionsType.IsAdmin);
                     userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
                 }
@@ -51,7 +56,8 @@ namespace UI
             {
                 DialogResult result = frmLogout.ShowDialog();
 
-                if (result == DialogResult.OK){
+                if (result == DialogResult.OK)
+                {
                     ClearMenu();
                     userToolStrip.Text = $"Usuario (No conectado)";
 
@@ -62,10 +68,13 @@ namespace UI
         private void ClearMenu()
         {
             iniciarSesiónToolStripMenuItem.Visible = true;
-            cambiarIdiomaToolStripMenuItem.Visible = 
-            cerrarSesiónToolStripMenuItem.Visible = 
-            productosToolStripMenuItem.Visible = 
-            administraciónToolStripMenuItem.Visible = false;
+            cambiarIdiomaToolStripMenuItem.Visible =
+            cambiarClaveToolStripMenuItem.Visible =
+            puntosToolStripMenuItem.Visible =
+            administraciónToolStripMenuItem.Visible =
+            reporteríaToolStripMenuItem.Visible =
+            ayudaToolStripMenuItem.Visible =
+            cerrarSesiónToolStripMenuItem.Visible = false;
         }
     }
 }
