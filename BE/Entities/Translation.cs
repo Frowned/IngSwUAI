@@ -8,12 +8,9 @@ namespace BE.Entities
 {
     public class Translation
     {
-        public int Id { get; set; }
-        public string Label { get; set; }
+        public int LabelId { get; set; }
+        public string Description { get; set; }
         public string TranslatedText { get; set; }
-
-        public int LanguageId { get; set; }
-        public Language Language { get; set; }
     }
 
 }

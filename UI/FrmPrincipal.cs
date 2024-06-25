@@ -11,13 +11,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Login;
 using BE.Enums;
+using UI.Language;
+using Infrastructure.Interfaces.BLL;
 
 namespace UI
 {
     public partial class FrmPrincipal : Form
     {
-        public FrmPrincipal()
+        FrmManageLanguage frmManageLanguage = null;
+        ILanguageBLL languageBLL;
+        public FrmPrincipal(ILanguageBLL languageBLL)
         {
+            this.languageBLL = languageBLL;
             InitializeComponent();
         }
 
@@ -75,6 +80,36 @@ namespace UI
             reporteríaToolStripMenuItem.Visible =
             ayudaToolStripMenuItem.Visible =
             cerrarSesiónToolStripMenuItem.Visible = false;
+        }
+
+        private void gestionarIdiomaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmManageLanguage frmManageLanguage = Program.ServiceProvider.GetRequiredService<FrmManageLanguage>();
+            frmManageLanguage.MdiParent = this;
+            frmManageLanguage.Show();
+        }
+
+        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        {
+            toolStripDropDownButton1.DropDownItems.Clear();
+            var languages = languageBLL.GetAllLanguages();
+
+            foreach (var language in languages)
+            {
+                var item = new ToolStripMenuItem(language.Name);
+                item.Tag = language.Id;
+                item.Click += LanguageItem_Click;
+                toolStripDropDownButton1.DropDownItems.Add(item);
+            }
+        }
+
+        private void LanguageItem_Click(object sender, EventArgs e)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+            if (menuItem != null)
+            {
+                var languageId = (int)menuItem.Tag;
+            }
         }
     }
 }

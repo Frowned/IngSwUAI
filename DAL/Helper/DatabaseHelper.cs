@@ -20,6 +20,27 @@ namespace DAL.Helper
             return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public int ExecuteScalar(string query, CommandType commandType, SqlParameter[] parameters = null)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = commandType;
+
+                    if (parameters != null)
+                    {
+                        command.Parameters.AddRange(parameters);
+                    }
+
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    command.Parameters.Clear();
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+
         public int ExecuteNonQuery(string query, CommandType commandType = CommandType.Text, SqlParameter[] parameters = null, SqlTransaction transaction = null)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -32,8 +53,9 @@ namespace DAL.Helper
                     {
                         command.Parameters.AddRange(parameters);
                     }
-
-                    return command.ExecuteNonQuery();
+                    var result = command.ExecuteNonQuery();
+                    command.Parameters.Clear();
+                    return result;
                 }
             }
         }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BE;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Interfaces.DAL;
+using UI.Language;
 namespace UI
 {
     internal static class Program
@@ -30,9 +31,16 @@ namespace UI
         {
             services.AddTransient<IUserDAL, UserDAL>();
             services.AddTransient<IUserBLL, UserBLL>();
+            services.AddTransient<ILanguageBLL, LanguageBLL>();
+            services.AddTransient<ILanguageDAL, LanguageDAL>();
+            services.AddTransient<ILogDAL, LogDAL>();
+            services.AddTransient<ILogBLL, LogBLL>();
+            services.AddTransient<IRoleBLL, RoleBLL>();
+            services.AddTransient<IRoleDAL, RoleDAL>();
 
             services.AddTransient<FrmLogin>();
             services.AddTransient<FrmPrincipal>();
+            services.AddTransient<FrmManageLanguage>();
         }
     }
 }

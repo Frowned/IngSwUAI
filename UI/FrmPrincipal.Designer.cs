@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             menuStrip1 = new MenuStrip();
             inicioToolStripMenuItem = new ToolStripMenuItem();
             iniciarSesiónToolStripMenuItem = new ToolStripMenuItem();
@@ -48,6 +49,7 @@
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             userToolStrip = new ToolStripStatusLabel();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -105,19 +107,19 @@
             // consultarPuntosToolStripMenuItem
             // 
             consultarPuntosToolStripMenuItem.Name = "consultarPuntosToolStripMenuItem";
-            consultarPuntosToolStripMenuItem.Size = new Size(270, 34);
+            consultarPuntosToolStripMenuItem.Size = new Size(250, 34);
             consultarPuntosToolStripMenuItem.Text = "Consultar puntos";
             // 
             // canjearPuntosToolStripMenuItem
             // 
             canjearPuntosToolStripMenuItem.Name = "canjearPuntosToolStripMenuItem";
-            canjearPuntosToolStripMenuItem.Size = new Size(270, 34);
+            canjearPuntosToolStripMenuItem.Size = new Size(250, 34);
             canjearPuntosToolStripMenuItem.Text = "Canjear puntos";
             // 
             // verProductosToolStripMenuItem
             // 
             verProductosToolStripMenuItem.Name = "verProductosToolStripMenuItem";
-            verProductosToolStripMenuItem.Size = new Size(270, 34);
+            verProductosToolStripMenuItem.Size = new Size(250, 34);
             verProductosToolStripMenuItem.Text = "Ver productos";
             // 
             // administraciónToolStripMenuItem
@@ -144,6 +146,7 @@
             gestionarIdiomaToolStripMenuItem.Name = "gestionarIdiomaToolStripMenuItem";
             gestionarIdiomaToolStripMenuItem.Size = new Size(282, 34);
             gestionarIdiomaToolStripMenuItem.Text = "Gestionar idioma";
+            gestionarIdiomaToolStripMenuItem.Click += gestionarIdiomaToolStripMenuItem_Click;
             // 
             // gestionarProductosToolStripMenuItem
             // 
@@ -172,7 +175,7 @@
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new Size(24, 24);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { userToolStrip });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { userToolStrip, toolStripDropDownButton1 });
             statusStrip1.Location = new Point(0, 418);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(800, 32);
@@ -185,6 +188,16 @@
             userToolStrip.Size = new Size(199, 25);
             userToolStrip.Text = "Usuario (No conectado)";
             // 
+            // toolStripDropDownButton1
+            // 
+            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(42, 29);
+            toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Click += toolStripDropDownButton1_Click;
+            // 
             // FrmPrincipal
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -196,6 +209,7 @@
             MainMenuStrip = menuStrip1;
             Name = "FrmPrincipal";
             Text = "SIFRE";
+            WindowState = FormWindowState.Maximized;
             Load += FrmPrincipal_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -227,5 +241,6 @@
         private ToolStripMenuItem gestionarObjetivosToolStripMenuItem;
         private ToolStripMenuItem reporteríaToolStripMenuItem;
         private ToolStripMenuItem ayudaToolStripMenuItem;
+        private ToolStripDropDownButton toolStripDropDownButton1;
     }
 }

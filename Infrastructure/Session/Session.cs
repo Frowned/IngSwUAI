@@ -2,13 +2,28 @@
 using BE.Entities;
 using BE.Enums;
 using Infrastructure.Interfaces;
+using Infrastructure.Observer;
 
 namespace Infrastructure.Session
 {
-    public class Session
+    public class Session : Subject
     {
 
         public UserDTO User { get; set; }
+        public bool changeLanguage = false;
+        private Language _language;
+        public Language currentLanguage
+        {
+            get
+            {
+                return _language;
+            }
+            set
+            {
+                _language = value;
+                Notify(_language);
+            }
+        }
 
 
         public void Login(UserDTO usuario)
