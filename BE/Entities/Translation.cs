@@ -9,7 +9,7 @@ namespace BE.Entities
     public class Translation
     {
         public int LabelId { get; set; }
-        public string Description { get; set; }
+        public int LanguageId { get; set; }
         public string TranslatedText { get; set; }
     }
 

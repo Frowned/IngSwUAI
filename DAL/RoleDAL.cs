@@ -1,4 +1,5 @@
 ﻿using BE.Entities;
+using BE.Enums;
 using DAL.Helper;
 using Infrastructure.Interfaces.DAL;
 using Microsoft.Data.SqlClient;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,9 +23,123 @@ namespace DAL
             dbHelper = new DatabaseHelper();
         }
 
-        public void Delete(Role role)
+        public IList<Role> GetRoles()
         {
-            string query = "DELETE FROM Roles WHERE CompositePermissionId = @Id OR PermissionId = @Id;";
+            try
+            {
+                List<Role> list = new List<Role>();
+                string query = "SELECT * FROM Permissions WHERE Type is null";
+                SqlParameter[] parameters = [];
+                DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        Role role = new Role
+                        {
+                            Id = int.Parse(dr["Id"].ToString()!),
+                            Name = dr["Name"].ToString()!,
+                            Permission = null
+                        };
+                        list.Add(role);
+                    }
+                    return list;
+                }
+                else
+                {
+                    return new List<Role>();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public IList<Permission> GetPermissions()
+        {
+            try
+            {
+                List<Permission> list = new List<Permission>();
+                string query = "SELECT * FROM Permissions WHERE Type is not null";
+                SqlParameter[] parameters = [];
+                DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        Permission permission = new Permission
+                        {
+                            Id = int.Parse(dr["Id"].ToString()!),
+                            Name = dr["Name"].ToString()!,
+                            Permission = (PermissionsType)Enum.Parse(typeof(PermissionsType), dr["Type"].ToString()!)
+                        };
+                        list.Add(permission);
+                    }
+                    return list;
+                }
+                else
+                {
+                    return new List<Permission>();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void SaveComponent(RoleComponent component)
+        {
+            string query = $@"delete from RoleComponent where ParentPermissionId=@Id;";
+            SqlParameter[] parameters =
+                [
+                    new SqlParameter("@Id", component.Id)
+                ];
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+            foreach (var item in component.Children)
+            {
+                query = $@"INSERT INTO RoleComponent (ParentPermissionId, ChildPermissionId) values (@ParentPermissionId, @ChildPermissionId);";
+                parameters =
+                    [
+                        new SqlParameter("@ParentPermissionId", component.Id),
+                        new SqlParameter("@ChildPermissionId", item.Id)
+                    ];
+                dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+
+            }
+        }
+
+        public void SaveComponent(RoleComponent component, bool isRole)
+        {
+            try
+            {
+                string query = "Insert into Permissions (Name, Type) values(@Name, @Permission);";
+                SqlParameter[] parameters =
+                [
+                    new SqlParameter("@Name", component.Name),
+                    new SqlParameter("@Permission", !isRole ? component.Permission.ToString() : DBNull.Value)
+                ];
+
+                dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void DeleteRole(RoleComponent role)
+        {
+            string query = "DELETE FROM RoleComponent WHERE ParentPermissionId = @Id OR ChildPermissionId = @Id;";
             SqlParameter[] parameters =
             [
                 new SqlParameter("@Id", role.Id)
@@ -34,181 +150,115 @@ namespace DAL
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
-        public RoleComponent? Get(int roleId)
+        private RoleComponent GetComponent(int id, IList<RoleComponent> list)
         {
-            string query = "SELECT * FROM Permissions WHERE Id = @Id;";
-            SqlParameter[] parameters =
-            [
-                new SqlParameter("@Id", roleId)
-            ];
-            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
+            RoleComponent component = list != null ? list.Where(i => i.Id.Equals(id)).FirstOrDefault() : null;
 
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (component == null && list != null)
             {
-                Role role = new Role
+                foreach (var c in list)
                 {
-                    Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString()!),
-                    Name = ds.Tables[0].Rows[0]["Name"].ToString()!,
-                    Label = ds.Tables[0].Rows[0]["Label"].ToString()!,
-                    Type = ds.Tables[0].Rows[0]["Type"].ToString()!,
-                    Children = GetChilds(roleId)
-                };
-                return role;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public RoleComponent? GetByLabel(string label)
-        {
-            string query = "SELECT * FROM Permissions WHERE Label = @Label;";
-            SqlParameter[] parameters =
-            [
-                new SqlParameter("@Label", label)
-            ];
-            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                Role role = new Role
-                {
-                    Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString()!),
-                    Name = ds.Tables[0].Rows[0]["Name"].ToString()!,
-                    Label = ds.Tables[0].Rows[0]["Label"].ToString()!,
-                    Type = ds.Tables[0].Rows[0]["Type"].ToString()!,
-                    Children = GetChilds(int.Parse(ds.Tables[0].Rows[0]["Id"].ToString()!))
-                };
-                return role;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public List<RoleComponent> GetChilds(int roleId)
-        {
-            string query = "SELECT p.Name, p.Label, p.Type, r.PermissionId, r.RoleId, r.CompositePermissionId FROM Roles r " +
-                           "INNER JOIN Permissions p ON r.PermissionId = p.Id WHERE r.CompositePermissionId = @RoleId;";
-            SqlParameter[] parameters =
-            [
-                new SqlParameter("@RoleId", roleId)
-            ];
-            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
-
-            List<RoleComponent> children = new List<RoleComponent>();
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    RoleComponent roleComponent = new Role
-                    {
-                        Id = int.Parse(dr["Id"].ToString()!),
-                        Name = dr["Name"].ToString()!,
-                        Label = dr["Label"].ToString()!,
-                        Type = dr["Type"].ToString()!
-                    };
-                    children.Add(roleComponent);
+                    var l = GetComponent(id, c.Children);
+                    if (l != null && l.Id == id) return l;
+                    else
+                    if (l != null)
+                        return GetComponent(id, l.Children);
                 }
             }
-            return children;
+            return component;
         }
 
-        public int GetLastId()
+        public void FillRoleComponent(Role role)
         {
-            string query = "SELECT MAX(Id) AS id_permiso_max FROM Permissions;";
-            DataSet ds = dbHelper.ExecuteDataSet(query);
-            return int.Parse(ds.Tables[0].Rows[0]["id_permiso_max"].ToString()!);
-        }
-
-        public List<RoleComponent> List(bool withChilds = true)
-        {
-            string query = "SELECT Name, Label, Type, Id FROM Permissions WHERE Type = 'C';";
-            DataSet ds = dbHelper.ExecuteDataSet(query);
-            List<RoleComponent> roles = new List<RoleComponent>();
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            role.ClearChild();
+            foreach (var item in GetAll($" = {role.Id} "))
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                role.AddChild(item);
+            }
+        }
+
+        public IList<RoleComponent> GetAll(string roleComponentId)
+        {
+            string where = string.IsNullOrEmpty(roleComponentId) ? " is NULL " : roleComponentId;
+            var sql = $@"with recursivo as (
+                                    select sp2.ParentPermissionId, sp2.ChildPermissionId  from RoleComponent SP2
+                                    where sp2.ParentPermissionId {where} --acá se va variando la familia que busco
+                                    UNION ALL 
+                                    select sp.ParentPermissionId, sp.ChildPermissionId from RoleComponent sp 
+                                    inner join recursivo r on r.ChildPermissionId = sp.ParentPermissionId
+                                    )
+                                    select r.ParentPermissionId,r.ChildPermissionId,p.id,p.Name, p.Type
+                                    from recursivo r 
+                                    inner join Permissions p on r.ChildPermissionId = p.Id";
+            try
+            {
+                List<RoleComponent> list = new List<RoleComponent>();
+                SqlParameter[] parameters = [];
+                DataSet ds = dbHelper.ExecuteDataSet(sql, CommandType.Text, parameters);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    RoleComponent roleComponent = new Role
+                    foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        Id = int.Parse(dr["Id"].ToString()!),
-                        Name = dr["Name"].ToString()!,
-                        Label = dr["Label"].ToString()!,
-                        Type = dr["Type"].ToString()!
-                    };
-                    if (roleComponent.Type == "C" && withChilds)
-                    {
-                        roleComponent.Children = GetChilds(roleComponent.Id);
+                        int roleId = 0;
+                        if (dr["ParentPermissionId"] != DBNull.Value)
+                        {
+                            roleId = int.Parse(dr["ParentPermissionId"].ToString()!);
+                        }
+
+                        int id = int.Parse(dr["id"].ToString()!);
+                        string name = dr["name"].ToString()!;
+                        string permission = string.Empty;
+                        if (dr["Type"] != DBNull.Value)
+                            permission = dr["Type"].ToString()!;
+
+                        RoleComponent roleComponent = string.IsNullOrEmpty(permission) ? new Role() : new Permission();
+                        roleComponent.Id = id;
+                        roleComponent.Name = name;
+
+                        if(!string.IsNullOrEmpty(permission))
+                        {
+                            roleComponent.Permission = (PermissionsType)Enum.Parse(typeof(PermissionsType), permission);
+                        }
+
+                        RoleComponent parent = GetComponent(roleId, list);
+
+                        if(parent == null)
+                        {
+                            list.Add(roleComponent);
+                        }
+                        else
+                        {
+                            parent.AddChild(roleComponent);
+                        }
                     }
-                    roles.Add(roleComponent);
+                    return list;
                 }
+                else
+                {
+                    return new List<RoleComponent>();
+                }
+
             }
-            return roles;
-        }
-
-        public List<RoleComponent> ListSimple()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Modify(Role role)
-        {
-            string query = "UPDATE Permissions SET Name = @Name, Label = @Label WHERE Id = @Id;";
-            SqlParameter[] parameters =
-            [
-                new SqlParameter("@Name", role.Name),
-                new SqlParameter("@Label", role.Label),
-                new SqlParameter("@Id", role.Id)
-            ];
-            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-
-            query = "DELETE FROM Roles WHERE CompositePermissionId = @Id OR PermissionId = @Id;";
-            parameters =
-            [
-                new SqlParameter("@Id", role.Id)
-            ];
-            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-
-            foreach (RoleComponent child in role.Children)
+            catch (Exception)
             {
-                query = "INSERT INTO Roles (PermissionId, CompositePermissionId) VALUES (@PermissionId, @CompositePermissionId);";
-                parameters =
-                [
-                    new SqlParameter("@PermissionId", child.Id),
-                    new SqlParameter("@CompositePermissionId", role.Id)
-                ];
-                dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+
+                throw;
             }
+
         }
 
-        public void Save(Role role)
+        public bool IsAssigned(Role auxRole)
         {
-            string query = "INSERT INTO Permissions (Name, Label, Type) VALUES (@Name, @Label, @Type);";
+            string query = "SELECT COUNT(*) FROM Users u\r\n  WHERE u.RoleId = @RoleId";
             SqlParameter[] parameters =
-            [
-                new SqlParameter("@Name", role.Name),
-                new SqlParameter("@Label", role.Label),
-                new SqlParameter("@Type", role.Type)
-            ];
-            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-
-            int lastId = GetLastId();
-
-            foreach (RoleComponent child in role.Children)
-            {
-                query = "INSERT INTO Roles (PermissionId, CompositePermissionId) VALUES (@PermissionId, @CompositePermissionId);";
-                parameters =
                 [
-                    new SqlParameter("@PermissionId", child.Id),
-                    new SqlParameter("@CompositePermissionId", lastId)
+                    new SqlParameter("@Id", auxRole.Id)
                 ];
-                dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-            }
+            var result = int.Parse(dbHelper.ExecuteScalar(query, CommandType.Text, parameters).ToString());
+            
+            return result > 0;
+
         }
     }
 }

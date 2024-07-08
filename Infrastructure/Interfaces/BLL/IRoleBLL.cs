@@ -1,6 +1,7 @@
 ﻿using BE.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,13 @@ namespace Infrastructure.Interfaces.BLL
 {
     public interface IRoleBLL
     {
-        int GetLastId();
-        void Modify(Role role);
-        void Delete(Role role);
-        RoleComponent? Get(int roleId);
-        RoleComponent? GetByLabel(string label);
-        List<RoleComponent> GetChilds(int roleId);
-        List<RoleComponent> List(bool withChilds = true);
-        List<RoleComponent> ListSimple();
+        void SaveComponent(RoleComponent component, bool isRole);
+        IList<Permission> GetPermissions();
+        IList<Role> GetRoles();
+        void FillRoleComponent(Role role);
+        IList<RoleComponent> GetAll(string roleComponentId);
+        void SaveComponent(RoleComponent roleSelected);
+        void DeleteRole(RoleComponent role);
+        bool IsAssigned(Role auxRole);
     }
 }

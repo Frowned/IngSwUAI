@@ -33,7 +33,9 @@ namespace Infrastructure.Mappers
                 Email = row["Email"].ToString(),
                 FirstName = row["FirstName"].ToString(),
                 LastName = row["LastName"].ToString(),
-                LanguageId = int.Parse(row["LanguageId"].ToString())
+                LanguageId = int.Parse(row["LanguageId"].ToString()),
+                RoleId = int.Parse(row["RoleId"].ToString()),
+                Points = long.Parse(row["Points"].ToString())
             };
         }
     }

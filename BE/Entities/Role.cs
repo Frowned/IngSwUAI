@@ -8,13 +8,27 @@ namespace BE.Entities
 {
     public class Role : RoleComponent
     {
-        public Role(string name, string type, string label) : base(name, type, label)
-        {
-            Children = new List<RoleComponent>();
+        private IList<RoleComponent> _components;
+        public override IList<RoleComponent> Children {
+            get
+            {
+                return _components;
+            }
         }
 
-        public Role() : base()
+        public Role()
         {
+            _components = new List<RoleComponent>();
+        }
+
+        public override void AddChild(RoleComponent c)
+        {
+            _components.Add(c);
+        }
+
+        public override void ClearChild()
+        {
+            _components = new List<RoleComponent>();
         }
     }
 }

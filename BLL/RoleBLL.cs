@@ -1,6 +1,7 @@
 ﻿using BE.Entities;
 using DAL;
 using Infrastructure.Interfaces.BLL;
+using Infrastructure.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,65 +10,54 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class RoleBLL : RoleComponentBLL, IRoleBLL
+    public class RoleBLL : IRoleBLL
     {
         internal Role? _role = null;
-        internal RoleDAL _roleDAL;
+        internal IRoleDAL _roleDAL;
 
-        public RoleBLL(Role role, RoleDAL roleDAL)
+        public RoleBLL(IRoleDAL roleDAL)
         {
-            _role = role;
             _roleDAL = roleDAL;
         }
 
-        public override void Add(RoleComponent component)
+        public IList<Permission> GetPermissions()
         {
-            _roleDAL.Save((Role)component);
+            return _roleDAL.GetPermissions();
         }
 
-        public void Delete(Role role)
+        public IList<Role> GetRoles()
         {
-            _roleDAL.Delete(role);
+            return _roleDAL.GetRoles();
         }
 
-        public RoleComponent? Get(int roleId)
+        public void FillRoleComponent(Role role)
         {
-            return _roleDAL.Get(roleId);
+            _roleDAL.FillRoleComponent(role);
         }
 
-        public RoleComponent? GetByLabel(string label)
+        public void SaveComponent(RoleComponent component, bool isRole)
         {
-            return _roleDAL.GetByLabel(label);
+            _roleDAL.SaveComponent(component, isRole);
         }
 
-        public override IList<RoleComponent> GetChilds()
+        public IList<RoleComponent> GetAll(string roleComponentId)
         {
-            return _role!.Children;
+            return _roleDAL.GetAll(roleComponentId);
         }
 
-        public List<RoleComponent> GetChilds(int roleId)
+        public void SaveComponent(RoleComponent roleSelected)
         {
-            return _roleDAL.GetChilds(roleId);
+            _roleDAL.SaveComponent(roleSelected);
         }
 
-        public int GetLastId()
+        public void DeleteRole(RoleComponent role)
         {
-            return _roleDAL.GetLastId();
+            _roleDAL.DeleteRole(role);
         }
 
-        public List<RoleComponent> List(bool withChilds = true)
+        public bool IsAssigned(Role auxRole)
         {
-            return _roleDAL.List(withChilds);
-        }
-
-        public List<RoleComponent> ListSimple()
-        {
-            return _roleDAL!.ListSimple();
-        }
-
-        public void Modify(Role role)
-        {
-            _roleDAL?.Modify(role);
+            return _roleDAL.IsAssigned(auxRole);
         }
     }
 }

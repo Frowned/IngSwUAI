@@ -34,37 +34,6 @@ namespace DAL
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
-        public Language? Get(string pLanguageName, bool withTranslation = false)
-        {
-            string query = "SELECT * FROM Languages WHERE Name = @Name;";
-            SqlParameter[] parameters =
-            [
-                new SqlParameter("@Name", pLanguageName)
-            ];
-
-            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
-
-            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                Language language = new Language
-                {
-                    Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString()!),
-                    Name = ds.Tables[0].Rows[0]["Name"].ToString()!
-                };
-
-                if (withTranslation)
-                {
-                    language.Translations = ListTranslations(language.Id);
-                }
-
-                return language;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public LanguageDTO? GetById(int pLanguageId, bool withTranslation = false)
         {
             string query = "SELECT * FROM Languages WHERE Id = @Id;";
@@ -103,14 +72,9 @@ namespace DAL
             return int.Parse(ds.Tables[0].Rows[0]["id_language_max"].ToString());
         }
 
-        public List<Translation> ListDefaultTranslation()
+        public List<TranslationDTO> ListTranslations(int pLanguageId)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Translation> ListTranslations(int pLanguageId)
-        {
-            string query = "SELECT l.Id, l.Name, t.Translation FROM Translations t " +
+            string query = "SELECT l.Id LabelId, l.Name, t.Translation, la.Id LanguageId FROM Translations t " +
                "INNER JOIN Languages la ON t.LanguageId = la.Id " +
                "INNER JOIN Labels l ON t.LabelId = l.Id  WHERE la.Id = @LanguageId;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -119,16 +83,17 @@ namespace DAL
             };
 
             DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
-            List<Translation> translations = new List<Translation>();
+            List<TranslationDTO> translations = new List<TranslationDTO>();
 
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    Translation translation = new Translation
+                    TranslationDTO translation = new TranslationDTO
                     {
-                        LabelId = int.Parse(dr["Id"].ToString()!),
-                        Description = dr["Name"].ToString()!,
+                        LabelId = int.Parse(dr["LabelId"].ToString()!),
+                        LabelName = dr["Name"].ToString()!,
+                        LanguageId = int.Parse(dr["LanguageId"].ToString()!),
                         TranslatedText = dr["Translation"].ToString()!
                     };
                     translations.Add(translation);
@@ -147,21 +112,6 @@ namespace DAL
                 new SqlParameter("@Id", pLanguage.Id)
             ];
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-
-            if (pLanguage.Translations != null)
-            {
-                foreach (Translation translation in pLanguage.Translations)
-                {
-                    query = "UPDATE Translations SET Translation = @Translation WHERE LanguageId = @LanguageId AND LabelId = @LabelId;";
-                    parameters =
-                    [
-                        new SqlParameter("@Translation", translation.TranslatedText),
-                        new SqlParameter("@LanguageId", pLanguage.Id),
-                        new SqlParameter("@LabelId", translation.LabelId)
-                    ];
-                    dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-                }
-            }
         }
 
         public void Save(LanguageDTO pLanguage)
@@ -173,21 +123,6 @@ namespace DAL
             ];
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
             pLanguage.Id = GetLastId();
-
-            if (pLanguage.Translations != null)
-            {
-                foreach (Translation translation in pLanguage.Translations)
-                {
-                    query = "INSERT INTO Translations (LanguageId, LabelId, Translation) VALUES (@LanguageId, @LabelId, @Translation);";
-                    parameters =
-                    [
-                        new SqlParameter("@LanguageId", pLanguage.Id),
-                        new SqlParameter("@LabelId", translation.LabelId),
-                        new SqlParameter("@Translation", translation.TranslatedText)
-                    ];
-                    dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
-                }
-            }
         }
 
         List<LanguageDTO> ILanguageDAL.ListLanguages(bool withTranslation)
@@ -287,5 +222,40 @@ namespace DAL
 
         #endregion
 
+
+        public void AddTranslation(Translation translation)
+        {
+            string query = "INSERT INTO Translations (LanguageId, LabelId, Translation) VALUES (@LanguageId, @LabelId, @Translation);";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@LanguageId", translation.LanguageId),
+                new SqlParameter("@LabelId", translation.LabelId),
+                new SqlParameter("@Translation", translation.TranslatedText)
+            };
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+        }
+
+        public void DeleteTranslation(int languageId, int labelId)
+        {
+            string query = "DELETE FROM Translations WHERE LanguageId = @LanguageId AND LabelId = @LabelId;";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@LanguageId", languageId),
+                new SqlParameter("@LabelId", labelId)
+            };
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+        }
+
+        public void ModifyTranslation(Translation translation, int languageId)
+        {
+            string query = "UPDATE Translations SET Translation = @Translation WHERE LanguageId = @LanguageId AND LabelId = @LabelId;";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Translation", translation.TranslatedText),
+                new SqlParameter("@LanguageId", languageId),
+                new SqlParameter("@LabelId", translation.LabelId)
+            };
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+        }
     }
 }

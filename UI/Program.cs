@@ -6,6 +6,9 @@ using BE;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Interfaces.DAL;
 using UI.Language;
+using UI.Profiles;
+using UI.Mantainers;
+using UI.Points;
 namespace UI
 {
     internal static class Program
@@ -37,10 +40,19 @@ namespace UI
             services.AddTransient<ILogBLL, LogBLL>();
             services.AddTransient<IRoleBLL, RoleBLL>();
             services.AddTransient<IRoleDAL, RoleDAL>();
+            services.AddTransient<IProductBLL, ProductBLL>();
+            services.AddTransient<IProductDAL, ProductDAL>();
+            services.AddTransient<IPointBLL, PointBLL>();
+            services.AddTransient<IPointDAL, PointDAL>();
 
             services.AddTransient<FrmLogin>();
             services.AddTransient<FrmPrincipal>();
             services.AddTransient<FrmManageLanguage>();
+            services.AddTransient<FrmManageProfile>();
+            services.AddTransient<FrmAddProducts>();
+            services.AddTransient<FrmPoints>();
+            services.AddTransient<FrmExchangePoints>();
+            services.AddTransient<FrmViewProducts>();
         }
     }
 }

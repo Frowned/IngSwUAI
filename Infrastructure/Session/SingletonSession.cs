@@ -9,17 +9,17 @@ namespace Infrastructure.Session
 {
     public class SingletonSession
     {
-        private static Session _instancia;
+        private static UserSession _instancia;
         private static Object _lock = new object();
 
-        public static Session Instancia
+        public static UserSession Instancia
         {
             get
             {
                 lock (_lock)
                 {
                     if (_instancia == null)
-                        _instancia = new Session();
+                        _instancia = new UserSession();
                 }
 
                 return _instancia;

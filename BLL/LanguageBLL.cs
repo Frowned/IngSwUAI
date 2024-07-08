@@ -24,6 +24,11 @@ namespace BLL
             _languageDAL.AddLabel(label);
         }
 
+        public void AddTranslation(Translation translation)
+        {
+            _languageDAL.AddTranslation(translation);
+        }
+
         public void Delete(int pLanguageId)
         {
             _languageDAL.Delete(pLanguageId);
@@ -34,9 +39,14 @@ namespace BLL
             _languageDAL.DeleteLabel(labelId);
         }
 
-        public Language Get(string pLanguageName, bool withTranslation = false)
+        public void DeleteTranslation(int languageId, int labelId)
         {
-            return _languageDAL.Get(pLanguageName, withTranslation);
+            _languageDAL.DeleteTranslation(languageId, labelId);
+        }
+
+        public LanguageDTO? GetById(int pLanguageId, bool withTranslation = false)
+        {
+            return _languageDAL.GetById(pLanguageId, withTranslation);
         }
 
         public List<LanguageDTO> GetAllLanguages(bool withTranslation = false)
@@ -44,7 +54,7 @@ namespace BLL
             return _languageDAL.ListLanguages(withTranslation);
         }
 
-        public List<Translation> GetAllTranslations(int pLanguageId)
+        public List<TranslationDTO> GetAllTranslations(int pLanguageId)
         {
             return _languageDAL.ListTranslations(pLanguageId);
         }
@@ -62,6 +72,11 @@ namespace BLL
         public void Modify(Language pLanguage)
         {
             _languageDAL.Modify(pLanguage);
+        }
+
+        public void ModifyTranslation(Translation translation, int languageId)
+        {
+            _languageDAL.ModifyTranslation(translation, languageId);
         }
 
         public void Save(LanguageDTO pLanguage)

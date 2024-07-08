@@ -19,14 +19,29 @@ namespace BLL
             _userDAL = userDAL;
         }
 
+        public void AssignRole(Role role, UserDTO user)
+        {
+            _userDAL.AssignRole(role, user);
+        }
+
         public bool Block(string username)
         {
             return _userDAL.Block(username);
         }
 
+        public List<UserDTO> GetAllUsers()
+        {
+            return _userDAL.GetAllUsers();
+        }
+
         public UserDTO? GetByUsernameAndPassword(string username, string password)
         {
             return _userDAL.GetByUsernameAndPassword(username, password);
+        }
+
+        public void UpdateUserLanguage(Guid userId, int languageId)
+        {
+            _userDAL.UpdateUserLanguage(userId, languageId);
         }
     }
 }

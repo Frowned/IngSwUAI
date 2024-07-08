@@ -13,13 +13,16 @@ namespace Infrastructure.Interfaces.BLL
         void Save(LanguageDTO pLanguage);
         void Delete(int pLanguageId);
         void Modify(Language pLanguage);
-        Language Get(string pLanguageName, bool withTranslation = false);
+        LanguageDTO? GetById(int pLanguageId, bool withTranslation = false);
         List<LanguageDTO> GetAllLanguages(bool withTranslation = false);
-        List<Translation> GetAllTranslations(int pLanguageId);
+        List<TranslationDTO> GetAllTranslations(int pLanguageId);
         List<Label> GetLabels();
         void AddLabel(Label label);
         void DeleteLabel(int labelId);
         bool LabelExists(string labelName);
+        void ModifyTranslation(Translation translation, int languageId);
+        void DeleteTranslation(int languageId, int labelId);
+        void AddTranslation(Translation translation);
 
     }
 }

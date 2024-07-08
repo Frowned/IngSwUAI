@@ -10,16 +10,19 @@ using Infrastructure.Interfaces.DAL;
 using BE.Entities;
 using Infrastructure.Mappers;
 using BE.DTO;
+using Infrastructure.Session;
 
 namespace DAL
 {
     public class UserDAL : IUserDAL
     {
+        private IRoleDAL roleDAL;
         private DatabaseHelper dbHelper;
 
-        public UserDAL()
+        public UserDAL(IRoleDAL roleDAL)
         {
             dbHelper = new DatabaseHelper();
+            this.roleDAL = roleDAL;
         }
 
         public UserDTO? GetByUsernameAndPassword(string username, string password)
@@ -33,7 +36,14 @@ namespace DAL
 
             DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
             if (ds.Tables[0].Rows.Count > 0)
-                return UsersMapper.MapToUser(ds.Tables[0].Rows[0]);
+            {
+                var user = UsersMapper.MapToUser(ds.Tables[0].Rows[0]);
+                var roles = roleDAL.GetRoles();
+                var role = roles.First(f => f.Id == user.RoleId);
+                roleDAL.FillRoleComponent(role);
+                user.UserRole = role;
+                return user;
+            }
             else
                 return null;
         }
@@ -49,6 +59,48 @@ namespace DAL
 
             int affectedRows = dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
             return affectedRows > 0;
+        }
+
+        public void UpdateUserLanguage(Guid userId, int languageId)
+        {
+            string query = "UPDATE Users SET LanguageId = @LanguageId WHERE Id = @Id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@Id", userId),
+            new SqlParameter("@LanguageId", languageId)
+            };
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+        }
+
+        public List<UserDTO> GetAllUsers()
+        {
+            string query = "SELECT * FROM Users";
+            SqlParameter[] parameters = [];
+            List<UserDTO> list = new List<UserDTO>();
+            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
+            var roles = roleDAL.GetRoles();
+            if (ds.Tables[0].Rows.Count > 0)
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var user = UsersMapper.MapToUser(item);
+                    list.Add(user);
+                }
+            return list;
+        }
+
+        public void AssignRole(Role role, UserDTO user)
+        {
+            string query = "UPDATE Users SET RoleId = @RoleId WHERE Username = @Username";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@RoleId", role.Id),
+            new SqlParameter("@Username", user.Username)
+            };
+            dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+            if (user.Id == SingletonSession.Instancia.User.Id) { 
+                roleDAL.FillRoleComponent(role);
+                SingletonSession.Instancia.User.UserRole = role;
+            }
         }
     }
 }

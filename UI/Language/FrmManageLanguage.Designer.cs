@@ -55,25 +55,27 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13F);
             label1.ForeColor = Color.ForestGreen;
-            label1.Location = new Point(23, 33);
+            label1.Location = new Point(23, 63);
             label1.Name = "label1";
             label1.Size = new Size(209, 36);
             label1.TabIndex = 4;
+            label1.Tag = "MANAGE_LANG";
             label1.Text = "Gestionar idioma";
+            label1.Click += label1_Click;
             // 
             // TxtLanguage
             // 
-            TxtLanguage.Location = new Point(23, 92);
+            TxtLanguage.Location = new Point(23, 122);
             TxtLanguage.Name = "TxtLanguage";
             TxtLanguage.Size = new Size(270, 31);
-            TxtLanguage.TabIndex = 5;
+            TxtLanguage.TabIndex = 22;
             // 
             // BtnAdd
             // 
             BtnAdd.BackColor = Color.ForestGreen;
             BtnAdd.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnAdd.ForeColor = SystemColors.ButtonHighlight;
-            BtnAdd.Location = new Point(300, 81);
+            BtnAdd.Location = new Point(300, 111);
             BtnAdd.Margin = new Padding(4, 5, 4, 5);
             BtnAdd.Name = "BtnAdd";
             BtnAdd.Size = new Size(154, 49);
@@ -87,7 +89,7 @@
             BtnDelete.BackColor = Color.ForestGreen;
             BtnDelete.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnDelete.ForeColor = SystemColors.ButtonHighlight;
-            BtnDelete.Location = new Point(462, 81);
+            BtnDelete.Location = new Point(462, 111);
             BtnDelete.Margin = new Padding(4, 5, 4, 5);
             BtnDelete.Name = "BtnDelete";
             BtnDelete.Size = new Size(154, 49);
@@ -104,7 +106,7 @@
             DgvLanguages.AllowUserToResizeRows = false;
             DgvLanguages.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvLanguages.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvLanguages.Location = new Point(23, 138);
+            DgvLanguages.Location = new Point(23, 168);
             DgvLanguages.Name = "DgvLanguages";
             DgvLanguages.ReadOnly = true;
             DgvLanguages.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
@@ -117,7 +119,7 @@
             LblError.AutoSize = true;
             LblError.BackColor = Color.Transparent;
             LblError.ForeColor = Color.Firebrick;
-            LblError.Location = new Point(23, 880);
+            LblError.Location = new Point(23, 910);
             LblError.Name = "LblError";
             LblError.Size = new Size(0, 25);
             LblError.TabIndex = 10;
@@ -130,7 +132,7 @@
             DgvTranslations.AllowUserToResizeRows = false;
             DgvTranslations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvTranslations.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvTranslations.Location = new Point(23, 506);
+            DgvTranslations.Location = new Point(23, 536);
             DgvTranslations.Name = "DgvTranslations";
             DgvTranslations.RowHeadersWidth = 62;
             DgvTranslations.Size = new Size(755, 300);
@@ -142,7 +144,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F);
             label2.ForeColor = Color.ForestGreen;
-            label2.Location = new Point(23, 454);
+            label2.Location = new Point(23, 484);
             label2.Name = "label2";
             label2.Size = new Size(128, 28);
             label2.TabIndex = 12;
@@ -153,7 +155,7 @@
             BtnAddLabel.BackColor = Color.ForestGreen;
             BtnAddLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnAddLabel.ForeColor = SystemColors.ButtonHighlight;
-            BtnAddLabel.Location = new Point(1476, 138);
+            BtnAddLabel.Location = new Point(1476, 168);
             BtnAddLabel.Margin = new Padding(4, 5, 4, 5);
             BtnAddLabel.Name = "BtnAddLabel";
             BtnAddLabel.Size = new Size(209, 49);
@@ -167,7 +169,7 @@
             BtnRemoveLabel.BackColor = Color.ForestGreen;
             BtnRemoveLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnRemoveLabel.ForeColor = SystemColors.ButtonHighlight;
-            BtnRemoveLabel.Location = new Point(1476, 197);
+            BtnRemoveLabel.Location = new Point(1476, 227);
             BtnRemoveLabel.Margin = new Padding(4, 5, 4, 5);
             BtnRemoveLabel.Name = "BtnRemoveLabel";
             BtnRemoveLabel.Size = new Size(209, 49);
@@ -181,7 +183,7 @@
             BtnModifyTranslation.BackColor = Color.ForestGreen;
             BtnModifyTranslation.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnModifyTranslation.ForeColor = SystemColors.ButtonHighlight;
-            BtnModifyTranslation.Location = new Point(859, 565);
+            BtnModifyTranslation.Location = new Point(859, 595);
             BtnModifyTranslation.Margin = new Padding(4, 5, 4, 5);
             BtnModifyTranslation.Name = "BtnModifyTranslation";
             BtnModifyTranslation.Size = new Size(280, 49);
@@ -195,7 +197,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F);
             label3.ForeColor = Color.ForestGreen;
-            label3.Location = new Point(859, 95);
+            label3.Location = new Point(859, 125);
             label3.Name = "label3";
             label3.Size = new Size(96, 28);
             label3.TabIndex = 16;
@@ -207,7 +209,7 @@
             DgvLabels.AllowUserToResizeRows = false;
             DgvLabels.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvLabels.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvLabels.Location = new Point(859, 138);
+            DgvLabels.Location = new Point(859, 168);
             DgvLabels.Name = "DgvLabels";
             DgvLabels.RowHeadersWidth = 62;
             DgvLabels.Size = new Size(610, 300);
@@ -219,37 +221,39 @@
             BtnAddTranslation.BackColor = Color.ForestGreen;
             BtnAddTranslation.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnAddTranslation.ForeColor = SystemColors.ButtonHighlight;
-            BtnAddTranslation.Location = new Point(859, 506);
+            BtnAddTranslation.Location = new Point(859, 536);
             BtnAddTranslation.Margin = new Padding(4, 5, 4, 5);
             BtnAddTranslation.Name = "BtnAddTranslation";
             BtnAddTranslation.Size = new Size(280, 49);
             BtnAddTranslation.TabIndex = 18;
             BtnAddTranslation.Text = "Agregar traducción";
             BtnAddTranslation.UseVisualStyleBackColor = false;
+            BtnAddTranslation.Click += BtnAddTranslation_Click;
             // 
             // BtnRemoveTranslation
             // 
             BtnRemoveTranslation.BackColor = Color.ForestGreen;
             BtnRemoveTranslation.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnRemoveTranslation.ForeColor = SystemColors.ButtonHighlight;
-            BtnRemoveTranslation.Location = new Point(859, 624);
+            BtnRemoveTranslation.Location = new Point(859, 654);
             BtnRemoveTranslation.Margin = new Padding(4, 5, 4, 5);
             BtnRemoveTranslation.Name = "BtnRemoveTranslation";
             BtnRemoveTranslation.Size = new Size(280, 49);
             BtnRemoveTranslation.TabIndex = 19;
             BtnRemoveTranslation.Text = "Borrar traducción";
             BtnRemoveTranslation.UseVisualStyleBackColor = false;
+            BtnRemoveTranslation.Click += BtnRemoveTranslation_Click;
             // 
             // TxtTranslation
             // 
-            TxtTranslation.Location = new Point(859, 694);
+            TxtTranslation.Location = new Point(859, 724);
             TxtTranslation.Name = "TxtTranslation";
             TxtTranslation.Size = new Size(270, 31);
             TxtTranslation.TabIndex = 20;
             // 
             // TxtLabel
             // 
-            TxtLabel.Location = new Point(1476, 254);
+            TxtLabel.Location = new Point(1476, 284);
             TxtLabel.Name = "TxtLabel";
             TxtLabel.Size = new Size(209, 31);
             TxtLabel.TabIndex = 21;
@@ -281,6 +285,7 @@
             Name = "FrmManageLanguage";
             Text = "Gestionar idioma";
             WindowState = FormWindowState.Maximized;
+            FormClosed += FrmManageLanguage_FormClosed;
             Load += FrmAddLanguage_Load;
             ((System.ComponentModel.ISupportInitialize)DgvLanguages).EndInit();
             ((System.ComponentModel.ISupportInitialize)DgvTranslations).EndInit();

@@ -10,6 +10,7 @@ namespace BE.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsBlocked { get; set; }
+        public long Points { get; set; }
         public Language Language { get; set; }
         public RoleComponent Role { get; set; }
     }

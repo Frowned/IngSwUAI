@@ -8,7 +8,17 @@ namespace BE.Enums
 {
     public enum PermissionsType
     {
-        ViewProducts,
-        IsAdmin
+        CAMBIAR_CLAVE,
+        CAMBIAR_IDIOMA,
+        CONSULTAR_PUNTOS,
+        CANJEAR_PUNTOS,
+        VER_PRODUCTOS,
+        GESTIONAR_IDIOMA,
+        GESTIONAR_PERFIL,
+        GESTIONAR_PRODUCTOS,
+        GESTIONAR_EMPLEADOS,
+        GESTIONAR_OBJETIVOS,
+        VER_REPORTERIA,
+        VER_AYUDA
     }
 }

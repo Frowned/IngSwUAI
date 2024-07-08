@@ -8,11 +8,15 @@ namespace BE.Entities
 {
     public class Permission : RoleComponent
     {
-        public Permission(string name, string type, string label) : base(name, type, label)
+        public override IList<RoleComponent> Children {
+            get {  return new List<RoleComponent>(); }
+        }
+
+        public override void AddChild(RoleComponent c)
         {
         }
 
-        public Permission() : base()
+        public override void ClearChild()
         {
         }
     }

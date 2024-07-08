@@ -10,15 +10,13 @@ namespace Infrastructure.Interfaces.DAL
 {
     public interface IRoleDAL
     {
-        void Save(Role role);
-        int GetLastId();
-        void Modify(Role role);
-        void Delete(Role role);
-        RoleComponent? Get(int roleId);
-        RoleComponent? GetByLabel(string label);
-        List<RoleComponent> GetChilds(int roleId);
-        List<RoleComponent> List(bool withChilds = true);
-        List<RoleComponent> ListSimple();
-
+        void SaveComponent(RoleComponent component, bool isRole);
+        void SaveComponent(RoleComponent component);
+        IList<Role> GetRoles();
+        IList<Permission> GetPermissions();
+        void FillRoleComponent(Role role);
+        IList<RoleComponent> GetAll(string roleComponentId);
+        void DeleteRole(RoleComponent role);
+        bool IsAssigned(Role auxRole);
     }
 }

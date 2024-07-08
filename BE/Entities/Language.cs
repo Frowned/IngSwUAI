@@ -1,4 +1,5 @@
 ﻿using BE.Base;
+using BE.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace BE.Entities
         public Language() { }
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Translation> Translations { get; set; } = new List<Translation>();
+        public List<TranslationDTO> Translations { get; set; } = new List<TranslationDTO>();
     }
 }

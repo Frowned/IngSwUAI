@@ -5,6 +5,7 @@ using BE.Entities;
 using BE.DTO;
 using Microsoft.Data.SqlClient;
 using Infrastructure.Session;
+using UI.Language;
 
 namespace UI
 {
@@ -13,10 +14,12 @@ namespace UI
         private int attempts = 0;
         private string currentUser = String.Empty;
         IUserBLL _userBLL;
-        public FrmLogin(IUserBLL userBLL)
+        ILanguageBLL _languageBLL;
+        public FrmLogin(IUserBLL userBLL, ILanguageBLL languageBLL)
         {
             InitializeComponent();
             _userBLL = userBLL;
+            _languageBLL = languageBLL;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -36,6 +39,7 @@ namespace UI
             {
                 // Usuario autenticado correctamente
                 SingletonSession.Instancia.Login(user);
+                SingletonSession.Instancia.currentLanguage = _languageBLL.GetById(user.LanguageId, true)!;
                 this.DialogResult = DialogResult.OK; 
                 this.Close();
             }
