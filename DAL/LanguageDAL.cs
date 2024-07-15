@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DAL
 {
@@ -210,8 +211,8 @@ namespace DAL
                 {
                     Label label = new Label()
                     {
-                        Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString()!),
-                        Name = ds.Tables[0].Rows[0]["Name"].ToString()!
+                        Id = int.Parse(dr["Id"].ToString()!),
+                        Name = dr["Name"].ToString()!
                     };
                     labels.Add(label);
                 }
@@ -220,6 +221,18 @@ namespace DAL
             return labels;
         }
 
+        public string? GetByLabel(int languageId, string v)
+        {
+            string query = @"SELECT t.Translation FROM Translations t
+                            LEFT JOIN Labels l ON l.Id = t.LabelId
+                            WHERE l.Name = @Label AND t.LanguageId = @LanguageId";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@LanguageId", languageId),
+                new SqlParameter("@Label", v)
+            };
+            return dbHelper.ExecuteScalarString(query, CommandType.Text, parameters);
+        }
         #endregion
 
 

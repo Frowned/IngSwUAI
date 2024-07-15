@@ -234,10 +234,6 @@ namespace UI.Language
             }
 
         }
-        private void BtnModifyTranslation_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void DgvTranslations_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -260,7 +256,7 @@ namespace UI.Language
             else
             {
                 LblError.Visible = false;
-                var translationAux = translations.FirstOrDefault(f => f.LabelName == TxtTranslation.Text);
+                var translationAux = translations.FirstOrDefault(f => f.LabelName == TxtLabel.Text);
                 if (translationAux != null)
                 {
                     LblError.Visible = true;
@@ -294,7 +290,7 @@ namespace UI.Language
             else
             {
                 LblError.Visible = false;
-                var translationAux = translations.FirstOrDefault(f => f.LabelName == TxtTranslation.Text);
+                var translationAux = translations.FirstOrDefault(f => f.TranslatedText == TxtTranslation.Text);
                 if (translationAux == null)
                 {
                     LblError.Visible = true;
@@ -303,7 +299,7 @@ namespace UI.Language
                 else
                 {
                     LblError.Visible = false;
-                    languageBLL.DeleteTranslation(languageId!.Value, labelId!.Value);
+                    languageBLL.DeleteTranslation(languageId!.Value, translationAux.LabelId);
                     logBLL.Save(new BE.Entities.Log
                     {
                         Message = $"Se borró la traducción {TxtTranslation.Text}",
@@ -336,6 +332,11 @@ namespace UI.Language
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtTranslation_TextChanged(object sender, EventArgs e)
         {
 
         }

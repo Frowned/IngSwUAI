@@ -18,15 +18,18 @@ using UI.Profiles;
 using Microsoft.VisualBasic;
 using UI.Mantainers;
 using UI.Points;
+using BE.DTO;
 
 namespace UI
 {
-    public partial class FrmPrincipal : Form
+    public partial class FrmPrincipal : Form, IObserverForm
     {
         FrmViewProducts? frmViewProducts = null;
         FrmManageProfile? frmManageProfile = null;
         FrmManageLanguage? frmManageLanguage = null;
         FrmAddProducts? frmAddProducts = null;
+        FrmExchangePoints? frmExchangePoints = null;
+        FrmPoints? frmPoints = null;
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
         public FrmPrincipal(ILanguageBLL languageBLL, IUserBLL userBLL)
@@ -72,6 +75,8 @@ namespace UI
                     puntosToolStripMenuItem.Enabled = verProductosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled;
                     cerrarSesiónToolStripMenuItem.Visible = true;
                     userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
+
+                    SingletonSession.Instancia.AddObserver(this);
                 }
             }
         }
@@ -86,6 +91,7 @@ namespace UI
                 {
                     ClearMenu();
                     userToolStrip.Text = $"Usuario (No conectado)";
+                    SingletonSession.Instancia.RemoveObserver(this);
 
                 }
 
@@ -118,6 +124,18 @@ namespace UI
                 frmViewProducts.Dispose();
                 frmViewProducts.Close();
                 frmViewProducts = null;
+            }
+            if (frmExchangePoints != null)
+            {
+                frmExchangePoints.Dispose();
+                frmExchangePoints.Close();
+                frmExchangePoints = null;
+            }
+            if (frmPoints != null)
+            {
+                frmPoints.Dispose();
+                frmPoints.Close();
+                frmPoints = null;
             }
         }
 
@@ -197,12 +215,34 @@ namespace UI
 
         private void consultarPuntosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (frmPoints == null || frmPoints.IsDisposed)
+            {
+                frmPoints = Program.ServiceProvider.GetRequiredService<FrmPoints>();
+                SingletonSession.Instancia.AddObserver(frmPoints);
+                frmPoints.MdiParent = this;
+                frmPoints.Show();
+            }
+            else
+            {
+                frmPoints.BringToFront();
+                frmPoints.WindowState = FormWindowState.Maximized;
+            }
         }
 
         private void canjearPuntosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (frmExchangePoints == null || frmExchangePoints.IsDisposed)
+            {
+                frmExchangePoints = Program.ServiceProvider.GetRequiredService<FrmExchangePoints>();
+                SingletonSession.Instancia.AddObserver(frmExchangePoints);
+                frmExchangePoints.MdiParent = this;
+                frmExchangePoints.Show();
+            }
+            else
+            {
+                frmExchangePoints.BringToFront();
+                frmExchangePoints.WindowState = FormWindowState.Maximized;
+            }
         }
 
         private void verProductosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -261,6 +301,54 @@ namespace UI
         private void cambiarClaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Interaction.MsgBox("No implementado aún");
+        }
+
+        public void UpdateLanguage(UserSession session)
+        {
+            UpdateControlTexts(this.Controls, session);
+        }
+
+        private void UpdateControlTexts(Control.ControlCollection controls, UserSession session)
+        {
+            foreach (Control control in controls)
+            {
+                foreach (TranslationDTO translation in session.currentLanguage.Translations)
+                {
+                    if (control.Tag != null && control.Tag.ToString() == translation.LabelName)
+                    {
+                        control.Text = translation.TranslatedText;
+                    }
+                }
+
+                if (control is MenuStrip menuStrip)
+                {
+                    UpdateMenuStripItems(menuStrip.Items, session);
+                }
+
+                if (control.HasChildren)
+                {
+                    UpdateControlTexts(control.Controls, session);
+                }
+            }
+        }
+
+        private void UpdateMenuStripItems(ToolStripItemCollection items, UserSession session)
+        {
+            foreach (ToolStripItem item in items)
+            {
+                foreach (TranslationDTO translation in session.currentLanguage.Translations)
+                {
+                    if (item.Tag != null && item.Tag.ToString() == translation.LabelName)
+                    {
+                        item.Text = translation.TranslatedText;
+                    }
+                }
+
+                if (item is ToolStripMenuItem toolStripMenuItem)
+                {
+                    UpdateMenuStripItems(toolStripMenuItem.DropDownItems, session);
+                }
+            }
         }
     }
 }

@@ -38,7 +38,6 @@
             label2 = new Label();
             BtnAddLabel = new Button();
             BtnRemoveLabel = new Button();
-            BtnModifyTranslation = new Button();
             label3 = new Label();
             DgvLabels = new DataGridView();
             BtnAddTranslation = new Button();
@@ -178,20 +177,6 @@
             BtnRemoveLabel.UseVisualStyleBackColor = false;
             BtnRemoveLabel.Click += BtnRemoveLabel_Click;
             // 
-            // BtnModifyTranslation
-            // 
-            BtnModifyTranslation.BackColor = Color.ForestGreen;
-            BtnModifyTranslation.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            BtnModifyTranslation.ForeColor = SystemColors.ButtonHighlight;
-            BtnModifyTranslation.Location = new Point(859, 595);
-            BtnModifyTranslation.Margin = new Padding(4, 5, 4, 5);
-            BtnModifyTranslation.Name = "BtnModifyTranslation";
-            BtnModifyTranslation.Size = new Size(280, 49);
-            BtnModifyTranslation.TabIndex = 15;
-            BtnModifyTranslation.Text = "Modificar traducción";
-            BtnModifyTranslation.UseVisualStyleBackColor = false;
-            BtnModifyTranslation.Click += BtnModifyTranslation_Click;
-            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -235,7 +220,7 @@
             BtnRemoveTranslation.BackColor = Color.ForestGreen;
             BtnRemoveTranslation.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnRemoveTranslation.ForeColor = SystemColors.ButtonHighlight;
-            BtnRemoveTranslation.Location = new Point(859, 654);
+            BtnRemoveTranslation.Location = new Point(859, 595);
             BtnRemoveTranslation.Margin = new Padding(4, 5, 4, 5);
             BtnRemoveTranslation.Name = "BtnRemoveTranslation";
             BtnRemoveTranslation.Size = new Size(280, 49);
@@ -246,10 +231,11 @@
             // 
             // TxtTranslation
             // 
-            TxtTranslation.Location = new Point(859, 724);
+            TxtTranslation.Location = new Point(859, 665);
             TxtTranslation.Name = "TxtTranslation";
             TxtTranslation.Size = new Size(270, 31);
             TxtTranslation.TabIndex = 20;
+            TxtTranslation.TextChanged += TxtTranslation_TextChanged;
             // 
             // TxtLabel
             // 
@@ -270,7 +256,6 @@
             Controls.Add(BtnAddTranslation);
             Controls.Add(DgvLabels);
             Controls.Add(label3);
-            Controls.Add(BtnModifyTranslation);
             Controls.Add(BtnRemoveLabel);
             Controls.Add(BtnAddLabel);
             Controls.Add(label2);
@@ -306,7 +291,6 @@
         private Label label2;
         private Button BtnAddLabel;
         private Button BtnRemoveLabel;
-        private Button BtnModifyTranslation;
         private Label label3;
         private DataGridView DgvLabels;
         private Button BtnAddTranslation;

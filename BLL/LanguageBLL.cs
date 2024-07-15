@@ -83,5 +83,10 @@ namespace BLL
         {
             _languageDAL.Save(pLanguage);
         }
+
+        public string? GetByLabel(int languageId, string v)
+        {
+            return _languageDAL.GetByLabel(languageId, v);
+        }
     }
 }

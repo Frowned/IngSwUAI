@@ -1,4 +1,5 @@
 ﻿using BE.DTO;
+using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
 using Infrastructure.Session;
 using System;
@@ -15,9 +16,11 @@ namespace UI.Points
 {
     public partial class FrmPoints : Form, IObserverForm
     {
-        public FrmPoints()
+        private IPointBLL pointBLL;
+        public FrmPoints(IPointBLL pointBLL)
         {
             InitializeComponent();
+            this.pointBLL = pointBLL;
         }
 
         public void UpdateLanguage(UserSession session)
@@ -41,6 +44,13 @@ namespace UI.Points
             MinimizeBox = false;
             MaximizeBox = false;
             ControlBox = false;
+            DgvHistory.DataSource = pointBLL.GetTransactions(false);
+            LblPoints.Text = pointBLL.GetPointsByUserId(SingletonSession.Instancia.User.Id).ToString();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

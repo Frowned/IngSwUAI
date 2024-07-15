@@ -70,6 +70,7 @@ namespace DAL
             new SqlParameter("@LanguageId", languageId)
             };
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+            SingletonSession.Instancia.User.LanguageId = languageId;
         }
 
         public List<UserDTO> GetAllUsers()

@@ -69,7 +69,7 @@
             GPPermission.Controls.Add(groupBox2);
             GPPermission.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GPPermission.ForeColor = Color.ForestGreen;
-            GPPermission.Location = new Point(13, 34);
+            GPPermission.Location = new Point(45, 59);
             GPPermission.Name = "GPPermission";
             GPPermission.Size = new Size(715, 470);
             GPPermission.TabIndex = 0;
@@ -190,7 +190,7 @@
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.ForestGreen;
-            groupBox1.Location = new Point(751, 34);
+            groupBox1.Location = new Point(783, 59);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(760, 470);
             groupBox1.TabIndex = 1;
@@ -344,7 +344,7 @@
             // 
             // treeView1
             // 
-            treeView1.Location = new Point(12, 542);
+            treeView1.Location = new Point(44, 567);
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(1498, 373);
             treeView1.TabIndex = 2;
@@ -354,7 +354,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.ForestGreen;
-            label3.Location = new Point(12, 507);
+            label3.Location = new Point(44, 532);
             label3.Name = "label3";
             label3.Size = new Size(85, 32);
             label3.TabIndex = 17;
@@ -365,7 +365,7 @@
             BtnSaveRoleComponent.BackColor = Color.ForestGreen;
             BtnSaveRoleComponent.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnSaveRoleComponent.ForeColor = SystemColors.ButtonHighlight;
-            BtnSaveRoleComponent.Location = new Point(13, 923);
+            BtnSaveRoleComponent.Location = new Point(45, 948);
             BtnSaveRoleComponent.Margin = new Padding(4, 5, 4, 5);
             BtnSaveRoleComponent.Name = "BtnSaveRoleComponent";
             BtnSaveRoleComponent.Size = new Size(209, 49);
@@ -379,7 +379,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
-            ClientSize = new Size(1796, 1004);
+            ClientSize = new Size(1796, 1060);
             Controls.Add(BtnSaveRoleComponent);
             Controls.Add(label3);
             Controls.Add(treeView1);

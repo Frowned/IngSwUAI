@@ -25,7 +25,6 @@ namespace Infrastructure.Interfaces.DAL
         void ModifyTranslation(Translation translation, int languageId);
         void DeleteTranslation(int languageId, int labelId);
         void AddTranslation(Translation translation);
-
-
+        string? GetByLabel(int languageId, string v);
     }
 }

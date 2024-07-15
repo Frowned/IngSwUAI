@@ -1,6 +1,11 @@
 ﻿using BE.DTO;
+using BE.Entities;
+using BLL;
+using DAL;
+using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
 using Infrastructure.Session;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,9 +20,16 @@ namespace UI.Points
 {
     public partial class FrmExchangePoints : Form, IObserverForm
     {
-        public FrmExchangePoints()
+        private IProductBLL productBLL;
+        private IPointBLL pointBLL;
+        private ILanguageBLL languageBLL;
+        private IList<ProductDTO> productDTOs = new List<ProductDTO>();
+        public FrmExchangePoints(IProductBLL productBLL, IPointBLL pointBLL, ILanguageBLL languageBLL)
         {
             InitializeComponent();
+            this.productBLL = productBLL;
+            this.pointBLL = pointBLL;
+            this.languageBLL = languageBLL;
         }
 
         private void FrmExchangePoints_Load(object sender, EventArgs e)
@@ -25,6 +37,23 @@ namespace UI.Points
             MinimizeBox = false;
             MaximizeBox = false;
             ControlBox = false;
+            FillDataSource();
+            DgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            productDTOs = productBLL.GetProducts(false);
+            UpdateProductsDGV();
+        }
+
+        private void FillDataSource()
+        {
+            CmbCategories.DataSource = productBLL.GetCategories();
+            LblPoints.Text = pointBLL.GetPointsByUserId(SingletonSession.Instancia.User.Id).ToString();
+        }
+
+        private void UpdateProductsDGV()
+        {
+
+            var category = (Category)CmbCategories.SelectedItem;
+            DgvProducts.DataSource = productDTOs.Where(w => w.Category.Equals(category.Description)).ToList();
         }
 
         public void UpdateLanguage(UserSession session)
@@ -41,6 +70,38 @@ namespace UI.Points
         private void FrmExchangePoints_FormClosed(object sender, FormClosedEventArgs e)
         {
             SingletonSession.Instancia.RemoveObserver(this);
+        }
+
+        private void CmbCategories_SelectedValueChanged(object sender, EventArgs e)
+        {
+            UpdateProductsDGV();
+        }
+
+        private void BtnAddProduct_Click(object sender, EventArgs e)
+        {
+            if (DgvProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "NO_ROWS") ?? "No hay registros seleccionados");
+                return;
+            }
+            DialogResult dialogResult = MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "CONTINUE") ?? "¿Desea continuar?", "SIFRE", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                var product = DgvProducts.SelectedRows[0];
+                var productId = int.Parse(product.Cells["Id"].Value.ToString()!);
+                var points = long.Parse(product.Cells["Points"].Value.ToString()!);
+                long userPoints = long.Parse(LblPoints.Text);
+                if (points > userPoints)
+                {
+                    MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "NO_POINTS_AVAILABLE") ?? "No posee la suficiente cantidad de puntos");
+                    return;
+                }
+                SingletonSession.Instancia.User.Points = pointBLL.ExchangePoints(productId, userPoints);
+                LblPoints.Text = SingletonSession.Instancia.User.Points.ToString();
+                MessageBox.Show((languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "POINTS_EXCHANGE_SUCCESS") ?? $"Canje exitoso, puntos restantes:") + SingletonSession.Instancia.User.Points);
+            }
+
+
         }
     }
 }

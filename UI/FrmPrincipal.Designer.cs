@@ -68,12 +68,14 @@
             inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { iniciarSesiónToolStripMenuItem, cambiarClaveToolStripMenuItem, cerrarSesiónToolStripMenuItem });
             inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             inicioToolStripMenuItem.Size = new Size(70, 29);
+            inicioToolStripMenuItem.Tag = "MENU_START";
             inicioToolStripMenuItem.Text = "Inicio";
             // 
             // iniciarSesiónToolStripMenuItem
             // 
             iniciarSesiónToolStripMenuItem.Name = "iniciarSesiónToolStripMenuItem";
-            iniciarSesiónToolStripMenuItem.Size = new Size(224, 34);
+            iniciarSesiónToolStripMenuItem.Size = new Size(270, 34);
+            iniciarSesiónToolStripMenuItem.Tag = "MENU_LOGIN";
             iniciarSesiónToolStripMenuItem.Text = "Iniciar sesión";
             iniciarSesiónToolStripMenuItem.Click += iniciarSesiónToolStripMenuItem_Click;
             // 
@@ -81,13 +83,15 @@
             // 
             cambiarClaveToolStripMenuItem.Name = "cambiarClaveToolStripMenuItem";
             cambiarClaveToolStripMenuItem.Size = new Size(270, 34);
+            cambiarClaveToolStripMenuItem.Tag = "MENU_CHANGE_PASSWORD";
             cambiarClaveToolStripMenuItem.Text = "Cambiar clave";
             cambiarClaveToolStripMenuItem.Click += cambiarClaveToolStripMenuItem_Click;
             // 
             // cerrarSesiónToolStripMenuItem
             // 
             cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            cerrarSesiónToolStripMenuItem.Size = new Size(224, 34);
+            cerrarSesiónToolStripMenuItem.Size = new Size(270, 34);
+            cerrarSesiónToolStripMenuItem.Tag = "MENU_LOGOUT";
             cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
             cerrarSesiónToolStripMenuItem.Click += cerrarSesiónToolStripMenuItem_Click;
             // 
@@ -96,12 +100,14 @@
             puntosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPuntosToolStripMenuItem, canjearPuntosToolStripMenuItem, verProductosToolStripMenuItem });
             puntosToolStripMenuItem.Name = "puntosToolStripMenuItem";
             puntosToolStripMenuItem.Size = new Size(83, 29);
+            puntosToolStripMenuItem.Tag = "MENU_POINTS";
             puntosToolStripMenuItem.Text = "Puntos";
             // 
             // consultarPuntosToolStripMenuItem
             // 
             consultarPuntosToolStripMenuItem.Name = "consultarPuntosToolStripMenuItem";
             consultarPuntosToolStripMenuItem.Size = new Size(270, 34);
+            consultarPuntosToolStripMenuItem.Tag = "MENU_EXCHANGE_POINTS";
             consultarPuntosToolStripMenuItem.Text = "Consultar puntos";
             consultarPuntosToolStripMenuItem.Click += consultarPuntosToolStripMenuItem_Click;
             // 
@@ -116,6 +122,7 @@
             // 
             verProductosToolStripMenuItem.Name = "verProductosToolStripMenuItem";
             verProductosToolStripMenuItem.Size = new Size(270, 34);
+            verProductosToolStripMenuItem.Tag = "MENU_VIEW_PRODUCTS";
             verProductosToolStripMenuItem.Text = "Ver productos";
             verProductosToolStripMenuItem.Click += verProductosToolStripMenuItem_Click;
             // 
@@ -124,12 +131,14 @@
             administraciónToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionarEmpleadosToolStripMenuItem, gestionarPerfilesToolStripMenuItem, gestionarIdiomaToolStripMenuItem, gestionarProductosToolStripMenuItem, gestionarObjetivosToolStripMenuItem });
             administraciónToolStripMenuItem.Name = "administraciónToolStripMenuItem";
             administraciónToolStripMenuItem.Size = new Size(147, 29);
+            administraciónToolStripMenuItem.Tag = "MENU_ADMIN";
             administraciónToolStripMenuItem.Text = "Administración";
             // 
             // gestionarEmpleadosToolStripMenuItem
             // 
             gestionarEmpleadosToolStripMenuItem.Name = "gestionarEmpleadosToolStripMenuItem";
             gestionarEmpleadosToolStripMenuItem.Size = new Size(282, 34);
+            gestionarEmpleadosToolStripMenuItem.Tag = "MANAGE_EMPLOYEES";
             gestionarEmpleadosToolStripMenuItem.Text = "Gestionar empleados";
             gestionarEmpleadosToolStripMenuItem.Click += gestionarEmpleadosToolStripMenuItem_Click;
             // 
@@ -137,6 +146,7 @@
             // 
             gestionarPerfilesToolStripMenuItem.Name = "gestionarPerfilesToolStripMenuItem";
             gestionarPerfilesToolStripMenuItem.Size = new Size(282, 34);
+            gestionarPerfilesToolStripMenuItem.Tag = "MANAGE_ROLES";
             gestionarPerfilesToolStripMenuItem.Text = "Gestionar perfiles";
             gestionarPerfilesToolStripMenuItem.Click += gestionarPerfilesToolStripMenuItem_Click;
             // 
@@ -144,6 +154,7 @@
             // 
             gestionarIdiomaToolStripMenuItem.Name = "gestionarIdiomaToolStripMenuItem";
             gestionarIdiomaToolStripMenuItem.Size = new Size(282, 34);
+            gestionarIdiomaToolStripMenuItem.Tag = "MANAGE_LANGUAGE";
             gestionarIdiomaToolStripMenuItem.Text = "Gestionar idioma";
             gestionarIdiomaToolStripMenuItem.Click += gestionarIdiomaToolStripMenuItem_Click;
             // 
@@ -151,6 +162,7 @@
             // 
             gestionarProductosToolStripMenuItem.Name = "gestionarProductosToolStripMenuItem";
             gestionarProductosToolStripMenuItem.Size = new Size(282, 34);
+            gestionarProductosToolStripMenuItem.Tag = "MANAGE_PRODUCTS";
             gestionarProductosToolStripMenuItem.Text = "Gestionar productos";
             gestionarProductosToolStripMenuItem.Click += gestionarProductosToolStripMenuItem_Click;
             // 
@@ -158,6 +170,7 @@
             // 
             gestionarObjetivosToolStripMenuItem.Name = "gestionarObjetivosToolStripMenuItem";
             gestionarObjetivosToolStripMenuItem.Size = new Size(282, 34);
+            gestionarObjetivosToolStripMenuItem.Tag = "MANAGE_OBJECTIVES";
             gestionarObjetivosToolStripMenuItem.Text = "Gestionar objetivos";
             gestionarObjetivosToolStripMenuItem.Click += gestionarObjetivosToolStripMenuItem_Click;
             // 
@@ -165,6 +178,7 @@
             // 
             reporteríaToolStripMenuItem.Name = "reporteríaToolStripMenuItem";
             reporteríaToolStripMenuItem.Size = new Size(109, 29);
+            reporteríaToolStripMenuItem.Tag = "MENU_REPORTS";
             reporteríaToolStripMenuItem.Text = "Reportería";
             reporteríaToolStripMenuItem.Click += reporteríaToolStripMenuItem_Click;
             // 
@@ -172,6 +186,7 @@
             // 
             ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
             ayudaToolStripMenuItem.Size = new Size(79, 29);
+            ayudaToolStripMenuItem.Tag = "MENU_HELP";
             ayudaToolStripMenuItem.Text = "Ayuda";
             ayudaToolStripMenuItem.Click += ayudaToolStripMenuItem_Click;
             // 
