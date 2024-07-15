@@ -53,7 +53,7 @@
             label1.Name = "label1";
             label1.Size = new Size(282, 32);
             label1.TabIndex = 21;
-            label1.Tag = "VIEW_PRODUCTS";
+            label1.Tag = "AVAILABLE_PRODUCTS";
             label1.Text = "Productos disponibles:";
             // 
             // FrmViewProducts

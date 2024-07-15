@@ -43,6 +43,7 @@
             BtnAceptar.Name = "BtnAceptar";
             BtnAceptar.Size = new Size(154, 49);
             BtnAceptar.TabIndex = 1;
+            BtnAceptar.Tag = "ACCEPT";
             BtnAceptar.Text = "Aceptar";
             BtnAceptar.UseVisualStyleBackColor = false;
             BtnAceptar.Click += BtnAceptar_Click;
@@ -57,6 +58,7 @@
             BtnCancelar.Name = "BtnCancelar";
             BtnCancelar.Size = new Size(154, 49);
             BtnCancelar.TabIndex = 2;
+            BtnCancelar.Tag = "CANCEL";
             BtnCancelar.Text = "Cancelar";
             BtnCancelar.UseVisualStyleBackColor = false;
             BtnCancelar.Click += BtnCancelar_Click;
@@ -70,6 +72,7 @@
             label1.Name = "label1";
             label1.Size = new Size(348, 36);
             label1.TabIndex = 3;
+            label1.Tag = "CONFIRM_LOGOUT";
             label1.Text = "¿Está seguro que desea salir?";
             // 
             // FrmLogout
@@ -83,6 +86,7 @@
             Controls.Add(BtnAceptar);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FrmLogout";
+            Tag = "MENU_LOGOUT";
             Text = "Cerrar sesión";
             ResumeLayout(false);
             PerformLayout();

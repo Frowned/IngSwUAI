@@ -1,4 +1,6 @@
-﻿using Infrastructure.Session;
+﻿using BE.DTO;
+using Infrastructure.Observer;
+using Infrastructure.Session;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace UI.Login
 {
-    public partial class FrmLogout : Form
+    public partial class FrmLogout : Form, IObserverForm
     {
         public FrmLogout()
         {
@@ -28,6 +30,17 @@ namespace UI.Login
             SingletonSession.Instancia.Logout();
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        public void UpdateLanguage(UserSession session)
+        {
+            foreach (Control control in this.Controls)
+            {
+                foreach (TranslationDTO translation in session.currentLanguage.Translations)
+                {
+                    control.Text = control.Tag != null && control.Tag.ToString() == translation.LabelName ? translation.TranslatedText : control.Text;
+                }
+            }
         }
     }
 }

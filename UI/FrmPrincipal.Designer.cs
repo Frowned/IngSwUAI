@@ -74,7 +74,7 @@
             // iniciarSesiónToolStripMenuItem
             // 
             iniciarSesiónToolStripMenuItem.Name = "iniciarSesiónToolStripMenuItem";
-            iniciarSesiónToolStripMenuItem.Size = new Size(270, 34);
+            iniciarSesiónToolStripMenuItem.Size = new Size(224, 34);
             iniciarSesiónToolStripMenuItem.Tag = "MENU_LOGIN";
             iniciarSesiónToolStripMenuItem.Text = "Iniciar sesión";
             iniciarSesiónToolStripMenuItem.Click += iniciarSesiónToolStripMenuItem_Click;
@@ -82,7 +82,7 @@
             // cambiarClaveToolStripMenuItem
             // 
             cambiarClaveToolStripMenuItem.Name = "cambiarClaveToolStripMenuItem";
-            cambiarClaveToolStripMenuItem.Size = new Size(270, 34);
+            cambiarClaveToolStripMenuItem.Size = new Size(224, 34);
             cambiarClaveToolStripMenuItem.Tag = "MENU_CHANGE_PASSWORD";
             cambiarClaveToolStripMenuItem.Text = "Cambiar clave";
             cambiarClaveToolStripMenuItem.Click += cambiarClaveToolStripMenuItem_Click;
@@ -90,7 +90,7 @@
             // cerrarSesiónToolStripMenuItem
             // 
             cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            cerrarSesiónToolStripMenuItem.Size = new Size(270, 34);
+            cerrarSesiónToolStripMenuItem.Size = new Size(224, 34);
             cerrarSesiónToolStripMenuItem.Tag = "MENU_LOGOUT";
             cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
             cerrarSesiónToolStripMenuItem.Click += cerrarSesiónToolStripMenuItem_Click;
@@ -107,7 +107,7 @@
             // 
             consultarPuntosToolStripMenuItem.Name = "consultarPuntosToolStripMenuItem";
             consultarPuntosToolStripMenuItem.Size = new Size(270, 34);
-            consultarPuntosToolStripMenuItem.Tag = "MENU_EXCHANGE_POINTS";
+            consultarPuntosToolStripMenuItem.Tag = "MENU_CHECK_POINTS";
             consultarPuntosToolStripMenuItem.Text = "Consultar puntos";
             consultarPuntosToolStripMenuItem.Click += consultarPuntosToolStripMenuItem_Click;
             // 
@@ -115,6 +115,7 @@
             // 
             canjearPuntosToolStripMenuItem.Name = "canjearPuntosToolStripMenuItem";
             canjearPuntosToolStripMenuItem.Size = new Size(270, 34);
+            canjearPuntosToolStripMenuItem.Tag = "MENU_EXCHANGE_POINTS";
             canjearPuntosToolStripMenuItem.Text = "Canjear puntos";
             canjearPuntosToolStripMenuItem.Click += canjearPuntosToolStripMenuItem_Click;
             // 

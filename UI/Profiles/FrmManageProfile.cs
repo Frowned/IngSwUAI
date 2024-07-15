@@ -2,6 +2,7 @@
 using BE.Entities;
 using BE.Enums;
 using BLL;
+using DAL;
 using Infrastructure.Helpers;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
@@ -25,12 +26,14 @@ namespace UI.Profiles
         IRoleBLL roleBLL;
         ILogBLL logBLL;
         IUserBLL userBLL;
-        public FrmManageProfile(IRoleBLL roleBLL, ILogBLL logBLL, IUserBLL userBLL)
+        ILanguageBLL languageBLL;
+        public FrmManageProfile(IRoleBLL roleBLL, ILogBLL logBLL, IUserBLL userBLL, ILanguageBLL languageBLL)
         {
             InitializeComponent();
             this.roleBLL = roleBLL;
             this.logBLL = logBLL;
             this.userBLL = userBLL;
+            this.languageBLL = languageBLL;
         }
 
         public void UpdateLanguage(UserSession session)
@@ -97,7 +100,7 @@ namespace UI.Profiles
                     var exists = RoleHelper.RoleExists(roleSelected, permission.Id);
                     if (exists)
                     {
-                        MessageBox.Show("Ya existe el permiso");
+                        MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ROLE_ALREADY_EXISTS") ?? "Ya existe el permiso");
                     }
                     else
                     {
@@ -111,6 +114,10 @@ namespace UI.Profiles
 
         private void BtnDeletePermission_Click(object sender, EventArgs e)
         {
+            var permission = (Permission)this.CmbPermissions.SelectedItem!;
+            roleBLL.DeleteRole(permission);
+            FillCombos();
+            ShowRole(true);
         }
 
         void ShowRole(bool init)
@@ -173,7 +180,7 @@ namespace UI.Profiles
                     var roleExists = RoleHelper.RoleExists(roleSelected, role.Id);
                     if (roleExists)
                     {
-                        MessageBox.Show("Ya existe el rol");
+                        MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ROLE_ALREADY_EXISTS") ?? "Ya existe el rol");
                     }
                     else
                     {
@@ -181,7 +188,7 @@ namespace UI.Profiles
                         roleSelected.Children.Add(role);
                         roleExists = RoleHelper.RoleExists(role, roleSelected.Id);
                         if (roleExists)
-                            MessageBox.Show("Ya existe el rol");
+                            MessageBox.Show(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ROLE_ALREADY_EXISTS") ?? "Ya existe el rol");
                         else
                             ShowRole(false);
                     }
@@ -209,7 +216,7 @@ namespace UI.Profiles
 
             if (isAssigned)
             {
-                Interaction.MsgBox("No se puede eliminar un perfil si tiene usuarios asignados");
+                Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "DELETE_ROLE_ERROR") ?? "No se puede eliminar un perfil si tiene usuarios asignados");
             }
             roleBLL.DeleteRole(auxRole);
             FillCombos();

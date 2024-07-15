@@ -70,6 +70,7 @@
             label5.Name = "label5";
             label5.Size = new Size(113, 28);
             label5.TabIndex = 44;
+            label5.Tag = "CATEGORY";
             label5.Text = "Categoria:";
             // 
             // LblPoints
@@ -117,6 +118,7 @@
             BtnAddProduct.Name = "BtnAddProduct";
             BtnAddProduct.Size = new Size(209, 49);
             BtnAddProduct.TabIndex = 49;
+            BtnAddProduct.Tag = "EXCHANGE";
             BtnAddProduct.Text = "Canjear";
             BtnAddProduct.UseVisualStyleBackColor = false;
             BtnAddProduct.Click += BtnAddProduct_Click;

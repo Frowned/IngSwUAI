@@ -75,6 +75,7 @@
             label2.Name = "label2";
             label2.Size = new Size(99, 28);
             label2.TabIndex = 35;
+            label2.Tag = "NAME";
             label2.Text = "Nombre:";
             // 
             // TxtName
@@ -94,6 +95,7 @@
             label3.Name = "label3";
             label3.Size = new Size(134, 28);
             label3.TabIndex = 37;
+            label3.Tag = "DESCRIPTION";
             label3.Text = "Descripción:";
             // 
             // TxtDescription
@@ -135,6 +137,7 @@
             BtnDeleteProduct.Name = "BtnDeleteProduct";
             BtnDeleteProduct.Size = new Size(209, 49);
             BtnDeleteProduct.TabIndex = 41;
+            BtnDeleteProduct.Tag = "DISABLE";
             BtnDeleteProduct.Text = "Deshabilitar";
             BtnDeleteProduct.UseVisualStyleBackColor = false;
             BtnDeleteProduct.Click += BtnDeleteProduct_Click;
@@ -149,6 +152,7 @@
             BtnAddProduct.Name = "BtnAddProduct";
             BtnAddProduct.Size = new Size(209, 49);
             BtnAddProduct.TabIndex = 40;
+            BtnAddProduct.Tag = "ADD";
             BtnAddProduct.Text = "Agregar";
             BtnAddProduct.UseVisualStyleBackColor = false;
             BtnAddProduct.Click += BtnAddProduct_Click;
@@ -172,6 +176,7 @@
             label5.Name = "label5";
             label5.Size = new Size(113, 28);
             label5.TabIndex = 42;
+            label5.Tag = "CATEGORY";
             label5.Text = "Categoria:";
             // 
             // FrmAddProducts

@@ -85,15 +85,15 @@ namespace UI
         {
             using (FrmLogout frmLogout = new FrmLogout())
             {
+                SingletonSession.Instancia.AddObserver(frmLogout);
                 DialogResult result = frmLogout.ShowDialog();
 
                 if (result == DialogResult.OK)
                 {
                     ClearMenu();
                     userToolStrip.Text = $"Usuario (No conectado)";
-                    SingletonSession.Instancia.RemoveObserver(this);
-
                 }
+                SingletonSession.Instancia.RemoveObserver(frmLogout);
 
                 CloseForms();
             }

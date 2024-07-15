@@ -18,11 +18,13 @@ namespace UI.Mantainers
     public partial class FrmAddProducts : Form, IObserverForm
     {
         private IProductBLL productBLL;
-        public FrmAddProducts(IProductBLL productBLL)
+        private ILanguageBLL languageBLL;
+        public FrmAddProducts(IProductBLL productBLL, ILanguageBLL languageBLL)
         {
             InitializeComponent();
             this.productBLL = productBLL;
             TxtPoints.KeyPress += new KeyPressEventHandler(TxtPoints_KeyPress);
+            this.languageBLL = languageBLL;
         }
 
         private void FrmAddProducts_Load(object sender, EventArgs e)
@@ -66,18 +68,35 @@ namespace UI.Mantainers
 
         private void BtnAddProduct_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TxtName.Text) ||
+                string.IsNullOrWhiteSpace(TxtPoints.Text) ||
+                string.IsNullOrWhiteSpace(TxtDescription.Text) ||
+                string.IsNullOrWhiteSpace(CmbCategories.Text))
+            {
+                Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ALL_REQUIRED") ?? "Todos los campos son obligatorios.", MsgBoxStyle.Critical, "Error");
+                return;
+            }
+
+            if (!long.TryParse(TxtPoints.Text, out long points))
+            {
+                Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "VALID_POINTS") ?? "El campo de puntos debe ser un número válido.", MsgBoxStyle.Critical, "Error");
+                return;
+            }
+
             var productDto = new ProductDTO()
             {
                 ProductName = TxtName.Text,
-                Points = long.Parse(TxtPoints.Text),
+                Points = points,
                 Description = TxtDescription.Text,
                 Category = CmbCategories.Text
             };
+
             productBLL.AddProduct(productDto);
             FillDataSource();
-            Interaction.MsgBox("Se dio de alta el producto");
+            Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ADDED_PRODUCT") ?? "Se dio de alta el producto", MsgBoxStyle.Information, languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "SUCCESS") ?? "Éxito");
             ClearInputs();
         }
+
 
         private void ClearInputs()
         {
@@ -92,7 +111,7 @@ namespace UI.Mantainers
             DataGridViewRow selectedRow = DgvProducts.SelectedRows[0];
             productBLL.DeleteProduct(int.Parse(selectedRow.Cells["Id"].Value.ToString()));
             FillDataSource();
-            Interaction.MsgBox("Se deshabilitó el producto correctamente");
+            Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "DISABLED_PRODUCT") ?? "Se deshabilitó el producto correctamente");
             ClearInputs();
         }
     }
