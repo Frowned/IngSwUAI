@@ -95,6 +95,7 @@ namespace UI
                 }
                 SingletonSession.Instancia.RemoveObserver(frmLogout);
 
+                SingletonSession.Instancia.RemoveObserver(this);
                 CloseForms();
             }
         }

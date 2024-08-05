@@ -253,7 +253,7 @@ namespace DAL
             string query = "SELECT COUNT(*) FROM Users u\r\n  WHERE u.RoleId = @RoleId";
             SqlParameter[] parameters =
                 [
-                    new SqlParameter("@Id", auxRole.Id)
+                    new SqlParameter("@RoleId", auxRole.Id)
                 ];
             var result = int.Parse(dbHelper.ExecuteScalar(query, CommandType.Text, parameters).ToString());
             
