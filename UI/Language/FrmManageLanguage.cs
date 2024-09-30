@@ -96,7 +96,8 @@ namespace UI.Language
                         Message = $"Se borró el idioma {TxtLanguage.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }
@@ -135,7 +136,8 @@ namespace UI.Language
                         Message = $"Se creó el idioma {TxtLanguage.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }
@@ -192,7 +194,8 @@ namespace UI.Language
                         Message = $"Se creó la etiqueta {TxtLabel.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }
@@ -220,7 +223,8 @@ namespace UI.Language
                         Message = $"Se borró la etiqueta {TxtLabel.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }
@@ -271,7 +275,8 @@ namespace UI.Language
                         Message = $"Se creó la etiqueta {TxtLabel.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }
@@ -305,7 +310,8 @@ namespace UI.Language
                         Message = $"Se borró la traducción {TxtTranslation.Text}",
                         CreatedAt = DateTime.Now,
                         CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
-                        Type = BE.Entities.LogType.Info
+                        Type = BE.Entities.LogType.Info,
+                        Module = this.Name
                     });
                     FillDataSource();
                 }

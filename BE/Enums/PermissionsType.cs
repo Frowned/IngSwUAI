@@ -19,6 +19,9 @@ namespace BE.Enums
         GESTIONAR_EMPLEADOS,
         GESTIONAR_OBJETIVOS,
         VER_REPORTERIA,
-        VER_AYUDA
+        VER_AYUDA,
+        GESTIONAR_BACKUP, 
+        BITACORA_EVENTOS,
+        BITACORA_PRODUCTOS
     }
 }

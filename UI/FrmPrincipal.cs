@@ -19,6 +19,8 @@ using Microsoft.VisualBasic;
 using UI.Mantainers;
 using UI.Points;
 using BE.DTO;
+using UI.Backup;
+using UI.Logs;
 
 namespace UI
 {
@@ -30,6 +32,9 @@ namespace UI
         FrmAddProducts? frmAddProducts = null;
         FrmExchangePoints? frmExchangePoints = null;
         FrmPoints? frmPoints = null;
+        FrmBackup? frmBackup = null;
+        FrmEventsLogs? frmEventsLogs = null;
+        FrmProductsLogs? frmProductsLogs = null;
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
         public FrmPrincipal(ILanguageBLL languageBLL, IUserBLL userBLL)
@@ -66,12 +71,15 @@ namespace UI
                     ayudaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
                     verProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
                     gestionarEmpleadosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_EMPLEADOS);
-                    gestionarIdiomaToolStripMenuItem.Enabled= SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
+                    gestionarIdiomaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
                     gestionarObjetivosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_OBJETIVOS);
                     gestionarPerfilesToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PERFIL);
                     gestionarProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PRODUCTOS);
-                    administraciónToolStripMenuItem.Enabled = gestionarEmpleadosToolStripMenuItem.Enabled || gestionarIdiomaToolStripMenuItem.Enabled ||
-                        gestionarObjetivosToolStripMenuItem.Enabled || gestionarPerfilesToolStripMenuItem.Enabled || gestionarProductosToolStripMenuItem.Enabled;
+                    gestionarBackupToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_BACKUP);
+                    bitacoraEventosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_EVENTOS);
+                    bitacoraProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_PRODUCTOS);
+                    administraciónToolStripMenuItem.Enabled = bitacoraProductosToolStripMenuItem.Enabled || bitacoraEventosToolStripMenuItem.Enabled || gestionarEmpleadosToolStripMenuItem.Enabled || gestionarIdiomaToolStripMenuItem.Enabled ||
+                        gestionarObjetivosToolStripMenuItem.Enabled || gestionarPerfilesToolStripMenuItem.Enabled || gestionarProductosToolStripMenuItem.Enabled || gestionarBackupToolStripMenuItem.Enabled;
                     puntosToolStripMenuItem.Enabled = verProductosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled;
                     cerrarSesiónToolStripMenuItem.Visible = true;
                     userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
@@ -102,6 +110,24 @@ namespace UI
 
         private void CloseForms()
         {
+            if (frmBackup != null)
+            {
+                frmBackup.Dispose();
+                frmBackup.Close();
+                frmBackup = null;
+            }
+            if (frmProductsLogs != null)
+            {
+                frmProductsLogs.Dispose();
+                frmProductsLogs.Close();
+                frmProductsLogs = null;
+            }
+            if (frmEventsLogs != null)
+            {
+                frmEventsLogs.Dispose();
+                frmEventsLogs.Close();
+                frmEventsLogs = null;
+            }
             if (frmManageLanguage != null)
             {
                 frmManageLanguage.Dispose();
@@ -143,12 +169,12 @@ namespace UI
         private void ClearMenu()
         {
             iniciarSesiónToolStripMenuItem.Visible = true;
-            cambiarClaveToolStripMenuItem.Visible = 
+            cambiarClaveToolStripMenuItem.Visible =
             toolStripDropDownButton1.Visible =
-            administraciónToolStripMenuItem.Visible = 
-            puntosToolStripMenuItem.Visible = 
-            reporteríaToolStripMenuItem.Visible = 
-            ayudaToolStripMenuItem.Visible = 
+            administraciónToolStripMenuItem.Visible =
+            puntosToolStripMenuItem.Visible =
+            reporteríaToolStripMenuItem.Visible =
+            ayudaToolStripMenuItem.Visible =
             cerrarSesiónToolStripMenuItem.Visible = false;
 
         }
@@ -349,6 +375,54 @@ namespace UI
                 {
                     UpdateMenuStripItems(toolStripMenuItem.DropDownItems, session);
                 }
+            }
+        }
+
+        private void gestionarBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmBackup == null || frmBackup.IsDisposed)
+            {
+                frmBackup = Program.ServiceProvider.GetRequiredService<FrmBackup>();
+                SingletonSession.Instancia.AddObserver(frmBackup);
+                frmBackup.MdiParent = this;
+                frmBackup.Show();
+            }
+            else
+            {
+                frmBackup.BringToFront();
+                frmBackup.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void bitacoraEventosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmEventsLogs == null || frmEventsLogs.IsDisposed)
+            {
+                frmEventsLogs = Program.ServiceProvider.GetRequiredService<FrmEventsLogs>();
+                SingletonSession.Instancia.AddObserver(frmEventsLogs);
+                frmEventsLogs.MdiParent = this;
+                frmEventsLogs.Show();
+            }
+            else
+            {
+                frmEventsLogs.BringToFront();
+                frmEventsLogs.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void bitacoraProductosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmProductsLogs == null || frmProductsLogs.IsDisposed)
+            {
+                frmProductsLogs = Program.ServiceProvider.GetRequiredService<FrmProductsLogs>();
+                SingletonSession.Instancia.AddObserver(frmProductsLogs);
+                frmProductsLogs.MdiParent = this;
+                frmProductsLogs.Show();
+            }
+            else
+            {
+                frmProductsLogs.BringToFront();
+                frmProductsLogs.WindowState = FormWindowState.Maximized;
             }
         }
     }

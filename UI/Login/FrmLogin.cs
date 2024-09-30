@@ -6,6 +6,9 @@ using BE.DTO;
 using Microsoft.Data.SqlClient;
 using Infrastructure.Session;
 using UI.Language;
+using UI.Security;
+using Microsoft.Extensions.DependencyInjection;
+using UI.Profiles;
 
 namespace UI
 {
@@ -15,16 +18,24 @@ namespace UI
         private string currentUser = String.Empty;
         IUserBLL _userBLL;
         ILanguageBLL _languageBLL;
-        public FrmLogin(IUserBLL userBLL, ILanguageBLL languageBLL)
+        ICheckDigitBLL _checkDigitBLL;
+        FrmInconsistencyManagement frmInconsistencyManagement = null;
+        private List<string> tables = new List<string>();
+
+        public FrmLogin(IUserBLL userBLL, ILanguageBLL languageBLL, ICheckDigitBLL checkDigitBLL)
         {
             InitializeComponent();
             _userBLL = userBLL;
             _languageBLL = languageBLL;
+            _checkDigitBLL = checkDigitBLL;
+            tables.Add("Products");
+            tables.Add("Transactions");
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             string password = EncryptionHelper.Encrypt(TxtPassword.Text);
+            string messageError = string.Empty;
 
             LblError.Visible = false;
             if (currentUser != TxtUsername.Text)
@@ -40,8 +51,35 @@ namespace UI
                 // Usuario autenticado correctamente
                 SingletonSession.Instancia.Login(user);
                 SingletonSession.Instancia.currentLanguage = _languageBLL.GetById(user.LanguageId, true)!;
-                this.DialogResult = DialogResult.OK; 
-                this.Close();
+                foreach (var table in tables)
+                {
+                    string response = _checkDigitBLL.VerifyTable(table);
+                    if(response != string.Empty)
+                    {
+                        messageError = response;
+                        break;
+                    }
+
+                }
+
+                if(messageError != string.Empty)
+                {
+                    if(SingletonSession.Instancia.User.UserRole.Name == "Administrador")
+                    {
+                        frmInconsistencyManagement = Program.ServiceProvider.GetRequiredService<FrmInconsistencyManagement>();
+                        frmInconsistencyManagement.Load(messageError);
+                        frmInconsistencyManagement.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error de inconsistencia de informacion, por favor comunicate con un administrador");
+                    }
+                }
+                else
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
             }
             else
             {

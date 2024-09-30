@@ -9,6 +9,9 @@ using UI.Language;
 using UI.Profiles;
 using UI.Mantainers;
 using UI.Points;
+using UI.Backup;
+using UI.Logs;
+using UI.Security;
 namespace UI
 {
     internal static class Program
@@ -44,6 +47,10 @@ namespace UI
             services.AddTransient<IProductDAL, ProductDAL>();
             services.AddTransient<IPointBLL, PointBLL>();
             services.AddTransient<IPointDAL, PointDAL>();
+            services.AddTransient<IBackupBLL, BackupBLL>();
+            services.AddTransient<IBackupDAL, BackupDAL>();
+            services.AddTransient<ICheckDigitBLL, CheckDigitBLL>();
+            services.AddTransient<ICheckDigitDAL, CheckDigitDAL>();
 
             services.AddTransient<FrmLogin>();
             services.AddTransient<FrmPrincipal>();
@@ -53,6 +60,10 @@ namespace UI
             services.AddTransient<FrmPoints>();
             services.AddTransient<FrmExchangePoints>();
             services.AddTransient<FrmViewProducts>();
+            services.AddTransient<FrmBackup>();
+            services.AddTransient<FrmEventsLogs>();
+            services.AddTransient<FrmProductsLogs>();
+            services.AddTransient<FrmInconsistencyManagement>();
         }
     }
 }

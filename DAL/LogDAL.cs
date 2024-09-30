@@ -22,11 +22,12 @@ namespace DAL
 
         public void Save(Log log)
         {
-            string query = "INSERT INTO Logs (Message, Type, CreatedBy, CreatedAt, UpdatedBy, UpdatedAt) VALUES (@Message, @Type, @CreatedBy, @CreatedAt, @UpdatedBy, @UpdatedAt);";
+            string query = "INSERT INTO Logs (Message, Type, Module, CreatedBy, CreatedAt, UpdatedBy, UpdatedAt) VALUES (@Message, @Type, @Module, @CreatedBy, @CreatedAt, @UpdatedBy, @UpdatedAt);";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Message", log.Message),
                 new SqlParameter("@Type", log.Type),
+                new SqlParameter("@Module", log.Module),
                 new SqlParameter("@CreatedBy", log.CreatedBy != null ? log.CreatedBy.Id : (object)DBNull.Value),
                 new SqlParameter("@CreatedAt", log.CreatedAt),
                 new SqlParameter("@UpdatedBy", log.UpdatedBy != null ? log.UpdatedBy.Id : (object)DBNull.Value),

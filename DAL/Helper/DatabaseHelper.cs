@@ -14,6 +14,12 @@ namespace DAL.Helper
             connectionString = GetConnectionString();
         }
 
+        public SqlConnection GetConnection()
+        {
+            SqlConnection connection = new SqlConnection(this.GetConnectionString());
+            connection.Open();
+            return connection;
+        }
         private string GetConnectionString()
         {
             // Retorna la cadena de conexión desde App.Config
