@@ -16,10 +16,12 @@ namespace DAL
     public class PointDAL : IPointDAL
     {
         private readonly DatabaseHelper dbHelper;
+        private ICheckDigitDAL checkDigitDAL;
 
-        public PointDAL()
+        public PointDAL(ICheckDigitDAL checkDigitDAL)
         {
             dbHelper = new DatabaseHelper();
+            this.checkDigitDAL = checkDigitDAL;
         }
 
         public long ExchangePoints(int productId, long userPoints)
@@ -27,12 +29,21 @@ namespace DAL
             string query = @"INSERT INTO Transactions (UserId, Points, ProductId, TransactionDate) 
                             VALUES (@UserId, (  SELECT Points FROM Products WHERE Id = @ProductId), @ProductId, @TransactionDate);
                               Update Users SET Points = Points - (SELECT Points FROM Products WHERE Id = @ProductId) WHERE Id = @UserId;
-                            SELECT Points FROM Users Where Id = @UserId";
+                            SELECT SCOPE_IDENTITY();";
             SqlParameter[] parameters =
             [
                 new SqlParameter("@UserId", SingletonSession.Instancia.User.Id),
                 new SqlParameter("@ProductId", productId),
                 new SqlParameter("@TransactionDate", DateTime.Now)
+            ];
+            object result = dbHelper.ExecuteScalar(query, CommandType.Text, parameters);
+
+            checkDigitDAL.AddCheckDigit("Transactions", "Id", result.ToString());
+
+            query = @"SELECT Points FROM Users Where Id = @UserId";
+            parameters =
+            [
+                new SqlParameter("@UserId", SingletonSession.Instancia.User.Id)
             ];
 
             return dbHelper.ExecuteScalar(query, CommandType.Text, parameters);            

@@ -15,19 +15,21 @@ namespace DAL
     public class ProductDAL : IProductDAL
     {
         private readonly DatabaseHelper dbHelper;
+        private ICheckDigitDAL checkDigitDAL;
 
-        public ProductDAL()
+        public ProductDAL(ICheckDigitDAL checkDigitDAL)
         {
             dbHelper = new DatabaseHelper();
+            this.checkDigitDAL = checkDigitDAL;
         }
 
-        public void AddProduct(ProductDTO productDTO)
+        public int AddProduct(ProductDTO productDTO)
         {
             try
             {
                 var categories = GetCategories();
                 var category = categories.FirstOrDefault(x => x.Description == productDTO.Category);
-                string query = $@"Insert into Products (ProductName, Description, StartDate, Points, CategoryId) values (@ProductName, @Description, @StartDate, @Points, @CategoryId)";
+                string query = $@"Insert into Products (ProductName, Description, StartDate, Points, CategoryId) values (@ProductName, @Description, @StartDate, @Points, @CategoryId); SELECT SCOPE_IDENTITY();";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@StartDate", SqlDbType.DateTime) { Value = DateTime.Now },
@@ -37,7 +39,10 @@ namespace DAL
                     new SqlParameter("@CategoryId", SqlDbType.Int) { Value = category!.Id }
                 };
 
-                dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+                object result = dbHelper.ExecuteScalar(query, CommandType.Text, parameters);
+                string idMax = result.ToString()!;
+                checkDigitDAL.AddCheckDigit("Products", "Id", idMax);
+                return int.Parse(idMax);
             }
             catch (Exception ex)
             {
@@ -58,6 +63,7 @@ namespace DAL
                 };
 
                 dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+                checkDigitDAL.AddCheckDigit("Products", "Id", id.ToString());
             }
             catch (Exception ex)
             {

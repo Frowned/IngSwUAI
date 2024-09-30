@@ -1,5 +1,7 @@
 ﻿using BE.DTO;
+using BE.Entities;
 using Infrastructure.Interfaces.BLL;
+using Infrastructure.Mappers;
 using Infrastructure.Observer;
 using Infrastructure.Session;
 using Microsoft.VisualBasic;
@@ -19,12 +21,15 @@ namespace UI.Mantainers
     {
         private IProductBLL productBLL;
         private ILanguageBLL languageBLL;
-        public FrmAddProducts(IProductBLL productBLL, ILanguageBLL languageBLL)
+        private ILogBLL logBLL;
+        public FrmAddProducts(IProductBLL productBLL, ILanguageBLL languageBLL, ILogBLL logBLL)
         {
             InitializeComponent();
             this.productBLL = productBLL;
             TxtPoints.KeyPress += new KeyPressEventHandler(TxtPoints_KeyPress);
             this.languageBLL = languageBLL;
+            this.logBLL = logBLL;
+            FillDataSource();
         }
 
         private void FrmAddProducts_Load(object sender, EventArgs e)
@@ -91,9 +96,29 @@ namespace UI.Mantainers
                 Category = CmbCategories.Text
             };
 
-            productBLL.AddProduct(productDto);
+            int productId = productBLL.AddProduct(productDto);
             FillDataSource();
             Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "ADDED_PRODUCT") ?? "Se dio de alta el producto", MsgBoxStyle.Information, languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "SUCCESS") ?? "Éxito");
+
+
+            logBLL.Save(new BE.Entities.Log
+            {
+                Message = $"Se agregó el producto: {productDto.ProductName}",
+                CreatedAt = DateTime.Now,
+                CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
+                Type = BE.Entities.LogType.Info,
+                Module = this.Name
+            });
+            logBLL.Save(new ProductLog
+            {
+                Category = CmbCategories.Text,
+                Description = TxtDescription.Text,
+                IsBlocked = false,
+                Points = points,
+                ProductName = TxtName.Text,
+                StartDate = DateTime.Now,
+                ProductId = productId
+            });
             ClearInputs();
         }
 
@@ -109,10 +134,42 @@ namespace UI.Mantainers
         private void BtnDeleteProduct_Click(object sender, EventArgs e)
         {
             DataGridViewRow selectedRow = DgvProducts.SelectedRows[0];
-            productBLL.DeleteProduct(int.Parse(selectedRow.Cells["Id"].Value.ToString()));
+            string productName = selectedRow.Cells["ProductName"].Value.ToString();
+            string description = selectedRow.Cells["Description"].Value.ToString();
+            var points = long.Parse(selectedRow.Cells["Points"].Value.ToString());
+            var category = selectedRow.Cells["Category"].Value.ToString();
+            var startDate = DateTime.Parse(selectedRow.Cells["StartDate"].Value.ToString());
+            bool isBlocked = selectedRow.Cells["EndDate"].Value != DBNull.Value;
+            var productId = int.Parse(selectedRow.Cells["Id"].Value.ToString());
+            productBLL.DeleteProduct(productId);
             FillDataSource();
             Interaction.MsgBox(languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "DISABLED_PRODUCT") ?? "Se deshabilitó el producto correctamente");
+
+
+            logBLL.Save(new BE.Entities.Log
+            {
+                Message = $"Se deshabilitó el producto: {productName}",
+                CreatedAt = DateTime.Now,
+                CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
+                Type = BE.Entities.LogType.Info,
+                Module = this.Name
+            });
+            logBLL.Save(new ProductLog
+            {
+                ProductName = productName,
+                ProductId = productId,
+                Description = description,
+                Points = points,
+                Category = category,
+                StartDate = startDate,
+                IsBlocked = isBlocked
+            });
             ClearInputs();
+        }
+
+        private void FrmAddProducts_Shown(object sender, EventArgs e)
+        {
+            FillDataSource();
         }
     }
 }

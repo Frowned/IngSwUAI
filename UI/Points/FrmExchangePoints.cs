@@ -3,6 +3,7 @@ using BE.Entities;
 using BLL;
 using DAL;
 using Infrastructure.Interfaces.BLL;
+using Infrastructure.Mappers;
 using Infrastructure.Observer;
 using Infrastructure.Session;
 using Microsoft.VisualBasic;
@@ -22,14 +23,16 @@ namespace UI.Points
     {
         private IProductBLL productBLL;
         private IPointBLL pointBLL;
+        private ILogBLL logBLL;
         private ILanguageBLL languageBLL;
         private IList<ProductDTO> productDTOs = new List<ProductDTO>();
-        public FrmExchangePoints(IProductBLL productBLL, IPointBLL pointBLL, ILanguageBLL languageBLL)
+        public FrmExchangePoints(IProductBLL productBLL, IPointBLL pointBLL, ILanguageBLL languageBLL, ILogBLL logBLL)
         {
             InitializeComponent();
             this.productBLL = productBLL;
             this.pointBLL = pointBLL;
             this.languageBLL = languageBLL;
+            this.logBLL = logBLL;
         }
 
         private void FrmExchangePoints_Load(object sender, EventArgs e)
@@ -99,9 +102,16 @@ namespace UI.Points
                 SingletonSession.Instancia.User.Points = pointBLL.ExchangePoints(productId, userPoints);
                 LblPoints.Text = SingletonSession.Instancia.User.Points.ToString();
                 MessageBox.Show((languageBLL.GetByLabel(SingletonSession.Instancia.User.LanguageId, "POINTS_EXCHANGE_SUCCESS") ?? $"Canje exitoso, puntos restantes:") + SingletonSession.Instancia.User.Points);
+
+                logBLL.Save(new BE.Entities.Log
+                {
+                    Message = $"Se canjearon puntos, saldo: {userPoints}",
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
+                    Type = BE.Entities.LogType.Info,
+                    Module = this.Name
+                });
             }
-
-
         }
     }
 }

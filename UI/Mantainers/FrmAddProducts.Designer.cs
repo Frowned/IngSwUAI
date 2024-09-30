@@ -203,6 +203,7 @@
             WindowState = FormWindowState.Maximized;
             FormClosed += FrmAddProducts_FormClosed;
             Load += FrmAddProducts_Load;
+            Shown += FrmAddProducts_Shown;
             ((System.ComponentModel.ISupportInitialize)DgvProducts).EndInit();
             ResumeLayout(false);
             PerformLayout();

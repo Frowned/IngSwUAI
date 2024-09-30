@@ -19,9 +19,9 @@ namespace BLL
             this.productDAL = productDAL;
         }
 
-        public void AddProduct(ProductDTO productDTO)
+        public int AddProduct(ProductDTO productDTO)
         {
-            productDAL.AddProduct(productDTO);
+            return productDAL.AddProduct(productDTO);
         }
 
         public void DeleteProduct(int id)

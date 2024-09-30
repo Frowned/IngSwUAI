@@ -70,5 +70,19 @@ namespace UI.Logs
         {
             SingletonSession.Instancia.RemoveObserver(this);
         }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            LogType? selectedType = cmbCriticality.SelectedItem as LogType?;
+            string selectedModule = cmbModule.SelectedItem?.ToString();
+            DateTime? dateFrom = dtpDateFrom.Value != DateTime.MinValue ? dtpDateFrom.Value : (DateTime?)null;
+            DateTime? dateTo = dtpDateTo.Value != DateTime.MinValue ? dtpDateTo.Value : (DateTime?)null;
+
+            // Obtener los logs filtrados
+            List<LogDTO> logs = logBLL.GetLogs(selectedType, selectedModule, dateFrom, dateTo);
+
+            // Mostrar los logs en el DataGridView
+            dataGridView1.DataSource = logs;
+        }
     }
 }

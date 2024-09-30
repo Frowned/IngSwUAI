@@ -9,6 +9,8 @@ using UI.Language;
 using UI.Security;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Profiles;
+using DAL;
+using Infrastructure.Mappers;
 
 namespace UI
 {
@@ -17,17 +19,19 @@ namespace UI
         private int attempts = 0;
         private string currentUser = String.Empty;
         IUserBLL _userBLL;
+        ILogBLL _logBLL;
         ILanguageBLL _languageBLL;
         ICheckDigitBLL _checkDigitBLL;
         FrmInconsistencyManagement frmInconsistencyManagement = null;
         private List<string> tables = new List<string>();
 
-        public FrmLogin(IUserBLL userBLL, ILanguageBLL languageBLL, ICheckDigitBLL checkDigitBLL)
+        public FrmLogin(IUserBLL userBLL, ILanguageBLL languageBLL, ICheckDigitBLL checkDigitBLL, ILogBLL logBLL)
         {
             InitializeComponent();
             _userBLL = userBLL;
             _languageBLL = languageBLL;
             _checkDigitBLL = checkDigitBLL;
+            _logBLL = logBLL;
             tables.Add("Products");
             tables.Add("Transactions");
         }
@@ -74,6 +78,16 @@ namespace UI
                     {
                         MessageBox.Show("Error de inconsistencia de informacion, por favor comunicate con un administrador");
                     }
+
+
+                    _logBLL.Save(new BE.Entities.Log
+                    {
+                        Message = messageError,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
+                        Type = BE.Entities.LogType.Critical,
+                        Module = this.Name
+                    });
                 }
                 else
                 {

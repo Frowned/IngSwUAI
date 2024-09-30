@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            cmbCriticality = new ComboBox();
             label5 = new Label();
             label1 = new Label();
             cmbModule = new ComboBox();
@@ -37,25 +36,21 @@
             dtpDateFrom = new DateTimePicker();
             dtpDateTo = new DateTimePicker();
             lblDateTo = new Label();
+            BtnSearch = new Button();
+            cmbCriticality = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(28, 116);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1489, 592);
+            dataGridView1.Size = new Size(1859, 592);
             dataGridView1.TabIndex = 0;
-            // 
-            // cmbCriticality
-            // 
-            cmbCriticality.FormattingEnabled = true;
-            cmbCriticality.Location = new Point(28, 77);
-            cmbCriticality.Name = "cmbCriticality";
-            cmbCriticality.Size = new Size(182, 33);
-            cmbCriticality.TabIndex = 1;
             // 
             // label5
             // 
@@ -86,7 +81,7 @@
             cmbModule.FormattingEnabled = true;
             cmbModule.Location = new Point(266, 77);
             cmbModule.Name = "cmbModule";
-            cmbModule.Size = new Size(182, 33);
+            cmbModule.Size = new Size(340, 33);
             cmbModule.TabIndex = 46;
             // 
             // lblDate
@@ -94,7 +89,7 @@
             lblDate.AutoSize = true;
             lblDate.Font = new Font("Segoe UI Black", 10F, FontStyle.Bold);
             lblDate.ForeColor = Color.ForestGreen;
-            lblDate.Location = new Point(513, 46);
+            lblDate.Location = new Point(667, 48);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(137, 28);
             lblDate.TabIndex = 48;
@@ -103,14 +98,14 @@
             // 
             // dtpDateFrom
             // 
-            dtpDateFrom.Location = new Point(513, 77);
+            dtpDateFrom.Location = new Point(667, 79);
             dtpDateFrom.Name = "dtpDateFrom";
             dtpDateFrom.Size = new Size(392, 31);
             dtpDateFrom.TabIndex = 49;
             // 
             // dtpDateTo
             // 
-            dtpDateTo.Location = new Point(962, 77);
+            dtpDateTo.Location = new Point(1116, 79);
             dtpDateTo.Name = "dtpDateTo";
             dtpDateTo.Size = new Size(392, 31);
             dtpDateTo.TabIndex = 51;
@@ -120,19 +115,43 @@
             lblDateTo.AutoSize = true;
             lblDateTo.Font = new Font("Segoe UI Black", 10F, FontStyle.Bold);
             lblDateTo.ForeColor = Color.ForestGreen;
-            lblDateTo.Location = new Point(962, 46);
+            lblDateTo.Location = new Point(1116, 48);
             lblDateTo.Name = "lblDateTo";
-            lblDateTo.Size = new Size(73, 28);
+            lblDateTo.Size = new Size(131, 28);
             lblDateTo.TabIndex = 50;
             lblDateTo.Tag = "DATE_TO";
-            lblDateTo.Text = "Fecha:";
+            lblDateTo.Text = "Fecha hasta:";
+            // 
+            // BtnSearch
+            // 
+            BtnSearch.BackColor = Color.ForestGreen;
+            BtnSearch.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BtnSearch.ForeColor = SystemColors.ButtonHighlight;
+            BtnSearch.Location = new Point(1578, 59);
+            BtnSearch.Margin = new Padding(4, 5, 4, 5);
+            BtnSearch.Name = "BtnSearch";
+            BtnSearch.Size = new Size(309, 49);
+            BtnSearch.TabIndex = 52;
+            BtnSearch.Tag = "SEARCH";
+            BtnSearch.Text = "Buscar";
+            BtnSearch.UseVisualStyleBackColor = false;
+            BtnSearch.Click += BtnSearch_Click;
+            // 
+            // cmbCriticality
+            // 
+            cmbCriticality.FormattingEnabled = true;
+            cmbCriticality.Location = new Point(28, 77);
+            cmbCriticality.Name = "cmbCriticality";
+            cmbCriticality.Size = new Size(182, 33);
+            cmbCriticality.TabIndex = 1;
             // 
             // FrmEventsLogs
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1529, 720);
+            ClientSize = new Size(1918, 720);
+            Controls.Add(BtnSearch);
             Controls.Add(dtpDateTo);
             Controls.Add(lblDateTo);
             Controls.Add(dtpDateFrom);
@@ -156,7 +175,6 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private ComboBox cmbCriticality;
         private Label label5;
         private Label label1;
         private ComboBox cmbModule;
@@ -164,5 +182,7 @@
         private DateTimePicker dtpDateFrom;
         private DateTimePicker dtpDateTo;
         private Label lblDateTo;
+        private Button BtnSearch;
+        private ComboBox cmbCriticality;
     }
 }
