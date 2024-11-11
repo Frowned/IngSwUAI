@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Reports;
 
 namespace UI.Logs
 {
@@ -81,6 +82,15 @@ namespace UI.Logs
             {
                 MessageBox.Show("Debe seleccionar un registro.");
             }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            PdfExporter.ExportDataGridViewToPdf(
+                dgvProductLogs,               
+                "Reporte de Productos",       
+                "Listado detallado de productos en el sistema"  
+            );
         }
     }
 }

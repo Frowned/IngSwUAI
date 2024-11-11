@@ -32,6 +32,7 @@
             DgvHistory = new DataGridView();
             label2 = new Label();
             LblPoints = new Label();
+            btnExport = new Button();
             ((System.ComponentModel.ISupportInitialize)DgvHistory).BeginInit();
             SuspendLayout();
             // 
@@ -83,12 +84,28 @@
             LblPoints.Text = "0";
             LblPoints.Click += label3_Click;
             // 
+            // btnExport
+            // 
+            btnExport.BackColor = Color.ForestGreen;
+            btnExport.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExport.ForeColor = SystemColors.ButtonHighlight;
+            btnExport.Location = new Point(57, 938);
+            btnExport.Margin = new Padding(4, 5, 4, 5);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(309, 49);
+            btnExport.TabIndex = 66;
+            btnExport.Tag = "EXPORT";
+            btnExport.Text = "Exportar";
+            btnExport.UseVisualStyleBackColor = false;
+            btnExport.Click += btnExport_Click;
+            // 
             // FrmPoints
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
-            ClientSize = new Size(1693, 975);
+            ClientSize = new Size(1693, 1031);
+            Controls.Add(btnExport);
             Controls.Add(LblPoints);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -110,5 +127,6 @@
         private DataGridView DgvHistory;
         private Label label2;
         private Label LblPoints;
+        private Button btnExport;
     }
 }

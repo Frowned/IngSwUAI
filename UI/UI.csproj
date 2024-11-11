@@ -6,11 +6,29 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageIcon>logo.jpeg</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\Images\logo.jpeg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+	  <None Update="Microsoft.Data.SqlClient.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\SIFRE.chm">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <PackageReference Include="itext" Version="8.0.5" />
+	  <PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.5" />
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +49,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

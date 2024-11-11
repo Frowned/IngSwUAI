@@ -37,6 +37,7 @@
             dgvProductLogs = new DataGridView();
             btnSet = new Button();
             textBox1 = new TextBox();
+            btnExport = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProductLogs).BeginInit();
             SuspendLayout();
             // 
@@ -138,12 +139,28 @@
             textBox1.Size = new Size(150, 31);
             textBox1.TabIndex = 64;
             // 
+            // btnExport
+            // 
+            btnExport.BackColor = Color.ForestGreen;
+            btnExport.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExport.ForeColor = SystemColors.ButtonHighlight;
+            btnExport.Location = new Point(57, 765);
+            btnExport.Margin = new Padding(4, 5, 4, 5);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(309, 49);
+            btnExport.TabIndex = 65;
+            btnExport.Tag = "EXPORT";
+            btnExport.Text = "Exportar";
+            btnExport.UseVisualStyleBackColor = false;
+            btnExport.Click += btnExport_Click;
+            // 
             // FrmProductsLogs
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(2017, 890);
+            Controls.Add(btnExport);
             Controls.Add(textBox1);
             Controls.Add(btnSet);
             Controls.Add(BtnSearch);
@@ -175,5 +192,6 @@
         private DataGridView dgvProductLogs;
         private Button btnSet;
         private TextBox textBox1;
+        private Button btnExport;
     }
 }

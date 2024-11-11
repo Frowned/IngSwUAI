@@ -92,6 +92,56 @@ namespace DAL
             }
         }
 
+        public void RecalculateVerticalDigit(string tableName, string[] columns)
+        {
+            foreach (string column in columns)
+            {
+                string query = $"SELECT {column} FROM {tableName};";
+                DataSet dataSet = helper.ExecuteDataSet(query);
+
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    string concatenatedValues = "";
+                    foreach (DataRow row in dataSet.Tables[0].Rows)
+                    {
+                        concatenatedValues += row[column].ToString();
+                    }
+
+                    string encryptedString = GetSHA256(concatenatedValues);
+
+                    string updateQuery = $"UPDATE {tableName} SET CheckDigitVertical = '{encryptedString}';";
+                    helper.ExecuteNonQuery(updateQuery);
+                }
+            }
+        }
+
+        public bool VerifyVerticalDigit(string tableName, string[] columns)
+        {
+            foreach (string column in columns)
+            {
+                string query = $"SELECT {column}, CheckDigitVertical FROM {tableName};";
+                DataSet dataSet = helper.ExecuteDataSet(query);
+
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    string concatenatedValues = "";
+                    foreach (DataRow row in dataSet.Tables[0].Rows)
+                    {
+                        concatenatedValues += row[column].ToString();
+                    }
+
+                    string calculatedDvVertical = GetSHA256(concatenatedValues);
+
+                    if (dataSet.Tables[0].Rows[0]["CheckDigitVertical"].ToString() != calculatedDvVertical)
+                    {
+                        throw new Exception($"Data inconsistency detected in table: {tableName} | {concatenatedValues}");
+                    }
+                }
+            }
+
+            return true; // Todo está correcto
+        }
+
         public static string GetSHA256(string str)
         {
             SHA256 sha256 = SHA256Managed.Create();

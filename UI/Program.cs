@@ -12,6 +12,7 @@ using UI.Points;
 using UI.Backup;
 using UI.Logs;
 using UI.Security;
+using UI.Reports;
 namespace UI
 {
     internal static class Program

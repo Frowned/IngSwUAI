@@ -38,6 +38,8 @@
             lblDateTo = new Label();
             BtnSearch = new Button();
             cmbCriticality = new ComboBox();
+            btnExport = new Button();
+            btnSerialize = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -145,12 +147,44 @@
             cmbCriticality.Size = new Size(182, 33);
             cmbCriticality.TabIndex = 1;
             // 
+            // btnExport
+            // 
+            btnExport.BackColor = Color.ForestGreen;
+            btnExport.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExport.ForeColor = SystemColors.ButtonHighlight;
+            btnExport.Location = new Point(28, 730);
+            btnExport.Margin = new Padding(4, 5, 4, 5);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(309, 49);
+            btnExport.TabIndex = 53;
+            btnExport.Tag = "EXPORT";
+            btnExport.Text = "Exportar";
+            btnExport.UseVisualStyleBackColor = false;
+            btnExport.Click += btnExport_Click;
+            // 
+            // btnSerialize
+            // 
+            btnSerialize.BackColor = Color.ForestGreen;
+            btnSerialize.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSerialize.ForeColor = SystemColors.ButtonHighlight;
+            btnSerialize.Location = new Point(362, 730);
+            btnSerialize.Margin = new Padding(4, 5, 4, 5);
+            btnSerialize.Name = "btnSerialize";
+            btnSerialize.Size = new Size(309, 49);
+            btnSerialize.TabIndex = 54;
+            btnSerialize.Tag = "SERIALIZE";
+            btnSerialize.Text = "Serializar";
+            btnSerialize.UseVisualStyleBackColor = false;
+            btnSerialize.Click += btnSerialize_Click;
+            // 
             // FrmEventsLogs
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1918, 720);
+            ClientSize = new Size(1918, 824);
+            Controls.Add(btnSerialize);
+            Controls.Add(btnExport);
             Controls.Add(BtnSearch);
             Controls.Add(dtpDateTo);
             Controls.Add(lblDateTo);
@@ -184,5 +218,7 @@
         private Label lblDateTo;
         private Button BtnSearch;
         private ComboBox cmbCriticality;
+        private Button btnExport;
+        private Button btnSerialize;
     }
 }

@@ -45,13 +45,14 @@
             gestionarProductosToolStripMenuItem = new ToolStripMenuItem();
             gestionarObjetivosToolStripMenuItem = new ToolStripMenuItem();
             gestionarBackupToolStripMenuItem = new ToolStripMenuItem();
-            bitacoraEventosToolStripMenuItem = new ToolStripMenuItem();
             reporteríaToolStripMenuItem = new ToolStripMenuItem();
+            bitacoraEventosToolStripMenuItem = new ToolStripMenuItem();
+            bitacoraProductosToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             userToolStrip = new ToolStripStatusLabel();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
-            bitacoraProductosToolStripMenuItem = new ToolStripMenuItem();
+            helpProvider = new HelpProvider();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -132,7 +133,7 @@
             // 
             // administraciónToolStripMenuItem
             // 
-            administraciónToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionarEmpleadosToolStripMenuItem, gestionarPerfilesToolStripMenuItem, gestionarIdiomaToolStripMenuItem, gestionarProductosToolStripMenuItem, gestionarObjetivosToolStripMenuItem, gestionarBackupToolStripMenuItem, bitacoraEventosToolStripMenuItem, bitacoraProductosToolStripMenuItem });
+            administraciónToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionarEmpleadosToolStripMenuItem, gestionarPerfilesToolStripMenuItem, gestionarIdiomaToolStripMenuItem, gestionarProductosToolStripMenuItem, gestionarObjetivosToolStripMenuItem, gestionarBackupToolStripMenuItem });
             administraciónToolStripMenuItem.Name = "administraciónToolStripMenuItem";
             administraciónToolStripMenuItem.Size = new Size(147, 29);
             administraciónToolStripMenuItem.Tag = "MENU_ADMIN";
@@ -185,20 +186,28 @@
             gestionarBackupToolStripMenuItem.Text = "Gestionar backup";
             gestionarBackupToolStripMenuItem.Click += gestionarBackupToolStripMenuItem_Click;
             // 
-            // bitacoraEventosToolStripMenuItem
-            // 
-            bitacoraEventosToolStripMenuItem.Name = "bitacoraEventosToolStripMenuItem";
-            bitacoraEventosToolStripMenuItem.Size = new Size(282, 34);
-            bitacoraEventosToolStripMenuItem.Text = "Bitácora Eventos";
-            bitacoraEventosToolStripMenuItem.Click += bitacoraEventosToolStripMenuItem_Click;
-            // 
             // reporteríaToolStripMenuItem
             // 
+            reporteríaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { bitacoraEventosToolStripMenuItem, bitacoraProductosToolStripMenuItem });
             reporteríaToolStripMenuItem.Name = "reporteríaToolStripMenuItem";
             reporteríaToolStripMenuItem.Size = new Size(109, 29);
             reporteríaToolStripMenuItem.Tag = "MENU_REPORTS";
             reporteríaToolStripMenuItem.Text = "Reportería";
             reporteríaToolStripMenuItem.Click += reporteríaToolStripMenuItem_Click;
+            // 
+            // bitacoraEventosToolStripMenuItem
+            // 
+            bitacoraEventosToolStripMenuItem.Name = "bitacoraEventosToolStripMenuItem";
+            bitacoraEventosToolStripMenuItem.Size = new Size(270, 34);
+            bitacoraEventosToolStripMenuItem.Text = "Bitácora Eventos";
+            bitacoraEventosToolStripMenuItem.Click += bitacoraEventosToolStripMenuItem_Click;
+            // 
+            // bitacoraProductosToolStripMenuItem
+            // 
+            bitacoraProductosToolStripMenuItem.Name = "bitacoraProductosToolStripMenuItem";
+            bitacoraProductosToolStripMenuItem.Size = new Size(270, 34);
+            bitacoraProductosToolStripMenuItem.Text = "Bitácora Productos";
+            bitacoraProductosToolStripMenuItem.Click += bitacoraProductosToolStripMenuItem_Click;
             // 
             // ayudaToolStripMenuItem
             // 
@@ -233,13 +242,6 @@
             toolStripDropDownButton1.Size = new Size(42, 29);
             toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             toolStripDropDownButton1.Click += toolStripDropDownButton1_Click;
-            // 
-            // bitacoraProductosToolStripMenuItem
-            // 
-            bitacoraProductosToolStripMenuItem.Name = "bitacoraProductosToolStripMenuItem";
-            bitacoraProductosToolStripMenuItem.Size = new Size(282, 34);
-            bitacoraProductosToolStripMenuItem.Text = "Bitácora Productos";
-            bitacoraProductosToolStripMenuItem.Click += bitacoraProductosToolStripMenuItem_Click;
             // 
             // FrmPrincipal
             // 
@@ -285,6 +287,8 @@
         private ToolStripMenuItem ayudaToolStripMenuItem;
         private ToolStripDropDownButton toolStripDropDownButton1;
         private ToolStripMenuItem gestionarBackupToolStripMenuItem;
+        private ToolStripMenuItem bitacoraEventosToolStripMenuItem1;
+        private HelpProvider helpProvider;
         private ToolStripMenuItem bitacoraEventosToolStripMenuItem;
         private ToolStripMenuItem bitacoraProductosToolStripMenuItem;
     }

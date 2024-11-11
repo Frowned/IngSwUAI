@@ -3,16 +3,29 @@ using BE.Entities;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
 using Infrastructure.Session;
+using System.IO;
+using System.Windows.Forms;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Kernel.Colors;
+using iText.Layout.Borders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using iText.Layout.Renderer;
+using UI.Reports;
 
 namespace UI.Logs
 {
@@ -52,6 +65,7 @@ namespace UI.Logs
                 "FrmAddProducts",
                 "FrmPoints",
                 "FrmExchangePoints",
+                "FrmTransferPoints",
                 "FrmViewProducts",
                 "FrmBackup",
                 "FrmEventsLogs",
@@ -83,6 +97,16 @@ namespace UI.Logs
 
             // Mostrar los logs en el DataGridView
             dataGridView1.DataSource = logs;
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            PdfExporter.ExportDataGridViewToPdf(dataGridView1, "Reporte de Eventos", "Registro detallado de eventos en el sistema");
+        }
+
+        private void btnSerialize_Click(object sender, EventArgs e)
+        {
+            Serializer.ExportDataGridViewToJson(dataGridView1);
         }
     }
 }

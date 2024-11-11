@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE.Entities
 {
+    [Serializable]
     public class ProductLog
     {
         public int Id { get; set; }

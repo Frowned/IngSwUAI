@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Reports;
 
 namespace UI.Points
 {
@@ -51,6 +52,11 @@ namespace UI.Points
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            PdfExporter.ExportDataGridViewToPdf(DgvHistory, "Reporte de historial de transacciones", "Registro detallado de cambio de puntos por productos");
         }
     }
 }

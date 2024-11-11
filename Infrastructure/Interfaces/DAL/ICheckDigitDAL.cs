@@ -11,5 +11,7 @@ namespace Infrastructure.Interfaces.DAL
         void VerifyTable(string tableName);
         void RecalculateTable(string tableName, string keyField);
         void AddCheckDigit(string tableName, string keyField, string keyValue);
+        void RecalculateVerticalDigit(string tableName, string[] columns);
+        bool VerifyVerticalDigit(string tableName, string[] columns);
     }
 }

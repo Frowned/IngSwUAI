@@ -42,6 +42,31 @@ namespace UI
             this.languageBLL = languageBLL;
             InitializeComponent();
             this.userBLL = userBLL;
+            InitializeHelpProvider();
+        }
+
+        private void InitializeHelpProvider()
+        {
+            string helpFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
+            helpProvider.HelpNamespace = helpFilePath;
+            ayudaToolStripMenuItem.ToolTipText = "Abre el módulo de ayuda para esta aplicación.";
+            iniciarSesiónToolStripMenuItem.ToolTipText = "Inicia sesión en el sistema.";
+            cerrarSesiónToolStripMenuItem.ToolTipText = "Cierra la sesión actual.";
+            cambiarClaveToolStripMenuItem.ToolTipText = "Cambia tu clave de acceso.";
+            administraciónToolStripMenuItem.ToolTipText = "Accede a las opciones de administración.";
+            gestionarPerfilesToolStripMenuItem.ToolTipText = "Gestiona los perfiles de usuario.";
+            gestionarIdiomaToolStripMenuItem.ToolTipText = "Configura el idioma de la aplicación.";
+            gestionarObjetivosToolStripMenuItem.ToolTipText = "Gestiona los objetivos de los empleados.";
+            gestionarEmpleadosToolStripMenuItem.ToolTipText = "Administra la información de los empleados.";
+            gestionarProductosToolStripMenuItem.ToolTipText = "Gestiona los productos disponibles.";
+            gestionarBackupToolStripMenuItem.ToolTipText = "Realiza copias de seguridad de los datos.";
+            puntosToolStripMenuItem.ToolTipText = "Accede a las opciones de puntos.";
+            consultarPuntosToolStripMenuItem.ToolTipText = "Consulta tus puntos acumulados.";
+            canjearPuntosToolStripMenuItem.ToolTipText = "Canjea tus puntos por productos o recompensas.";
+            verProductosToolStripMenuItem.ToolTipText = "Visualiza los productos disponibles.";
+            bitacoraEventosToolStripMenuItem.ToolTipText = "Consulta la bitácora de eventos del sistema.";
+            bitacoraProductosToolStripMenuItem.ToolTipText = "Consulta la bitácora de movimientos de productos.";
+            reporteríaToolStripMenuItem.ToolTipText = "Accede a los reportes y estadísticas.";
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
@@ -317,12 +342,11 @@ namespace UI
 
         private void reporteríaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Interaction.MsgBox("No implementado aún");
         }
 
         private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Interaction.MsgBox("No implementado aún");
+            Help.ShowHelp(this, helpProvider.HelpNamespace);
         }
 
         private void cambiarClaveToolStripMenuItem_Click(object sender, EventArgs e)
