@@ -25,6 +25,8 @@ namespace BLL
                     return "Id";
                 case "Transactions":
                     return "Id";
+                case "PointTransfers":
+                    return "Id";
                 default:
                     return "";
             }

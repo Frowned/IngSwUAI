@@ -53,6 +53,7 @@
             userToolStrip = new ToolStripStatusLabel();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             helpProvider = new HelpProvider();
+            transferirPuntosToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -101,16 +102,17 @@
             // 
             // puntosToolStripMenuItem
             // 
-            puntosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPuntosToolStripMenuItem, canjearPuntosToolStripMenuItem, verProductosToolStripMenuItem });
+            puntosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPuntosToolStripMenuItem, canjearPuntosToolStripMenuItem, verProductosToolStripMenuItem, transferirPuntosToolStripMenuItem });
             puntosToolStripMenuItem.Name = "puntosToolStripMenuItem";
             puntosToolStripMenuItem.Size = new Size(83, 29);
             puntosToolStripMenuItem.Tag = "MENU_POINTS";
             puntosToolStripMenuItem.Text = "Puntos";
+            puntosToolStripMenuItem.Click += puntosToolStripMenuItem_Click;
             // 
             // consultarPuntosToolStripMenuItem
             // 
             consultarPuntosToolStripMenuItem.Name = "consultarPuntosToolStripMenuItem";
-            consultarPuntosToolStripMenuItem.Size = new Size(250, 34);
+            consultarPuntosToolStripMenuItem.Size = new Size(270, 34);
             consultarPuntosToolStripMenuItem.Tag = "MENU_CHECK_POINTS";
             consultarPuntosToolStripMenuItem.Text = "Consultar puntos";
             consultarPuntosToolStripMenuItem.Click += consultarPuntosToolStripMenuItem_Click;
@@ -118,7 +120,7 @@
             // canjearPuntosToolStripMenuItem
             // 
             canjearPuntosToolStripMenuItem.Name = "canjearPuntosToolStripMenuItem";
-            canjearPuntosToolStripMenuItem.Size = new Size(250, 34);
+            canjearPuntosToolStripMenuItem.Size = new Size(270, 34);
             canjearPuntosToolStripMenuItem.Tag = "MENU_EXCHANGE_POINTS";
             canjearPuntosToolStripMenuItem.Text = "Canjear puntos";
             canjearPuntosToolStripMenuItem.Click += canjearPuntosToolStripMenuItem_Click;
@@ -126,7 +128,7 @@
             // verProductosToolStripMenuItem
             // 
             verProductosToolStripMenuItem.Name = "verProductosToolStripMenuItem";
-            verProductosToolStripMenuItem.Size = new Size(250, 34);
+            verProductosToolStripMenuItem.Size = new Size(270, 34);
             verProductosToolStripMenuItem.Tag = "MENU_VIEW_PRODUCTS";
             verProductosToolStripMenuItem.Text = "Ver productos";
             verProductosToolStripMenuItem.Click += verProductosToolStripMenuItem_Click;
@@ -198,14 +200,14 @@
             // bitacoraEventosToolStripMenuItem
             // 
             bitacoraEventosToolStripMenuItem.Name = "bitacoraEventosToolStripMenuItem";
-            bitacoraEventosToolStripMenuItem.Size = new Size(270, 34);
+            bitacoraEventosToolStripMenuItem.Size = new Size(263, 34);
             bitacoraEventosToolStripMenuItem.Text = "Bitácora Eventos";
             bitacoraEventosToolStripMenuItem.Click += bitacoraEventosToolStripMenuItem_Click;
             // 
             // bitacoraProductosToolStripMenuItem
             // 
             bitacoraProductosToolStripMenuItem.Name = "bitacoraProductosToolStripMenuItem";
-            bitacoraProductosToolStripMenuItem.Size = new Size(270, 34);
+            bitacoraProductosToolStripMenuItem.Size = new Size(263, 34);
             bitacoraProductosToolStripMenuItem.Text = "Bitácora Productos";
             bitacoraProductosToolStripMenuItem.Click += bitacoraProductosToolStripMenuItem_Click;
             // 
@@ -242,6 +244,14 @@
             toolStripDropDownButton1.Size = new Size(42, 29);
             toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             toolStripDropDownButton1.Click += toolStripDropDownButton1_Click;
+            // 
+            // transferirPuntosToolStripMenuItem
+            // 
+            transferirPuntosToolStripMenuItem.Name = "transferirPuntosToolStripMenuItem";
+            transferirPuntosToolStripMenuItem.Size = new Size(270, 34);
+            transferirPuntosToolStripMenuItem.Tag = "TRANSFER";
+            transferirPuntosToolStripMenuItem.Text = "Transferir puntos";
+            transferirPuntosToolStripMenuItem.Click += transferirPuntosToolStripMenuItem_Click;
             // 
             // FrmPrincipal
             // 
@@ -291,5 +301,6 @@
         private HelpProvider helpProvider;
         private ToolStripMenuItem bitacoraEventosToolStripMenuItem;
         private ToolStripMenuItem bitacoraProductosToolStripMenuItem;
+        private ToolStripMenuItem transferirPuntosToolStripMenuItem;
     }
 }

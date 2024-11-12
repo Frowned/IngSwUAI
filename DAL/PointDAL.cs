@@ -101,5 +101,53 @@ namespace DAL
 
         }
 
+        public List<PointTransferDTO> GetPointTransfers()
+        {
+            List<PointTransferDTO> list = new List<PointTransferDTO>();
+            string query = @"SELECT pt.Id, u.Username as Sender, u2.Username as Receiver, pt.PointsTransferred, pt.TransferDate FROM PointTransfers pt
+                            LEFT JOIN Users u ON u.Id = pt.SenderUserId
+                            LEFT JOIN Users u2 ON u2.Id = pt.ReceiverUserId
+                            WHERE pt.SenderUserId = @UserId OR pt.ReceiverUserId = @UserId";
+            SqlParameter[] parameters = [
+                new SqlParameter("@UserId", SingletonSession.Instancia.User.Id)
+            ];
+            DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    PointTransferDTO pointTransfer = new PointTransferDTO
+                    {
+                        Id = int.Parse(dr["Id"].ToString()!),
+                        Sender = dr["Sender"].ToString()!,
+                        Receiver = dr["Receiver"].ToString()!,
+                        Points = int.Parse(dr["PointsTransferred"].ToString()!),
+                        TransferDate = DateTime.Parse(dr["TransferDate"].ToString()!)
+                    };
+                    list.Add(pointTransfer);
+                }
+                return list.OrderBy(f => f.Id).ToList();
+            }
+            else
+            {
+                return new List<PointTransferDTO>();
+            }
+        }
+        public void TransferPointsToUser(decimal value, Guid id)
+        {
+            string query = @"INSERT INTO PointTransfers (SenderUserId, ReceiverUserId, PointsTransferred, TransferDate) 
+                            VALUES (@SenderUserId, @ReceiverUserId, @PointsTransferred, @TransferDate);
+                            SELECT SCOPE_IDENTITY();
+                            UPDATE Users SET Points = Points - @PointsTransferred WHERE Id = @SenderUserId;
+                            UPDATE Users SET Points = Points + @PointsTransferred WHERE Id = @ReceiverUserId;";
+            SqlParameter[] parameters = [
+                new SqlParameter("@SenderUserId", SingletonSession.Instancia.User.Id),
+                new SqlParameter("@ReceiverUserId", id),
+                new SqlParameter("@PointsTransferred", value),
+                new SqlParameter("@TransferDate", DateTime.Now)
+            ];
+            object result = dbHelper.ExecuteScalar(query, CommandType.Text, parameters);
+            checkDigitDAL.AddCheckDigit("PointTransfers", "Id", result.ToString());
+        }
     }
 }

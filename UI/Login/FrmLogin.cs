@@ -34,6 +34,7 @@ namespace UI
             _logBLL = logBLL;
             tables.Add("Products");
             tables.Add("Transactions");
+            tables.Add("PointTransfers");
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)

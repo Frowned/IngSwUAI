@@ -31,5 +31,15 @@ namespace BLL
         {
             return pointDAL.GetTransactions(getAll);
         }
+
+        public void TransferPointsToUser(decimal value, Guid id)
+        {
+            pointDAL.TransferPointsToUser(value, id);
+        }
+
+        List<PointTransferDTO> IPointBLL.GetPointTransfers()
+        {
+            return pointDAL.GetPointTransfers();
+        }
     }
 }

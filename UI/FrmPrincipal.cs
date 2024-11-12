@@ -35,6 +35,7 @@ namespace UI
         FrmBackup? frmBackup = null;
         FrmEventsLogs? frmEventsLogs = null;
         FrmProductsLogs? frmProductsLogs = null;
+        FrmTransferPoints? frmTransferPoints = null;
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
         public FrmPrincipal(ILanguageBLL languageBLL, IUserBLL userBLL)
@@ -43,12 +44,23 @@ namespace UI
             InitializeComponent();
             this.userBLL = userBLL;
             InitializeHelpProvider();
+
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(F1_KeyDown);
         }
 
+        private void F1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                string helpFilePath = administraciónToolStripMenuItem.Visible && administraciónToolStripMenuItem.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
+                helpProvider.HelpNamespace = helpFilePath;
+                Help.ShowHelp(this, helpProvider.HelpNamespace);
+                e.Handled = true;
+            }
+        }
         private void InitializeHelpProvider()
         {
-            string helpFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
-            helpProvider.HelpNamespace = helpFilePath;
             ayudaToolStripMenuItem.ToolTipText = "Abre el módulo de ayuda para esta aplicación.";
             iniciarSesiónToolStripMenuItem.ToolTipText = "Inicia sesión en el sistema.";
             cerrarSesiónToolStripMenuItem.ToolTipText = "Cierra la sesión actual.";
@@ -67,6 +79,7 @@ namespace UI
             bitacoraEventosToolStripMenuItem.ToolTipText = "Consulta la bitácora de eventos del sistema.";
             bitacoraProductosToolStripMenuItem.ToolTipText = "Consulta la bitácora de movimientos de productos.";
             reporteríaToolStripMenuItem.ToolTipText = "Accede a los reportes y estadísticas.";
+            transferirPuntosToolStripMenuItem.ToolTipText = "Transfiere puntos a otro colaborador.";
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
@@ -90,6 +103,7 @@ namespace UI
                     toolStripDropDownButton1.Visible = true;
                     toolStripDropDownButton1.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_IDIOMA);
                     cambiarClaveToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_CLAVE);
+                    transferirPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
                     canjearPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
                     consultarPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
                     reporteríaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
@@ -108,6 +122,8 @@ namespace UI
                     puntosToolStripMenuItem.Enabled = verProductosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled;
                     cerrarSesiónToolStripMenuItem.Visible = true;
                     userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
+                    string helpFilePath = administraciónToolStripMenuItem.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
+                    helpProvider.HelpNamespace = helpFilePath;
 
                     SingletonSession.Instancia.AddObserver(this);
                 }
@@ -188,6 +204,12 @@ namespace UI
                 frmPoints.Dispose();
                 frmPoints.Close();
                 frmPoints = null;
+            }
+            if (frmTransferPoints != null)
+            {
+                frmTransferPoints.Dispose();
+                frmTransferPoints.Close();
+                frmTransferPoints = null;
             }
         }
 
@@ -447,6 +469,27 @@ namespace UI
             {
                 frmProductsLogs.BringToFront();
                 frmProductsLogs.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void puntosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void transferirPuntosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmTransferPoints == null || frmTransferPoints.IsDisposed)
+            {
+                frmTransferPoints = Program.ServiceProvider.GetRequiredService<FrmTransferPoints>();
+                SingletonSession.Instancia.AddObserver(frmTransferPoints);
+                frmTransferPoints.MdiParent = this;
+                frmTransferPoints.Show();
+            }
+            else
+            {
+                frmTransferPoints.BringToFront();
+                frmTransferPoints.WindowState = FormWindowState.Maximized;
             }
         }
     }

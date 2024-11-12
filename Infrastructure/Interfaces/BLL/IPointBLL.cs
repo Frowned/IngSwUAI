@@ -12,5 +12,7 @@ namespace Infrastructure.Interfaces.BLL
         long ExchangePoints(int productId, long userPoints);
         long GetPointsByUserId(Guid id);
         IList<TransactionDTO> GetTransactions(bool getAll = false);
+        void TransferPointsToUser(decimal value, Guid id);
+        List<PointTransferDTO> GetPointTransfers();
     }
 }
