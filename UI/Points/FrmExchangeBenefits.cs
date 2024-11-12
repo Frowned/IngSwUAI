@@ -1,12 +1,9 @@
 ﻿using BE.DTO;
 using BE.Entities;
-using BLL;
-using DAL;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Mappers;
 using Infrastructure.Observer;
 using Infrastructure.Session;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,44 +16,42 @@ using System.Windows.Forms;
 
 namespace UI.Points
 {
-    public partial class FrmExchangePoints : Form, IObserverForm
+    public partial class FrmExchangeBenefits : Form, IObserverForm
     {
         private IProductBLL productBLL;
         private IPointBLL pointBLL;
         private ILogBLL logBLL;
         private ILanguageBLL languageBLL;
         private IList<ProductDTO> productDTOs = new List<ProductDTO>();
-        public FrmExchangePoints(IProductBLL productBLL, IPointBLL pointBLL, ILanguageBLL languageBLL, ILogBLL logBLL)
+
+        public FrmExchangeBenefits(IProductBLL productBLL, IPointBLL pointBLL, ILanguageBLL languageBLL, ILogBLL logBLL)
         {
             InitializeComponent();
             this.productBLL = productBLL;
             this.pointBLL = pointBLL;
             this.languageBLL = languageBLL;
             this.logBLL = logBLL;
+
         }
 
-        private void FrmExchangePoints_Load(object sender, EventArgs e)
+        private void FrmExchangeBenefits_Load(object sender, EventArgs e)
         {
             MinimizeBox = false;
             MaximizeBox = false;
             ControlBox = false;
             FillDataSource();
             DgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            productDTOs = productBLL.GetProducts(false, false);
+            productDTOs = productBLL.GetProducts(true, false);
             UpdateProductsDGV();
         }
 
         private void FillDataSource()
         {
-            CmbCategories.DataSource = productBLL.GetCategories().Where(x => x.Id != 4).ToList();
             LblPoints.Text = pointBLL.GetPointsByUserId(SingletonSession.Instancia.User.Id).ToString();
         }
-
         private void UpdateProductsDGV()
         {
-
-            var category = (Category)CmbCategories.SelectedItem;
-            DgvProducts.DataSource = productDTOs.Where(w => w.Category.Equals(category.Description)).ToList();
+            DgvProducts.DataSource = productDTOs.ToList();
         }
 
         public void UpdateLanguage(UserSession session)
@@ -70,14 +65,10 @@ namespace UI.Points
             }
         }
 
-        private void FrmExchangePoints_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmExchangeBenefits_FormClosed_1(object sender, FormClosedEventArgs e)
         {
-            SingletonSession.Instancia.RemoveObserver(this);
-        }
 
-        private void CmbCategories_SelectedValueChanged(object sender, EventArgs e)
-        {
-            UpdateProductsDGV();
+            SingletonSession.Instancia.RemoveObserver(this);
         }
 
         private void BtnAddProduct_Click(object sender, EventArgs e)
@@ -105,7 +96,7 @@ namespace UI.Points
 
                 logBLL.Save(new BE.Entities.Log
                 {
-                    Message = $"Se canjearon puntos, saldo: {userPoints}",
+                    Message = $"Se canjearon puntos para el beneficio, saldo: {userPoints}",
                     CreatedAt = DateTime.Now,
                     CreatedBy = UsersMapper.DtoToUser(SingletonSession.Instancia.User),
                     Type = BE.Entities.LogType.Info,

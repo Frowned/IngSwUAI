@@ -34,9 +34,9 @@ namespace BLL
             return productDAL.GetCategories();
         }
 
-        IList<ProductDTO> IProductBLL.GetProducts(bool showAll = true)
+        IList<ProductDTO> IProductBLL.GetProducts(bool isBenefit, bool showAll = true)
         {
-            return productDAL.GetProducts(showAll);
+            return productDAL.GetProducts(isBenefit, showAll);
         }
     }
 }

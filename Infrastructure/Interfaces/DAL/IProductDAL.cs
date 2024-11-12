@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces.DAL
     public interface IProductDAL
     {
         IList<Category> GetCategories();
-        IList<ProductDTO> GetProducts(bool showAll = true);
+        IList<ProductDTO> GetProducts(bool isBenefit, bool showAll = true);
         void DeleteProduct(int id);
         int AddProduct(ProductDTO productDTO);
     }

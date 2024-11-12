@@ -44,7 +44,7 @@ namespace UI.Mantainers
         private void FillDataSource()
         {
             CmbCategories.DataSource = productBLL.GetCategories();
-            DgvProducts.DataSource = productBLL.GetProducts();
+            DgvProducts.DataSource = productBLL.GetProducts(false);
         }
 
         private void FrmAddProducts_FormClosed(object sender, FormClosedEventArgs e)

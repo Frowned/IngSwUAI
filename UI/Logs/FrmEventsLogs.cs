@@ -65,6 +65,7 @@ namespace UI.Logs
                 "FrmAddProducts",
                 "FrmPoints",
                 "FrmExchangePoints",
+                "FrmExchangeBenefits",
                 "FrmTransferPoints",
                 "FrmViewProducts",
                 "FrmBackup",

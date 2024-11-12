@@ -66,6 +66,7 @@ namespace UI
             services.AddTransient<FrmProductsLogs>();
             services.AddTransient<FrmInconsistencyManagement>();
             services.AddTransient<FrmTransferPoints>();
+            services.AddTransient<FrmExchangeBenefits>();
         }
     }
 }

@@ -36,6 +36,7 @@ namespace UI
         FrmEventsLogs? frmEventsLogs = null;
         FrmProductsLogs? frmProductsLogs = null;
         FrmTransferPoints? frmTransferPoints = null;
+        FrmExchangeBenefits? frmExchangeBenefits = null;
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
         public FrmPrincipal(ILanguageBLL languageBLL, IUserBLL userBLL)
@@ -68,8 +69,6 @@ namespace UI
             administraciónToolStripMenuItem.ToolTipText = "Accede a las opciones de administración.";
             gestionarPerfilesToolStripMenuItem.ToolTipText = "Gestiona los perfiles de usuario.";
             gestionarIdiomaToolStripMenuItem.ToolTipText = "Configura el idioma de la aplicación.";
-            gestionarObjetivosToolStripMenuItem.ToolTipText = "Gestiona los objetivos de los empleados.";
-            gestionarEmpleadosToolStripMenuItem.ToolTipText = "Administra la información de los empleados.";
             gestionarProductosToolStripMenuItem.ToolTipText = "Gestiona los productos disponibles.";
             gestionarBackupToolStripMenuItem.ToolTipText = "Realiza copias de seguridad de los datos.";
             puntosToolStripMenuItem.ToolTipText = "Accede a las opciones de puntos.";
@@ -80,6 +79,7 @@ namespace UI
             bitacoraProductosToolStripMenuItem.ToolTipText = "Consulta la bitácora de movimientos de productos.";
             reporteríaToolStripMenuItem.ToolTipText = "Accede a los reportes y estadísticas.";
             transferirPuntosToolStripMenuItem.ToolTipText = "Transfiere puntos a otro colaborador.";
+            canjearPuntosPorBeneficiosToolStripMenuItem.ToolTipText = "Canjear puntos por beneficios corporativos";
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
@@ -105,20 +105,19 @@ namespace UI
                     cambiarClaveToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_CLAVE);
                     transferirPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
                     canjearPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
+                    canjearPuntosPorBeneficiosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
                     consultarPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
                     reporteríaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
                     ayudaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
                     verProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
-                    gestionarEmpleadosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_EMPLEADOS);
                     gestionarIdiomaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
-                    gestionarObjetivosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_OBJETIVOS);
                     gestionarPerfilesToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PERFIL);
                     gestionarProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PRODUCTOS);
                     gestionarBackupToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_BACKUP);
                     bitacoraEventosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_EVENTOS);
                     bitacoraProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_PRODUCTOS);
-                    administraciónToolStripMenuItem.Enabled = bitacoraProductosToolStripMenuItem.Enabled || bitacoraEventosToolStripMenuItem.Enabled || gestionarEmpleadosToolStripMenuItem.Enabled || gestionarIdiomaToolStripMenuItem.Enabled ||
-                        gestionarObjetivosToolStripMenuItem.Enabled || gestionarPerfilesToolStripMenuItem.Enabled || gestionarProductosToolStripMenuItem.Enabled || gestionarBackupToolStripMenuItem.Enabled;
+                    administraciónToolStripMenuItem.Enabled = bitacoraProductosToolStripMenuItem.Enabled || bitacoraEventosToolStripMenuItem.Enabled || gestionarIdiomaToolStripMenuItem.Enabled ||
+                         gestionarPerfilesToolStripMenuItem.Enabled || gestionarProductosToolStripMenuItem.Enabled || gestionarBackupToolStripMenuItem.Enabled;
                     puntosToolStripMenuItem.Enabled = verProductosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled;
                     cerrarSesiónToolStripMenuItem.Visible = true;
                     userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
@@ -210,6 +209,12 @@ namespace UI
                 frmTransferPoints.Dispose();
                 frmTransferPoints.Close();
                 frmTransferPoints = null;
+            }
+            if (frmExchangeBenefits != null)
+            {
+                frmExchangeBenefits.Dispose();
+                frmExchangeBenefits.Close();
+                frmExchangeBenefits = null;
             }
         }
 
@@ -491,6 +496,23 @@ namespace UI
                 frmTransferPoints.BringToFront();
                 frmTransferPoints.WindowState = FormWindowState.Maximized;
             }
+        }
+
+        private void canjearPuntosPorBeneficiosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmExchangeBenefits == null || frmExchangeBenefits.IsDisposed)
+            {
+                frmExchangeBenefits = Program.ServiceProvider.GetRequiredService<FrmExchangeBenefits>();
+                SingletonSession.Instancia.AddObserver(frmExchangeBenefits);
+                frmExchangeBenefits.MdiParent = this;
+                frmExchangeBenefits.Show();
+            }
+            else
+            {
+                frmExchangeBenefits.BringToFront();
+                frmExchangeBenefits.WindowState = FormWindowState.Maximized;
+            }
+
         }
     }
 }

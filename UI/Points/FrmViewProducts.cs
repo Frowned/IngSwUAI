@@ -30,7 +30,7 @@ namespace UI.Points
             MaximizeBox = false;
             ControlBox = false; 
             DgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvProducts.DataSource = productBLL.GetProducts(false);
+            DgvProducts.DataSource = productBLL.GetProducts(false, false);
         }
 
         private void FrmViewProducts_FormClosed(object sender, FormClosedEventArgs e)

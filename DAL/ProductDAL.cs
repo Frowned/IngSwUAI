@@ -108,13 +108,16 @@ namespace DAL
 
         }
 
-        public IList<ProductDTO> GetProducts(bool showAll = true)
+        public IList<ProductDTO> GetProducts(bool isBenefit, bool showAll = true)
         {
             try
             {
                 List<ProductDTO> list = new List<ProductDTO>();
-                string query = $@"SELECT p.Id, p.Description, p.ProductName, p.StartDate, p.EndDate, p.Points, c.Description Category FROM Products p 
-                                LEFT JOIN Categories c ON c.Id = p.CategoryId" + (showAll ? string.Empty : " WHERE p.EndDate IS NULL");
+                string query = $@"SELECT p.Id, p.Description, p.ProductName, p.StartDate, p.EndDate, p.Points, c.Description Category 
+                          FROM Products p 
+                          LEFT JOIN Categories c ON c.Id = p.CategoryId 
+                          WHERE " + (isBenefit ? "c.Id = 4" : "c.Id <> 4") +
+                                  (showAll ? string.Empty : " AND p.EndDate IS NULL");
                 SqlParameter[] parameters = [];
                 DataSet ds = dbHelper.ExecuteDataSet(query, CommandType.Text, parameters);
 
