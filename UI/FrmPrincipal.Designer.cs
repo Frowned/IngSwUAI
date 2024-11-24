@@ -92,7 +92,7 @@
             // 
             statusStrip1.ImageScalingSize = new Size(24, 24);
             statusStrip1.Items.AddRange(new ToolStripItem[] { userToolStrip, toolStripDropDownButton1 });
-            statusStrip1.Location = new Point(0, 697);
+            statusStrip1.Location = new Point(0, 911);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1181, 32);
             statusStrip1.TabIndex = 1;
@@ -136,7 +136,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(339, 697);
+            panel1.Size = new Size(339, 911);
             panel1.TabIndex = 3;
             // 
             // pnlObjectives
@@ -808,7 +808,7 @@
             BackColor = SystemColors.Control;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(1181, 729);
+            ClientSize = new Size(1181, 943);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(statusStrip1);
