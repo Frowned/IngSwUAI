@@ -21,6 +21,7 @@ using UI.Points;
 using BE.DTO;
 using UI.Backup;
 using UI.Logs;
+using System.Runtime.InteropServices;
 
 namespace UI
 {
@@ -39,22 +40,30 @@ namespace UI
         FrmExchangeBenefits? frmExchangeBenefits = null;
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
+        private System.Windows.Forms.Timer clickTimer; // Temporizador para diferenciar entre clic simple y doble
+
         public FrmPrincipal(ILanguageBLL languageBLL, IUserBLL userBLL)
         {
+            Logout = delegate { };
             this.languageBLL = languageBLL;
             InitializeComponent();
             this.userBLL = userBLL;
             InitializeHelpProvider();
 
             this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(F1_KeyDown);
+            this.KeyDown += new KeyEventHandler(F1_KeyDown!);
+            this.AutoScaleMode = AutoScaleMode.None;
+            // Configurar el temporizador
+            clickTimer = new System.Windows.Forms.Timer();
+            clickTimer.Interval = 200; // Tiempo para diferenciar entre clic simple y doble (ajustable)
+            clickTimer.Tick += ClickTimer_Tick!;
         }
 
         private void F1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F1)
             {
-                string helpFilePath = administraciónToolStripMenuItem.Visible && administraciónToolStripMenuItem.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
+                string helpFilePath = btnAdmin.Visible && btnAdmin.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
                 helpProvider.HelpNamespace = helpFilePath;
                 Help.ShowHelp(this, helpProvider.HelpNamespace);
                 e.Handled = true;
@@ -62,31 +71,61 @@ namespace UI
         }
         private void InitializeHelpProvider()
         {
-            ayudaToolStripMenuItem.ToolTipText = "Abre el módulo de ayuda para esta aplicación.";
-            iniciarSesiónToolStripMenuItem.ToolTipText = "Inicia sesión en el sistema.";
-            cerrarSesiónToolStripMenuItem.ToolTipText = "Cierra la sesión actual.";
-            cambiarClaveToolStripMenuItem.ToolTipText = "Cambia tu clave de acceso.";
-            administraciónToolStripMenuItem.ToolTipText = "Accede a las opciones de administración.";
-            gestionarPerfilesToolStripMenuItem.ToolTipText = "Gestiona los perfiles de usuario.";
-            gestionarIdiomaToolStripMenuItem.ToolTipText = "Configura el idioma de la aplicación.";
-            gestionarProductosToolStripMenuItem.ToolTipText = "Gestiona los productos disponibles.";
-            gestionarBackupToolStripMenuItem.ToolTipText = "Realiza copias de seguridad de los datos.";
-            puntosToolStripMenuItem.ToolTipText = "Accede a las opciones de puntos.";
-            consultarPuntosToolStripMenuItem.ToolTipText = "Consulta tus puntos acumulados.";
-            canjearPuntosToolStripMenuItem.ToolTipText = "Canjea tus puntos por productos o recompensas.";
-            verProductosToolStripMenuItem.ToolTipText = "Visualiza los productos disponibles.";
-            bitacoraEventosToolStripMenuItem.ToolTipText = "Consulta la bitácora de eventos del sistema.";
-            bitacoraProductosToolStripMenuItem.ToolTipText = "Consulta la bitácora de movimientos de productos.";
-            reporteríaToolStripMenuItem.ToolTipText = "Accede a los reportes y estadísticas.";
-            transferirPuntosToolStripMenuItem.ToolTipText = "Transfiere puntos a otro colaborador.";
-            canjearPuntosPorBeneficiosToolStripMenuItem.ToolTipText = "Canjear puntos por beneficios corporativos";
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(btnHelp, "Abre el módulo de ayuda para esta aplicación.");
+            toolTip.SetToolTip(btnAdmin, "Accede a las opciones de administración.");
+            toolTip.SetToolTip(btnPoints, "Accede a las opciones de puntos.");
+            toolTip.SetToolTip(btnProducts, "Accede a las opciones de productos.");
+            toolTip.SetToolTip(btnReport, "Accede a las opciones de reportes y estadísticas.");
+            toolTip.SetToolTip(btnLogout, "Cierra la sesión actual.");
+            toolTip.SetToolTip(btnClose, "Cierra la aplicación.");
+            toolTip.SetToolTip(btnMaximizeRestore, "Maximiza o restaura la ventana.");
+            toolTip.SetToolTip(btnMinimize, "Minimiza la ventana.");
+            toolTip.SetToolTip(btnManageRoles, "Gestiona los perfiles de usuario.");
+            toolTip.SetToolTip(btnManageLang, "Configura el idioma de la aplicación.");
+            toolTip.SetToolTip(btnManageProducts, "Gestiona los productos disponibles.");
+            toolTip.SetToolTip(btnManageBackup, "Realiza copias de seguridad de los datos.");
+            toolTip.SetToolTip(btnCheckPoints, "Consulta tus puntos acumulados.");
+            toolTip.SetToolTip(btnExchangePoints, "Canjea tus puntos por productos o recompensas.");
+            toolTip.SetToolTip(btnViewProducts, "Visualiza los productos disponibles.");
+            toolTip.SetToolTip(btnReportEvents, "Consulta la bitácora de eventos del sistema.");
+            toolTip.SetToolTip(btnReportProducts, "Consulta la bitácora de movimientos de productos.");
+            toolTip.SetToolTip(btnTransferPoints, "Transfiere puntos a otro colaborador.");
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
-            ClearMenu();
+            HideSubMenu();
         }
 
+        public void Login()
+        {
+            btnManageLang.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_IDIOMA);
+            btnTransferPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
+            btnExchangePoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
+            btnCheckPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
+            btnReport.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
+            btnHelp.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
+            btnViewProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
+            btnManageLang.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
+            btnManageRoles.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PERFIL);
+            btnManageProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PRODUCTOS);
+            btnManageBackup.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_BACKUP);
+            btnReportEvents.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_EVENTOS);
+            btnReportProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_PRODUCTOS);
+
+            btnAdmin.Visible = btnManageLang.Enabled || btnManageRoles.Enabled || btnManageProducts.Enabled || btnManageBackup.Enabled || btnReportEvents.Enabled || btnReportProducts.Enabled;
+            btnPoints.Visible = btnCheckPoints.Enabled || btnExchangePoints.Enabled || btnTransferPoints.Enabled;
+            btnProducts.Visible = btnViewProducts.Enabled;
+            btnReport.Visible = btnReportEvents.Enabled || btnReportProducts.Enabled;
+
+            btnLogout.Visible = true;
+            userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
+            string helpFilePath = btnAdmin.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
+            helpProvider.HelpNamespace = helpFilePath;
+
+            SingletonSession.Instancia.AddObserver(this);
+        }
         private void iniciarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (FrmLogin frmLogin = Program.ServiceProvider.GetRequiredService<FrmLogin>())
@@ -95,58 +134,12 @@ namespace UI
 
                 if (result == DialogResult.OK)
                 {
-                    iniciarSesiónToolStripMenuItem.Visible = false;
-                    administraciónToolStripMenuItem.Visible = true;
-                    puntosToolStripMenuItem.Visible = true;
-                    reporteríaToolStripMenuItem.Visible = true;
-                    ayudaToolStripMenuItem.Visible = true;
-                    toolStripDropDownButton1.Visible = true;
-                    toolStripDropDownButton1.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_IDIOMA);
-                    cambiarClaveToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_CLAVE);
-                    transferirPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
-                    canjearPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
-                    canjearPuntosPorBeneficiosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
-                    consultarPuntosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
-                    reporteríaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
-                    ayudaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
-                    verProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
-                    gestionarIdiomaToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
-                    gestionarPerfilesToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PERFIL);
-                    gestionarProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PRODUCTOS);
-                    gestionarBackupToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_BACKUP);
-                    bitacoraEventosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_EVENTOS);
-                    bitacoraProductosToolStripMenuItem.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_PRODUCTOS);
-                    administraciónToolStripMenuItem.Enabled = bitacoraProductosToolStripMenuItem.Enabled || bitacoraEventosToolStripMenuItem.Enabled || gestionarIdiomaToolStripMenuItem.Enabled ||
-                         gestionarPerfilesToolStripMenuItem.Enabled || gestionarProductosToolStripMenuItem.Enabled || gestionarBackupToolStripMenuItem.Enabled;
-                    puntosToolStripMenuItem.Enabled = verProductosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled || consultarPuntosToolStripMenuItem.Enabled;
-                    cerrarSesiónToolStripMenuItem.Visible = true;
-                    userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
-                    string helpFilePath = administraciónToolStripMenuItem.Enabled ? System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE-A.chm") : System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SIFRE.chm");
-                    helpProvider.HelpNamespace = helpFilePath;
-
-                    SingletonSession.Instancia.AddObserver(this);
+                    Login();
                 }
             }
         }
 
-        private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (FrmLogout frmLogout = new FrmLogout())
-            {
-                SingletonSession.Instancia.AddObserver(frmLogout);
-                DialogResult result = frmLogout.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    ClearMenu();
-                    userToolStrip.Text = $"Usuario (No conectado)";
-                }
-                SingletonSession.Instancia.RemoveObserver(frmLogout);
-
-                SingletonSession.Instancia.RemoveObserver(this);
-                CloseForms();
-            }
-        }
+        public event EventHandler Logout;
 
         private void CloseForms()
         {
@@ -218,51 +211,6 @@ namespace UI
             }
         }
 
-        private void ClearMenu()
-        {
-            iniciarSesiónToolStripMenuItem.Visible = true;
-            cambiarClaveToolStripMenuItem.Visible =
-            toolStripDropDownButton1.Visible =
-            administraciónToolStripMenuItem.Visible =
-            puntosToolStripMenuItem.Visible =
-            reporteríaToolStripMenuItem.Visible =
-            ayudaToolStripMenuItem.Visible =
-            cerrarSesiónToolStripMenuItem.Visible = false;
-
-        }
-
-        private void gestionarPerfilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (frmManageProfile == null || frmManageProfile.IsDisposed)
-            {
-                frmManageProfile = Program.ServiceProvider.GetRequiredService<FrmManageProfile>();
-                SingletonSession.Instancia.AddObserver(frmManageProfile);
-                frmManageProfile.MdiParent = this;
-                frmManageProfile.Show();
-            }
-            else
-            {
-                frmManageProfile.BringToFront();
-                frmManageProfile.WindowState = FormWindowState.Maximized;
-            }
-        }
-
-        private void gestionarIdiomaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (frmManageLanguage == null || frmManageLanguage.IsDisposed)
-            {
-                frmManageLanguage = Program.ServiceProvider.GetRequiredService<FrmManageLanguage>();
-                SingletonSession.Instancia.AddObserver(frmManageLanguage);
-                frmManageLanguage.MdiParent = this;
-                frmManageLanguage.Show();
-            }
-            else
-            {
-                frmManageLanguage.BringToFront();
-                frmManageLanguage.WindowState = FormWindowState.Maximized;
-            }
-        }
-
         private void toolStripDropDownButton1_Click(object sender, EventArgs e)
         {
             toolStripDropDownButton1.DropDownItems.Clear();
@@ -272,7 +220,7 @@ namespace UI
             {
                 var item = new ToolStripMenuItem(language.Name);
                 item.Tag = language.Id;
-                item.Click += LanguageItem_Click;
+                item.Click += LanguageItem_Click!;
                 toolStripDropDownButton1.DropDownItems.Add(item);
             }
         }
@@ -292,39 +240,188 @@ namespace UI
             }
         }
 
-        private void consultarPuntosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void panel2_DoubleClick(object sender, EventArgs e)
         {
-            if (frmPoints == null || frmPoints.IsDisposed)
+            clickTimer.Stop();
+            btnMaximizeRestore_Click(sender, e);
+        }
+
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            using (FrmLogout frmLogout = new FrmLogout())
             {
-                frmPoints = Program.ServiceProvider.GetRequiredService<FrmPoints>();
-                SingletonSession.Instancia.AddObserver(frmPoints);
-                frmPoints.MdiParent = this;
-                frmPoints.Show();
-            }
-            else
-            {
-                frmPoints.BringToFront();
-                frmPoints.WindowState = FormWindowState.Maximized;
+                SingletonSession.Instancia.AddObserver(frmLogout);
+                DialogResult result = frmLogout.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    HideSubMenu();
+                    userToolStrip.Text = $"Usuario (No conectado)";
+                    this.Close();
+                    Logout.Invoke(sender, e);
+                    SingletonSession.Instancia.RemoveObserver(frmLogout);
+
+                    SingletonSession.Instancia.RemoveObserver(this);
+                    CloseForms();
+                }
             }
         }
 
-        private void canjearPuntosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HideSubMenu()
         {
-            if (frmExchangePoints == null || frmExchangePoints.IsDisposed)
+            pnlPoints.Visible = false;
+            pnlProducts.Visible = false;
+            pnlReports.Visible = false;
+            pnlAdmin.Visible = false;
+        }
+
+        private void ShowSubMenu(Panel pSubMenu)
+        {
+            if (pSubMenu.Visible == false)
             {
-                frmExchangePoints = Program.ServiceProvider.GetRequiredService<FrmExchangePoints>();
-                SingletonSession.Instancia.AddObserver(frmExchangePoints);
-                frmExchangePoints.MdiParent = this;
-                frmExchangePoints.Show();
+                HideSubMenu();
+                pSubMenu.Visible = true;
             }
             else
             {
-                frmExchangePoints.BringToFront();
-                frmExchangePoints.WindowState = FormWindowState.Maximized;
+                pSubMenu.Visible = false;
             }
         }
 
-        private void verProductosToolStripMenuItem_Click(object sender, EventArgs e)
+        #region "Button Clicks"
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlProducts);
+            btnProducts.Visible = btnViewProducts.Enabled; 
+        }
+
+        private void btnPoints_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlPoints);
+            btnCheckPoints.Visible = btnCheckPoints.Enabled;
+            btnExchangePoints.Visible = btnExchangePoints.Enabled;
+            btnTransferPoints.Visible = btnTransferPoints.Enabled;
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlReports);
+            btnReportEvents.Visible = btnReportEvents.Enabled;
+            btnReportProducts.Visible = btnReportProducts.Enabled;
+        }
+
+        private void btnAdmin_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlAdmin);
+            btnManageLang.Visible = btnManageLang.Enabled;
+            btnManageRoles.Visible = btnManageRoles.Enabled;
+            btnManageProducts.Visible = btnManageProducts.Enabled;
+            btnManageBackup.Visible = btnManageBackup.Enabled;
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, helpProvider.HelpNamespace);
+        }
+
+        private void btnManageBackup_Click(object sender, EventArgs e)
+        {
+            if (frmBackup == null || frmBackup.IsDisposed)
+            {
+                frmBackup = Program.ServiceProvider.GetRequiredService<FrmBackup>();
+                SingletonSession.Instancia.AddObserver(frmBackup);
+                frmBackup.MdiParent = this;
+                frmBackup.Show();
+            }
+            else
+            {
+                frmBackup.BringToFront();
+                frmBackup.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnManageProducts_Click(object sender, EventArgs e)
+        {
+            if (frmAddProducts == null || frmAddProducts.IsDisposed)
+            {
+                frmAddProducts = Program.ServiceProvider.GetRequiredService<FrmAddProducts>();
+                SingletonSession.Instancia.AddObserver(frmAddProducts);
+                frmAddProducts.MdiParent = this;
+                frmAddProducts.Show();
+            }
+            else
+            {
+                frmAddProducts.BringToFront();
+                frmAddProducts.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnManageLang_Click(object sender, EventArgs e)
+        {
+            if (frmManageLanguage == null || frmManageLanguage.IsDisposed)
+            {
+                frmManageLanguage = Program.ServiceProvider.GetRequiredService<FrmManageLanguage>();
+                SingletonSession.Instancia.AddObserver(frmManageLanguage);
+                frmManageLanguage.MdiParent = this;
+                frmManageLanguage.Show();
+            }
+            else
+            {
+                frmManageLanguage.BringToFront();
+                frmManageLanguage.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnManageRoles_Click(object sender, EventArgs e)
+        {
+            if (frmManageProfile == null || frmManageProfile.IsDisposed)
+            {
+                frmManageProfile = Program.ServiceProvider.GetRequiredService<FrmManageProfile>();
+                SingletonSession.Instancia.AddObserver(frmManageProfile);
+                frmManageProfile.MdiParent = this;
+                frmManageProfile.Show();
+            }
+            else
+            {
+                frmManageProfile.BringToFront();
+                frmManageProfile.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnReportProducts_Click(object sender, EventArgs e)
+        {
+            if (frmProductsLogs == null || frmProductsLogs.IsDisposed)
+            {
+                frmProductsLogs = Program.ServiceProvider.GetRequiredService<FrmProductsLogs>();
+                SingletonSession.Instancia.AddObserver(frmProductsLogs);
+                frmProductsLogs.MdiParent = this;
+                frmProductsLogs.Show();
+            }
+            else
+            {
+                frmProductsLogs.BringToFront();
+                frmProductsLogs.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnReportEvents_Click(object sender, EventArgs e)
+        {
+            if (frmEventsLogs == null || frmEventsLogs.IsDisposed)
+            {
+                frmEventsLogs = Program.ServiceProvider.GetRequiredService<FrmEventsLogs>();
+                SingletonSession.Instancia.AddObserver(frmEventsLogs);
+                frmEventsLogs.MdiParent = this;
+                frmEventsLogs.Show();
+            }
+            else
+            {
+                frmEventsLogs.BringToFront();
+                frmEventsLogs.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void btnViewProducts_Click(object sender, EventArgs e)
         {
             if (frmViewProducts == null || frmViewProducts.IsDisposed)
             {
@@ -340,52 +437,80 @@ namespace UI
             }
         }
 
-        private void gestionarProductosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnTransferPoints_Click(object sender, EventArgs e)
         {
-            if (frmAddProducts == null || frmAddProducts.IsDisposed)
+            if (frmTransferPoints == null || frmTransferPoints.IsDisposed)
             {
-                frmAddProducts = Program.ServiceProvider.GetRequiredService<FrmAddProducts>();
-                SingletonSession.Instancia.AddObserver(frmAddProducts);
-                frmAddProducts.MdiParent = this;
-                frmAddProducts.Show();
+                frmTransferPoints = Program.ServiceProvider.GetRequiredService<FrmTransferPoints>();
+                SingletonSession.Instancia.AddObserver(frmTransferPoints);
+                frmTransferPoints.MdiParent = this;
+                frmTransferPoints.Show();
             }
             else
             {
-                frmAddProducts.BringToFront();
-                frmAddProducts.WindowState = FormWindowState.Maximized;
+                frmTransferPoints.BringToFront();
+                frmTransferPoints.WindowState = FormWindowState.Maximized;
             }
-
         }
 
-        private void gestionarEmpleadosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnExchangePoints_Click(object sender, EventArgs e)
         {
-            Interaction.MsgBox("No implementado aún");
+            if (frmExchangePoints == null || frmExchangePoints.IsDisposed)
+            {
+                frmExchangePoints = Program.ServiceProvider.GetRequiredService<FrmExchangePoints>();
+                SingletonSession.Instancia.AddObserver(frmExchangePoints);
+                frmExchangePoints.MdiParent = this;
+                frmExchangePoints.Show();
+            }
+            else
+            {
+                frmExchangePoints.BringToFront();
+                frmExchangePoints.WindowState = FormWindowState.Maximized;
+            }
         }
 
-        private void gestionarObjetivosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnCheckPoints_Click(object sender, EventArgs e)
         {
-            Interaction.MsgBox("No implementado aún");
+            if (frmPoints == null || frmPoints.IsDisposed)
+            {
+                frmPoints = Program.ServiceProvider.GetRequiredService<FrmPoints>();
+                SingletonSession.Instancia.AddObserver(frmPoints);
+                frmPoints.MdiParent = this;
+                frmPoints.Show();
+            }
+            else
+            {
+                frmPoints.BringToFront();
+                frmPoints.WindowState = FormWindowState.Maximized;
+            }
         }
+        #endregion
 
-        private void reporteríaToolStripMenuItem_Click(object sender, EventArgs e)
+        #region "Utils"
+        //Drag Form
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                clickTimer.Start();
+            }
         }
-
-        private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ClickTimer_Tick(object sender, EventArgs e)
         {
-            Help.ShowHelp(this, helpProvider.HelpNamespace);
+            // Si no ocurre un doble clic, ejecutar el movimiento del formulario
+            clickTimer.Stop();
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
-
-        private void cambiarClaveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Interaction.MsgBox("No implementado aún");
-        }
-
         public void UpdateLanguage(UserSession session)
         {
             UpdateControlTexts(this.Controls, session);
         }
-
         private void UpdateControlTexts(Control.ControlCollection controls, UserSession session)
         {
             foreach (Control control in controls)
@@ -409,7 +534,6 @@ namespace UI
                 }
             }
         }
-
         private void UpdateMenuStripItems(ToolStripItemCollection items, UserSession session)
         {
             foreach (ToolStripItem item in items)
@@ -428,91 +552,28 @@ namespace UI
                 }
             }
         }
-
-        private void gestionarBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnMinimize_Click(object sender, EventArgs e)
         {
-            if (frmBackup == null || frmBackup.IsDisposed)
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void btnMaximizeRestore_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
             {
-                frmBackup = Program.ServiceProvider.GetRequiredService<FrmBackup>();
-                SingletonSession.Instancia.AddObserver(frmBackup);
-                frmBackup.MdiParent = this;
-                frmBackup.Show();
+                this.WindowState = FormWindowState.Maximized;
+                btnMaximizeRestore.Text = "🗗";
             }
             else
             {
-                frmBackup.BringToFront();
-                frmBackup.WindowState = FormWindowState.Maximized;
+                this.WindowState = FormWindowState.Normal;
+                btnMaximizeRestore.Text = "🗖";
             }
         }
-
-        private void bitacoraEventosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            if (frmEventsLogs == null || frmEventsLogs.IsDisposed)
-            {
-                frmEventsLogs = Program.ServiceProvider.GetRequiredService<FrmEventsLogs>();
-                SingletonSession.Instancia.AddObserver(frmEventsLogs);
-                frmEventsLogs.MdiParent = this;
-                frmEventsLogs.Show();
-            }
-            else
-            {
-                frmEventsLogs.BringToFront();
-                frmEventsLogs.WindowState = FormWindowState.Maximized;
-            }
+            btnLogout_Click(sender, e);
         }
+        #endregion
 
-        private void bitacoraProductosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (frmProductsLogs == null || frmProductsLogs.IsDisposed)
-            {
-                frmProductsLogs = Program.ServiceProvider.GetRequiredService<FrmProductsLogs>();
-                SingletonSession.Instancia.AddObserver(frmProductsLogs);
-                frmProductsLogs.MdiParent = this;
-                frmProductsLogs.Show();
-            }
-            else
-            {
-                frmProductsLogs.BringToFront();
-                frmProductsLogs.WindowState = FormWindowState.Maximized;
-            }
-        }
-
-        private void puntosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void transferirPuntosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (frmTransferPoints == null || frmTransferPoints.IsDisposed)
-            {
-                frmTransferPoints = Program.ServiceProvider.GetRequiredService<FrmTransferPoints>();
-                SingletonSession.Instancia.AddObserver(frmTransferPoints);
-                frmTransferPoints.MdiParent = this;
-                frmTransferPoints.Show();
-            }
-            else
-            {
-                frmTransferPoints.BringToFront();
-                frmTransferPoints.WindowState = FormWindowState.Maximized;
-            }
-        }
-
-        private void canjearPuntosPorBeneficiosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (frmExchangeBenefits == null || frmExchangeBenefits.IsDisposed)
-            {
-                frmExchangeBenefits = Program.ServiceProvider.GetRequiredService<FrmExchangeBenefits>();
-                SingletonSession.Instancia.AddObserver(frmExchangeBenefits);
-                frmExchangeBenefits.MdiParent = this;
-                frmExchangeBenefits.Show();
-            }
-            else
-            {
-                frmExchangeBenefits.BringToFront();
-                frmExchangeBenefits.WindowState = FormWindowState.Maximized;
-            }
-
-        }
     }
 }

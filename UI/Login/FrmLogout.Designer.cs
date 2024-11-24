@@ -86,6 +86,7 @@
             Controls.Add(BtnAceptar);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FrmLogout";
+            StartPosition = FormStartPosition.CenterScreen;
             Tag = "MENU_LOGOUT";
             Text = "Cerrar sesión";
             ResumeLayout(false);

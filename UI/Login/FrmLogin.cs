@@ -93,7 +93,11 @@ namespace UI
                 else
                 {
                     this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    FrmPrincipal frmPrincipal = Program.ServiceProvider.GetRequiredService<FrmPrincipal>();
+                    frmPrincipal.Logout += (s, args) => this.Show();
+                    frmPrincipal.Show();
+                    frmPrincipal.Login();
+                    this.Hide();
                 }
             }
             else

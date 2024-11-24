@@ -30,7 +30,7 @@ namespace UI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            FrmPrincipal form = ServiceProvider.GetRequiredService<FrmPrincipal>();
+            FrmLogin form = ServiceProvider.GetRequiredService<FrmLogin>();
             Application.Run(form);
         }
 

@@ -70,7 +70,6 @@
     <ROW Component="BLL.dll" ComponentId="{0A93DACD-A99D-4A82-A533-A902405ADE01}" Directory_="APPDIR" Attributes="0" KeyPath="BLL.dll"/>
     <ROW Component="BouncyCastle.Crypto.dll" ComponentId="{C6C32647-8685-4CD6-8675-E4E3E100CAAA}" Directory_="APPDIR" Attributes="0" KeyPath="BouncyCastle.Crypto.dll"/>
     <ROW Component="BouncyCastle.Cryptography.dll" ComponentId="{C5ECD027-828E-4B04-B0E8-5B9B7C3850E5}" Directory_="APPDIR" Attributes="0" KeyPath="BouncyCastle.Cryptography.dll"/>
-    <ROW Component="D06A0344C69BEBCBD449E2F09A" ComponentId="{D0EFF683-1917-4F38-B8E2-E4357F9CA8E5}" Directory_="APPDIR" Attributes="260" KeyPath="D06A0344C69BEBCBD449E2F09A" Options="2"/>
     <ROW Component="DAL.dll" ComponentId="{ADE37A77-A165-4E3E-8374-34384C0883BD}" Directory_="APPDIR" Attributes="0" KeyPath="DAL.dll"/>
     <ROW Component="Infrastructure.dll" ComponentId="{D0E50C11-82F2-4A63-8617-988F25E02911}" Directory_="APPDIR" Attributes="0" KeyPath="Infrastructure.dll"/>
     <ROW Component="Microsoft.Bcl.AsyncInterfaces.dll" ComponentId="{DB6DC608-0860-42A1-96ED-1D1A8B0FC77C}" Directory_="APPDIR" Attributes="0" KeyPath="Microsoft.Bcl.AsyncInterfaces.dll"/>
@@ -129,7 +128,6 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="A0BFC224E0E9125ADE0B2DBF343" Title=".NET Desktop Runtime 8.0.10 x64" Description=".NET Desktop Runtime 8.0.10 x64" Display="3" Level="1" Attributes="0"/>
     <ROW Feature="BF57E49C4E0C98AF391A28FF818B" Title=".NET Runtime 8.0.10 x64" Description=".NET Runtime 8.0.10 x64" Display="5" Level="1" Attributes="0"/>
-    <ROW Feature="D06A0344C69BEBCBD449E2F09A" Title="SQL Server Express LocalDB 2022" Description="SQL Server Express LocalDB 2022" Display="7" Level="1" Attributes="0"/>
     <ROW Feature="DefaultFeature" Title="DefaultFeature" Display="2" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
@@ -199,6 +197,7 @@
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\UI\bin\Debug\net8.0-windows\Newtonsoft.Json.dll" SelfReg="false"/>
     <ROW File="SIFREA.chm" Component_="SIFREA.chm" FileName="SIFRE-A.chm" Attributes="0" SourcePath="..\UI\bin\Debug\net8.0-windows\Resources\SIFRE-A.chm" SelfReg="false"/>
     <ROW File="SIFRE.chm" Component_="SIFREA.chm" FileName="SIFRE.chm" Attributes="0" SourcePath="..\UI\bin\Debug\net8.0-windows\Resources\SIFRE.chm" SelfReg="false"/>
+    <ROW File="UI.dll.config" Component_="UI.deps.json" FileName="UIDLL~1.CON|UI.dll.config" Attributes="0" SourcePath="..\UI\bin\Debug\net8.0-windows\UI.dll.config" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -453,7 +452,6 @@
     <ROW Feature_="MainFeature" Component_="UI.exe"/>
     <ROW Feature_="A0BFC224E0E9125ADE0B2DBF343" Component_="A0BFC224E0E9125ADE0B2DBF343"/>
     <ROW Feature_="BF57E49C4E0C98AF391A28FF818B" Component_="BF57E49C4E0C98AF391A28FF818B"/>
-    <ROW Feature_="D06A0344C69BEBCBD449E2F09A" Component_="D06A0344C69BEBCBD449E2F09A"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.Data.SqlClient.dll_1"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.Data.SqlClient.dll_2"/>
@@ -556,7 +554,6 @@
     <ROW Registry="AdvancedInstaller" Root="-1" Key="Software\Caphyon\Advanced Installer" Name="\"/>
     <ROW Registry="BF57E49C4E0C98AF391A28FF818B" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="BF57E49C4E0C98AF391A28FF818B" Value="1" Component_="BF57E49C4E0C98AF391A28FF818B"/>
     <ROW Registry="Caphyon" Root="-1" Key="Software\Caphyon" Name="\"/>
-    <ROW Registry="D06A0344C69BEBCBD449E2F09A" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="D06A0344C69BEBCBD449E2F09A" Value="1" Component_="D06A0344C69BEBCBD449E2F09A"/>
     <ROW Registry="LZMA" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA" Name="\"/>
     <ROW Registry="Manufacturer" Root="-1" Key="Software\[Manufacturer]" Name="\"/>
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
@@ -582,14 +579,12 @@
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
     <ROW PrereqKey="A0BFC224E0E9125ADE0B2DBF343" DisplayName=".NET Desktop Runtime 8.0.10 x64" VersionMin="8.0" SetupFileUrl="https://download.visualstudio.microsoft.com/download/pr/f398d462-9d4e-4b9c-abd3-86c54262869a/4a8e3a10ca0a9903a989578140ef0499/windowsdesktop-runtime-8.0.10-win-x64.exe" Location="1" ExactSize="58637984" WinNTVersions="Windows 9x/ME/NT/2000/XP/Vista/Windows 7/Windows 8 x86/Windows 8.1 x86/Windows 10 x86" WinNT64Versions="Windows 7 RTM x64, Windows 8 x64, Windows Server 2012 x64, Windows 10 version 1507 x64, Windows 10 version 1511 x64" Operator="1" NoUiComLine="/q /norestart" Options="fx" MD5="0e0ea2421338052eec7dffbf419e0d47" TargetName=".NET 8.0" Feature="A0BFC224E0E9125ADE0B2DBF343"/>
     <ROW PrereqKey="BF57E49C4E0C98AF391A28FF818B" DisplayName=".NET Runtime 8.0.10 x64" VersionMin="8.0" SetupFileUrl="https://download.visualstudio.microsoft.com/download/pr/f55ed80e-ba58-4ac8-a2b3-f2227cd628de/6fabf1c613cf9386d14ddbaaca1a5eb8/dotnet-runtime-8.0.10-win-x64.exe" Location="1" ExactSize="28681248" WinNTVersions="Windows 9x/ME/NT/2000/XP/Vista/Windows 7/Windows 8 x86/Windows 8.1 x86/Windows 10 x86" WinNT64Versions="Windows 8 x64, Windows Server 2012 x64, Windows 10 version 1507 x64, Windows 10 version 1511 x64" Operator="1" NoUiComLine="/q /norestart" Options="f" MD5="f3026121b7fd70403ffffd4805463e0d" TargetName=".NET 8.0" Feature="BF57E49C4E0C98AF391A28FF818B"/>
-    <ROW PrereqKey="D06A0344C69BEBCBD449E2F09A" DisplayName="SQL Server Express LocalDB 2022" VersionMin="16.0" SetupFileUrl="https://download.microsoft.com/download/3/8/d/38de7036-2433-4207-8eae-06e247e17b25/SqlLocalDB.msi" Location="1" ExactSize="63508480" WinNTVersions="Windows 9x/ME/NT/2000/XP/Vista/Windows 7/Windows 8 x86/Windows 8.1 x86/Windows 10 x86" WinNT64Versions="Windows Server 2008 R2 x64, Windows 8 x64, Windows Server 2012 x64, Windows 8.1 x64, Windows Server 2012 R2 x64" Operator="1" ComLine="/QUIET /ACTION=Install /FEATURES=SQLEngine /INSTANCENAME=SIFRE /TCPENABLED=1 /NPENABLED=1 /IACCEPTSQLSERVERLICENSETERMS" BasicUiComLine="/qb IACCEPTSQLLOCALDBLICENSETERMS=YES" NoUiComLine="/qn IACCEPTSQLLOCALDBLICENSETERMS=YES" Options="fx" MD5="230861da18d2e146f907c77f6da9384a" TargetName="SQL Server Express LocalDB 2022" Feature="D06A0344C69BEBCBD449E2F09A"/>
     <ROW PrereqKey="F7FFACAB7B45DD9978BDC104C78D26" DisplayName="SQL Server Express 2022" VersionMin="16.0" SetupFileUrl="https://download.microsoft.com/download/3/8/d/38de7036-2433-4207-8eae-06e247e17b25/SQLEXPR_x64_ENU.exe" Location="1" ExactSize="279293816" WinNTVersions="Windows 9x/ME/NT/2000/XP/Vista/Windows 7/Windows 8 x86/Windows 8.1 x86/Windows 10 x86" WinNT64Versions="Windows 7 x64, Windows Server 2008 R2 x64, Windows 8 x64, Windows Server 2012 x64, Windows 8.1 x64, Windows Server 2012 R2 x64" Operator="1" NoUiComLine="/q /IACCEPTSQLSERVERLICENSETERMS /ACTION=Install /FEATURES=SQLEngine /INSTANCENAME=SQLEXPRESS" Options="kxrR" MD5="44497e90745a3636ea10fc1e25a25e34" TargetName="SQL Server Express 2022"/>
-    <ATTRIBUTE name="PrereqsOrder" value="F7FFACAB7B45DD9978BDC104C78D26 A0BFC224E0E9125ADE0B2DBF343 BF57E49C4E0C98AF391A28FF818B D06A0344C69BEBCBD449E2F09A"/>
+    <ATTRIBUTE name="PrereqsOrder" value="F7FFACAB7B45DD9978BDC104C78D26 A0BFC224E0E9125ADE0B2DBF343 BF57E49C4E0C98AF391A28FF818B"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
     <ROW SearchKey="A0BFC224E0E9125ADE0B2DBF343SystemFo" Prereq="A0BFC224E0E9125ADE0B2DBF343" SearchType="14" SearchString="[ProgramFiles64Folder]dotnet\shared\Microsoft.WindowsDesktop.App" VerMin="8.0.10" Order="1" Property="PreReqSearch_A0BFC224E0E9125ADE0B2D"/>
     <ROW SearchKey="BF57E49C4E0C98AF391A28FF818BSystemF" Prereq="BF57E49C4E0C98AF391A28FF818B" SearchType="12" SearchString="HKLM\SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.NETCore.App" VerMin="8.0.10" Order="1" Property="PreReqSearch_BF57E49C4E0C98AF391A28"/>
-    <ROW SearchKey="D06A0344C69BEBCBD449E2F09ASystemFol" Prereq="D06A0344C69BEBCBD449E2F09A" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\Microsoft SQL Server 2022 Redist\SqlLocalDB\CurrentVersion\Version" VerMin="16.0.1000.6" Order="1" Property="PreReqSearch_D06A0344C69BEBCBD449E2"/>
     <ROW SearchKey="F7FFACAB7B45DD9978BDC104C78D26Syste" Prereq="F7FFACAB7B45DD9978BDC104C78D26" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\Microsoft SQL Server\160\SQL2022\CurrentVersion\Version" VerMin="16.0.1000.6" Order="1" Property="PreReqSearch_F7FFACAB7B45DD9978BDC1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SqlBrowseComponent">
