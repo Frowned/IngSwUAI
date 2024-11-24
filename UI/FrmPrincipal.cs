@@ -1,43 +1,58 @@
 ﻿using Infrastructure.Session;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using UI.Login;
 using BE.Enums;
 using UI.Language;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
 using UI.Profiles;
-using Microsoft.VisualBasic;
 using UI.Mantainers;
 using UI.Points;
 using BE.DTO;
 using UI.Backup;
 using UI.Logs;
 using System.Runtime.InteropServices;
+using UI.Recognitions;
+using UI.Objectives;
 
 namespace UI
 {
     public partial class FrmPrincipal : Form, IObserverForm
     {
+        //Puntos
+        FrmExchangePoints? frmExchangePoints = null;
+        FrmPoints? frmPoints = null;
+        FrmTransferPoints? frmTransferPoints = null;
+
+
+        //Productos
         FrmViewProducts? frmViewProducts = null;
+
+        //Reportes
+        FrmEventsLogs? frmEventsLogs = null;
+        FrmProductsLogs? frmProductsLogs = null;
+        FrmObjectiveLogs? frmObjectiveLogs = null;
+        FrmRecognitionLogs? frmRecognitionLogs = null;
+
+        //Admin
         FrmManageProfile? frmManageProfile = null;
         FrmManageLanguage? frmManageLanguage = null;
         FrmAddProducts? frmAddProducts = null;
-        FrmExchangePoints? frmExchangePoints = null;
-        FrmPoints? frmPoints = null;
         FrmBackup? frmBackup = null;
-        FrmEventsLogs? frmEventsLogs = null;
-        FrmProductsLogs? frmProductsLogs = null;
-        FrmTransferPoints? frmTransferPoints = null;
-        FrmExchangeBenefits? frmExchangeBenefits = null;
+        FrmConfigureRewardPolicies? frmConfigureRewardPolicies = null;
+        FrmConfigureRecognitionCategories? frmConfigureRecognitionCategories = null;
+        FrmManageNominationRules? frmManageNominationRules = null;
+
+        //Objetivos
+        FrmCheckObjectives? frmCheckObjectives = null;
+        FrmCreateObjectives? frmCreateObjectives = null;
+        FrmEvaluateObjectives? frmEvaluateObjectives = null;
+
+        //Reconocimiento
+        FrmCheckNominationStatus? frmCheckNominationStatus = null;
+        FrmNominateCollaborator? frmNominateCollaborator = null;
+        FrmReviewPendingNominations? frmReviewPendingNominations = null;
+
         ILanguageBLL languageBLL;
         IUserBLL userBLL;
         private System.Windows.Forms.Timer clickTimer; // Temporizador para diferenciar entre clic simple y doble
@@ -100,24 +115,50 @@ namespace UI
 
         public void Login()
         {
+            // Admin
             btnManageLang.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CAMBIAR_IDIOMA);
-            btnTransferPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
-            btnExchangePoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
-            btnCheckPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
-            btnReport.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
-            btnHelp.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
-            btnViewProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
-            btnManageLang.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_IDIOMA);
             btnManageRoles.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PERFIL);
             btnManageProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_PRODUCTOS);
             btnManageBackup.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GESTIONAR_BACKUP);
+            btnCustomizeNominationRules.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CUSTOMIZAR_REGLAS_NOMINACION);
+            btnConfigureRecognitionCategories.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONFIGURAR_CATEGORIAS_RECONOCIMIENTO);
+            btnConfigureRewardPolicies.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONFIGURAR_POLITICAS_RECOMPENSA);
+
+            // Puntos
+            btnTransferPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
+            btnExchangePoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CANJEAR_PUNTOS);
+            btnCheckPoints.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_PUNTOS);
+
+            // Reporteria
+            btnReport.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_REPORTERIA);
             btnReportEvents.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_EVENTOS);
             btnReportProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.BITACORA_PRODUCTOS);
+            btnGenerateRecognitionReport.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.GENERAR_REPORTE_RECONOCIMIENTO);
 
-            btnAdmin.Visible = btnManageLang.Enabled || btnManageRoles.Enabled || btnManageProducts.Enabled || btnManageBackup.Enabled || btnReportEvents.Enabled || btnReportProducts.Enabled;
+            // Producto
+            btnViewProducts.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_PRODUCTOS);
+
+            // Ayuda
+            btnHelp.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_AYUDA);
+
+            // Reconocimiento
+            btnRecognition.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_RECONOCIMIENTO);
+            btnNominateCollaborator.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.NOMINAR_COLABORADOR);
+            btnReviewPendingNominations.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.REVISAR_NOMINACIONES_PENDIENTES);
+            btnCheckNominationStatus.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CONSULTAR_ESTADO_NOMINACION);
+
+            // Objetivos
+            btnObjectives.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_OBJETIVOS);
+            btnCreateObjectives.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.CREAR_OBJETIVOS);
+            btnViewAssignedObjectives.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.VER_OBJETIVOS_ASIGNADOS);
+            btnEvaluateObjectives.Enabled = SingletonSession.Instancia.IsInRole(PermissionsType.EVALUAR_OBJETIVOS);
+
+            btnAdmin.Visible = btnManageLang.Enabled || btnManageRoles.Enabled || btnManageProducts.Enabled || btnManageBackup.Enabled || btnCustomizeNominationRules.Enabled || btnConfigureRecognitionCategories.Enabled || btnConfigureRewardPolicies.Enabled;
             btnPoints.Visible = btnCheckPoints.Enabled || btnExchangePoints.Enabled || btnTransferPoints.Enabled;
             btnProducts.Visible = btnViewProducts.Enabled;
-            btnReport.Visible = btnReportEvents.Enabled || btnReportProducts.Enabled;
+            btnReport.Visible = btnReportEvents.Enabled || btnReportProducts.Enabled || btnGenerateRecognitionReport.Enabled || btnObjectivesReport.Enabled;
+            btnRecognition.Visible = btnRecognition.Enabled || btnNominateCollaborator.Enabled || btnReviewPendingNominations.Enabled || btnCheckNominationStatus.Enabled;
+            btnObjectives.Visible = btnObjectives.Enabled || btnCreateObjectives.Enabled || btnViewAssignedObjectives.Enabled || btnEvaluateObjectives.Enabled;
 
             btnLogout.Visible = true;
             userToolStrip.Text = $"Usuario {SingletonSession.Instancia.User.Username} conectado";
@@ -143,23 +184,12 @@ namespace UI
 
         private void CloseForms()
         {
+            //Admin Forms
             if (frmBackup != null)
             {
                 frmBackup.Dispose();
                 frmBackup.Close();
                 frmBackup = null;
-            }
-            if (frmProductsLogs != null)
-            {
-                frmProductsLogs.Dispose();
-                frmProductsLogs.Close();
-                frmProductsLogs = null;
-            }
-            if (frmEventsLogs != null)
-            {
-                frmEventsLogs.Dispose();
-                frmEventsLogs.Close();
-                frmEventsLogs = null;
             }
             if (frmManageLanguage != null)
             {
@@ -179,12 +209,60 @@ namespace UI
                 frmAddProducts.Close();
                 frmAddProducts = null;
             }
+            if (frmConfigureRewardPolicies != null)
+            {
+                frmConfigureRewardPolicies.Dispose();
+                frmConfigureRewardPolicies.Close();
+                frmConfigureRewardPolicies = null;
+            }
+            if (frmConfigureRecognitionCategories != null)
+            {
+                frmConfigureRecognitionCategories.Dispose();
+                frmConfigureRecognitionCategories.Close();
+                frmConfigureRecognitionCategories = null;
+            }
+            if (frmManageNominationRules != null)
+            {
+                frmManageNominationRules.Dispose();
+                frmManageNominationRules.Close();
+                frmManageNominationRules = null;
+            }
+
+            //Products Forms
             if (frmViewProducts != null)
             {
                 frmViewProducts.Dispose();
                 frmViewProducts.Close();
                 frmViewProducts = null;
             }
+
+            //Reports Forms
+            if (frmProductsLogs != null)
+            {
+                frmProductsLogs.Dispose();
+                frmProductsLogs.Close();
+                frmProductsLogs = null;
+            }
+            if (frmEventsLogs != null)
+            {
+                frmEventsLogs.Dispose();
+                frmEventsLogs.Close();
+                frmEventsLogs = null;
+            }
+            if (frmObjectiveLogs != null)
+            {
+                frmObjectiveLogs.Dispose();
+                frmObjectiveLogs.Close();
+                frmObjectiveLogs = null;
+            }
+            if (frmRecognitionLogs != null)
+            {
+                frmRecognitionLogs.Dispose();
+                frmRecognitionLogs.Close();
+                frmRecognitionLogs = null;
+            }
+
+            //Points Forms
             if (frmExchangePoints != null)
             {
                 frmExchangePoints.Dispose();
@@ -203,11 +281,45 @@ namespace UI
                 frmTransferPoints.Close();
                 frmTransferPoints = null;
             }
-            if (frmExchangeBenefits != null)
+
+            //Recognition Forms
+            if (frmCheckNominationStatus != null)
             {
-                frmExchangeBenefits.Dispose();
-                frmExchangeBenefits.Close();
-                frmExchangeBenefits = null;
+                frmCheckNominationStatus.Dispose();
+                frmCheckNominationStatus.Close();
+                frmCheckNominationStatus = null;
+            }
+            if (frmNominateCollaborator != null)
+            {
+                frmNominateCollaborator.Dispose();
+                frmNominateCollaborator.Close();
+                frmNominateCollaborator = null;
+            }
+            if (frmReviewPendingNominations != null)
+            {
+                frmReviewPendingNominations.Dispose();
+                frmReviewPendingNominations.Close();
+                frmReviewPendingNominations = null;
+            }
+
+            //Objectives Forms
+            if (frmCheckObjectives != null)
+            {
+                frmCheckObjectives.Dispose();
+                frmCheckObjectives.Close();
+                frmCheckObjectives = null;
+            }
+            if (frmCreateObjectives != null)
+            {
+                frmCreateObjectives.Dispose();
+                frmCreateObjectives.Close();
+                frmCreateObjectives = null;
+            }
+            if (frmEvaluateObjectives != null)
+            {
+                frmEvaluateObjectives.Dispose();
+                frmEvaluateObjectives.Close();
+                frmEvaluateObjectives = null;
             }
         }
 
@@ -274,6 +386,8 @@ namespace UI
             pnlProducts.Visible = false;
             pnlReports.Visible = false;
             pnlAdmin.Visible = false;
+            pnlObjectives.Visible = false;
+            pnlRecognition.Visible = false;
         }
 
         private void ShowSubMenu(Panel pSubMenu)
@@ -289,11 +403,11 @@ namespace UI
             }
         }
 
-        #region "Button Clicks"
+        #region "Menu principal click"
         private void btnProducts_Click(object sender, EventArgs e)
         {
             ShowSubMenu(pnlProducts);
-            btnProducts.Visible = btnViewProducts.Enabled; 
+            btnProducts.Visible = btnViewProducts.Enabled;
         }
 
         private void btnPoints_Click(object sender, EventArgs e)
@@ -309,6 +423,8 @@ namespace UI
             ShowSubMenu(pnlReports);
             btnReportEvents.Visible = btnReportEvents.Enabled;
             btnReportProducts.Visible = btnReportProducts.Enabled;
+            btnGenerateRecognitionReport.Visible = btnGenerateRecognitionReport.Enabled;
+            btnObjectivesReport.Visible = btnObjectivesReport.Enabled;
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)
@@ -318,6 +434,28 @@ namespace UI
             btnManageRoles.Visible = btnManageRoles.Enabled;
             btnManageProducts.Visible = btnManageProducts.Enabled;
             btnManageBackup.Visible = btnManageBackup.Enabled;
+            btnCustomizeNominationRules.Visible = btnCustomizeNominationRules.Enabled;
+            btnConfigureRecognitionCategories.Visible = btnConfigureRecognitionCategories.Enabled;
+            btnConfigureRewardPolicies.Visible = btnConfigureRewardPolicies.Enabled;
+        }
+        private void btnRecognition_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlRecognition);
+            btnGenerateRecognitionReport.Visible = btnGenerateRecognitionReport.Enabled;
+            btnCustomizeNominationRules.Visible = btnCustomizeNominationRules.Enabled;
+            btnConfigureRecognitionCategories.Visible = btnConfigureRecognitionCategories.Enabled;
+            btnConfigureRewardPolicies.Visible = btnConfigureRewardPolicies.Enabled;
+            btnNominateCollaborator.Visible = btnNominateCollaborator.Enabled;
+            btnReviewPendingNominations.Visible = btnReviewPendingNominations.Enabled;
+            btnCheckNominationStatus.Visible = btnCheckNominationStatus.Enabled;
+        }
+
+        private void btnObjectives_Click(object sender, EventArgs e)
+        {
+            ShowSubMenu(pnlObjectives);
+            btnCreateObjectives.Visible = btnCreateObjectives.Enabled;
+            btnViewAssignedObjectives.Visible = btnViewAssignedObjectives.Enabled;
+            btnEvaluateObjectives.Visible = btnEvaluateObjectives.Enabled;
         }
 
         private void btnHelp_Click(object sender, EventArgs e)
@@ -325,6 +463,16 @@ namespace UI
             Help.ShowHelp(this, helpProvider.HelpNamespace);
         }
 
+        #endregion
+
+        #region "Button Clicks"
+        private void UpdateTitle(Control button)
+        {
+            lblTitle.Text = button.Text;
+            lblTitle.Tag = button.Tag;
+        }
+
+        // Admin
         private void btnManageBackup_Click(object sender, EventArgs e)
         {
             if (frmBackup == null || frmBackup.IsDisposed)
@@ -339,6 +487,7 @@ namespace UI
                 frmBackup.BringToFront();
                 frmBackup.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnManageProducts_Click(object sender, EventArgs e)
@@ -355,6 +504,7 @@ namespace UI
                 frmAddProducts.BringToFront();
                 frmAddProducts.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnManageLang_Click(object sender, EventArgs e)
@@ -371,6 +521,7 @@ namespace UI
                 frmManageLanguage.BringToFront();
                 frmManageLanguage.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnManageRoles_Click(object sender, EventArgs e)
@@ -387,8 +538,63 @@ namespace UI
                 frmManageProfile.BringToFront();
                 frmManageProfile.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
+        private void btnCustomizeNominationRules_Click(object sender, EventArgs e)
+        {
+            if (frmManageNominationRules == null || frmManageNominationRules.IsDisposed)
+            {
+                frmManageNominationRules = Program.ServiceProvider.GetRequiredService<FrmManageNominationRules>();
+                SingletonSession.Instancia.AddObserver(frmManageNominationRules);
+                frmManageNominationRules.MdiParent = this;
+                frmManageNominationRules.Show();
+            }
+            else
+            {
+                frmManageNominationRules.BringToFront();
+                frmManageNominationRules.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+
+        }
+
+        private void btnConfigureRecognitionCategories_Click(object sender, EventArgs e)
+        {
+            if (frmConfigureRecognitionCategories == null || frmConfigureRecognitionCategories.IsDisposed)
+            {
+                frmConfigureRecognitionCategories = Program.ServiceProvider.GetRequiredService<FrmConfigureRecognitionCategories>();
+                SingletonSession.Instancia.AddObserver(frmConfigureRecognitionCategories);
+                frmConfigureRecognitionCategories.MdiParent = this;
+                frmConfigureRecognitionCategories.Show();
+            }
+            else
+            {
+                frmConfigureRecognitionCategories.BringToFront();
+                frmConfigureRecognitionCategories.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+        private void btnConfigureRewardPolicies_Click(object sender, EventArgs e)
+        {
+            if (frmConfigureRewardPolicies == null || frmConfigureRewardPolicies.IsDisposed)
+            {
+                frmConfigureRewardPolicies = Program.ServiceProvider.GetRequiredService<FrmConfigureRewardPolicies>();
+                SingletonSession.Instancia.AddObserver(frmConfigureRewardPolicies);
+                frmConfigureRewardPolicies.MdiParent = this;
+                frmConfigureRewardPolicies.Show();
+            }
+            else
+            {
+                frmConfigureRewardPolicies.BringToFront();
+                frmConfigureRewardPolicies.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+
+        }
+
+        // Reportes
         private void btnReportProducts_Click(object sender, EventArgs e)
         {
             if (frmProductsLogs == null || frmProductsLogs.IsDisposed)
@@ -403,6 +609,7 @@ namespace UI
                 frmProductsLogs.BringToFront();
                 frmProductsLogs.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnReportEvents_Click(object sender, EventArgs e)
@@ -419,8 +626,44 @@ namespace UI
                 frmEventsLogs.BringToFront();
                 frmEventsLogs.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
+        }
+        private void btnGenerateRecognitionReport_Click(object sender, EventArgs e)
+        {
+            if(frmRecognitionLogs == null || frmRecognitionLogs.IsDisposed)
+            {
+                frmRecognitionLogs = Program.ServiceProvider.GetRequiredService<FrmRecognitionLogs>();
+                SingletonSession.Instancia.AddObserver(frmRecognitionLogs);
+                frmRecognitionLogs.MdiParent = this;
+                frmRecognitionLogs.Show();
+            }
+            else
+            {
+                frmRecognitionLogs.BringToFront();
+                frmRecognitionLogs.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
         }
 
+        private void btnObjectivesReport_Click(object sender, EventArgs e)
+        {
+            if(frmObjectiveLogs == null || frmObjectiveLogs.IsDisposed)
+            {
+                frmObjectiveLogs = Program.ServiceProvider.GetRequiredService<FrmObjectiveLogs>();
+                SingletonSession.Instancia.AddObserver(frmObjectiveLogs);
+                frmObjectiveLogs.MdiParent = this;
+                frmObjectiveLogs.Show();
+            }
+            else
+            {
+                frmObjectiveLogs.BringToFront();
+                frmObjectiveLogs.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+
+        }
+
+        // Productos
         private void btnViewProducts_Click(object sender, EventArgs e)
         {
             if (frmViewProducts == null || frmViewProducts.IsDisposed)
@@ -435,8 +678,10 @@ namespace UI
                 frmViewProducts.BringToFront();
                 frmViewProducts.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
+        // Puntos
         private void btnTransferPoints_Click(object sender, EventArgs e)
         {
             if (frmTransferPoints == null || frmTransferPoints.IsDisposed)
@@ -451,6 +696,7 @@ namespace UI
                 frmTransferPoints.BringToFront();
                 frmTransferPoints.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnExchangePoints_Click(object sender, EventArgs e)
@@ -467,6 +713,7 @@ namespace UI
                 frmExchangePoints.BringToFront();
                 frmExchangePoints.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
 
         private void btnCheckPoints_Click(object sender, EventArgs e)
@@ -483,10 +730,114 @@ namespace UI
                 frmPoints.BringToFront();
                 frmPoints.WindowState = FormWindowState.Maximized;
             }
+            UpdateTitle((Control)sender);
         }
-        #endregion
 
-        #region "Utils"
+        // Reconocimiento
+        private void btnNominateCollaborator_Click(object sender, EventArgs e)
+        {
+            if(frmNominateCollaborator == null || frmNominateCollaborator.IsDisposed)
+            {
+                frmNominateCollaborator = Program.ServiceProvider.GetRequiredService<FrmNominateCollaborator>();
+                SingletonSession.Instancia.AddObserver(frmNominateCollaborator);
+                frmNominateCollaborator.MdiParent = this;
+                frmNominateCollaborator.Show();
+            }
+            else
+            {
+                frmNominateCollaborator.BringToFront();
+                frmNominateCollaborator.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+        private void btnReviewPendingNominations_Click(object sender, EventArgs e)
+        {
+            if(frmReviewPendingNominations == null || frmReviewPendingNominations.IsDisposed)
+            {
+                frmReviewPendingNominations = Program.ServiceProvider.GetRequiredService<FrmReviewPendingNominations>();
+                SingletonSession.Instancia.AddObserver(frmReviewPendingNominations);
+                frmReviewPendingNominations.MdiParent = this;
+                frmReviewPendingNominations.Show();
+            }
+            else
+            {
+                frmReviewPendingNominations.BringToFront();
+                frmReviewPendingNominations.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+        private void btnCheckNominationStatus_Click(object sender, EventArgs e)
+        {
+            if(frmCheckNominationStatus == null || frmCheckNominationStatus.IsDisposed)
+            {
+                frmCheckNominationStatus = Program.ServiceProvider.GetRequiredService<FrmCheckNominationStatus>();
+                SingletonSession.Instancia.AddObserver(frmCheckNominationStatus);
+                frmCheckNominationStatus.MdiParent = this;
+                frmCheckNominationStatus.Show();
+            }
+            else
+            {
+                frmCheckNominationStatus.BringToFront();
+                frmCheckNominationStatus.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+        // Objetivos
+        private void btnCreateObjectives_Click(object sender, EventArgs e)
+        {
+            if(frmCreateObjectives == null || frmCreateObjectives.IsDisposed)
+            {
+                frmCreateObjectives = Program.ServiceProvider.GetRequiredService<FrmCreateObjectives>();
+                SingletonSession.Instancia.AddObserver(frmCreateObjectives);
+                frmCreateObjectives.MdiParent = this;
+                frmCreateObjectives.Show();
+            }
+            else
+            {
+                frmCreateObjectives.BringToFront();
+                frmCreateObjectives.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+
+        private void btnViewAssignedObjectives_Click(object sender, EventArgs e)
+        {
+            if(frmCheckObjectives == null || frmCheckObjectives.IsDisposed)
+            {
+                frmCheckObjectives = Program.ServiceProvider.GetRequiredService<FrmCheckObjectives>();
+                SingletonSession.Instancia.AddObserver(frmCheckObjectives);
+                frmCheckObjectives.MdiParent = this;
+                frmCheckObjectives.Show();
+            }
+            else
+            {
+                frmCheckObjectives.BringToFront();
+                frmCheckObjectives.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
+        private void btnEvaluateObjectives_Click(object sender, EventArgs e)
+        {
+            if(frmEvaluateObjectives == null || frmEvaluateObjectives.IsDisposed)
+            {
+                frmEvaluateObjectives = Program.ServiceProvider.GetRequiredService<FrmEvaluateObjectives>();
+                SingletonSession.Instancia.AddObserver(frmEvaluateObjectives);
+                frmEvaluateObjectives.MdiParent = this;
+                frmEvaluateObjectives.Show();
+            }
+            else
+            {
+                frmEvaluateObjectives.BringToFront();
+                frmEvaluateObjectives.WindowState = FormWindowState.Maximized;
+            }
+            UpdateTitle((Control)sender);
+        }
+
         //Drag Form
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -574,6 +925,5 @@ namespace UI
             btnLogout_Click(sender, e);
         }
         #endregion
-
     }
 }

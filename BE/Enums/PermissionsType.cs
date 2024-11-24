@@ -1,27 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BE.Enums
+﻿namespace BE.Enums
 {
     public enum PermissionsType
     {
+        BITACORA_EVENTOS,
+        BITACORA_PRODUCTOS,
         CAMBIAR_CLAVE,
         CAMBIAR_IDIOMA,
-        CONSULTAR_PUNTOS,
         CANJEAR_PUNTOS,
-        VER_PRODUCTOS,
+        CONFIGURAR_CATEGORIAS_RECONOCIMIENTO,
+        CONFIGURAR_POLITICAS_RECOMPENSA,
+        CONSULTAR_ESTADO_NOMINACION,
+        CONSULTAR_PUNTOS,
+        CREAR_OBJETIVOS,
+        CUSTOMIZAR_REGLAS_NOMINACION,
+        EVALUAR_OBJETIVOS,
+        GENERAR_REPORTE_RECONOCIMIENTO,
+        GESTIONAR_BACKUP,
+        GESTIONAR_EMPLEADOS,
         GESTIONAR_IDIOMA,
+        GESTIONAR_OBJETIVOS,
         GESTIONAR_PERFIL,
         GESTIONAR_PRODUCTOS,
-        GESTIONAR_EMPLEADOS,
-        GESTIONAR_OBJETIVOS,
-        VER_REPORTERIA,
+        NOMINAR_COLABORADOR,
+        REVISAR_NOMINACIONES_PENDIENTES,
         VER_AYUDA,
-        GESTIONAR_BACKUP, 
-        BITACORA_EVENTOS,
-        BITACORA_PRODUCTOS
+        VER_OBJETIVOS,
+        VER_OBJETIVOS_ASIGNADOS,
+        VER_PRODUCTOS,
+        VER_RECONOCIMIENTO,
+        VER_REPORTERIA
     }
 }
