@@ -29,7 +29,7 @@ namespace UI.Objectives
             dgvObjectiveComment.AllowUserToAddRows = false;
             dgvObjectiveComment.AllowUserToDeleteRows = false;
             dgvObjectiveComment.ReadOnly = true;
-            dgvObjectiveComment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            dgvObjectiveComment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvObjectiveComment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvObjectiveComment.MultiSelect = false;
             dgvObjectiveComment.AutoGenerateColumns = false;

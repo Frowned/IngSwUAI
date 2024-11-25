@@ -18,7 +18,7 @@ namespace Infrastructure.Interfaces.BLL
         List<ObjectiveHistoryDTO> GetObjectiveHistory(DateTime dateFrom, DateTime dateTo, Guid? collaboratorId);
         List<ObjectiveDTO> GetObjectives();
         void AddObjective(Objective objective);
-        void UpdateObjective(Objective objective);
+        void UpdateObjective(ObjectiveDTO objective, string comment);
         void DeleteObjective(int objectiveId);
         List<ObjectiveCommentDTO> GetObjectiveComments(int objectiveId);
     }

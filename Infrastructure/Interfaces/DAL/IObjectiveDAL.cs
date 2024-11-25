@@ -18,7 +18,7 @@ namespace Infrastructure.Interfaces.DAL
         List<PolicyCategoryDTO> GetPolicyCategories();
         List<ObjectiveDTO> GetObjectives();
         void AddObjective(Objective objective);
-        void UpdateObjective(Objective objective);
+        void UpdateObjective(ObjectiveDTO objective, string comment);
         void DeleteObjective(int objectiveId);
         List<ObjectiveCommentDTO> GetObjectiveComments(int objectiveId);
     }

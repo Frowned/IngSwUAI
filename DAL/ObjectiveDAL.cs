@@ -6,6 +6,7 @@ using BE.DTO;
 using DAL.Helper;
 using Infrastructure.Interfaces.DAL;
 using BE.Entities;
+using Infrastructure.Session;
 
 namespace DAL
 {
@@ -288,37 +289,85 @@ namespace DAL
             };
 
             dbHelper.ExecuteNonQuery(historyQuery, CommandType.Text, historyParameters);
+
+            string commentQuery = @"
+                INSERT INTO ObjectiveComments (ObjectiveId, Comment, CreatedBy, CreatedAt)
+                VALUES (@ObjectiveId, @Comment, @CreatedBy, @CreatedAt)";
+            SqlParameter[] commentParameters = new SqlParameter[]
+            {
+                new SqlParameter("@ObjectiveId", objective.Id),
+                new SqlParameter("@Comment", "Objetivo creado"),
+                new SqlParameter("@CreatedBy", objective.ResponsibleUserId),
+                new SqlParameter("@CreatedAt", objective.CreatedAt)
+            };
+
+            dbHelper.ExecuteNonQuery(commentQuery, CommandType.Text, commentParameters);
         }
 
-        public void UpdateObjective(Objective objective)
+        public void UpdateObjective(ObjectiveDTO objective, string comment = "")
         {
+            int statusId = 0;
+            switch(objective.StatusName)
+            {
+                case "Pendiente":
+                    statusId = 1;
+                    break;
+                case "En Progreso":
+                    statusId = 2;
+                    break;
+                case "Completado":
+                    statusId = 3;
+                    break;
+                case "En Espera":
+                    statusId = 4;
+                    break;
+            }
             string query = @"
                 UPDATE Objectives
-                SET Title = @Title, Description = @Description, StartDate = @StartDate, EndDate = @EndDate, ResponsibleUserId = @ResponsibleUserId, 
-                    AssignedUserId = @AssignedUserId, StatusId = @StatusId, PriorityId = @PriorityId, CategoryId = @CategoryId, Progress = @Progress, 
-                    ReviewDate = @ReviewDate, PointsAssigned = @PointsAssigned, RewardPolicyId = @RewardPolicyId, UpdatedBy = @UpdatedBy, UpdatedAt = @UpdatedAt
+                SET StatusId = @StatusId, Progress = @Progress, ReviewDate = @ReviewDate, UpdatedBy = @UpdatedBy, UpdatedAt = @UpdatedAt
                 WHERE Id = @Id";
+
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Title", objective.Title),
-                new SqlParameter("@Description", objective.Description),
-                new SqlParameter("@StartDate", objective.StartDate),
-                new SqlParameter("@EndDate", objective.EndDate),
-                new SqlParameter("@ResponsibleUserId", objective.ResponsibleUserId),
-                new SqlParameter("@AssignedUserId", objective.AssignedUserId),
-                new SqlParameter("@StatusId", objective.StatusId),
-                new SqlParameter("@PriorityId", objective.PriorityId),
-                new SqlParameter("@CategoryId", objective.CategoryId),
+                new SqlParameter("@StatusId", statusId),
                 new SqlParameter("@Progress", objective.Progress),
-                new SqlParameter("@ReviewDate", objective.ReviewDate),
-                new SqlParameter("@PointsAssigned", objective.PointsAssigned),
-                new SqlParameter("@RewardPolicyId", objective.RewardPolicyId),
-                new SqlParameter("@UpdatedBy", objective.UpdatedBy),
-                new SqlParameter("@UpdatedAt", objective.UpdatedAt),
+                new SqlParameter("@ReviewDate", objective.ReviewDate.HasValue ? (object)objective.ReviewDate.Value : DBNull.Value),
+                new SqlParameter("@UpdatedBy", SingletonSession.Instancia.User.Id),
+                new SqlParameter("@UpdatedAt", DateTime.Now),
                 new SqlParameter("@Id", objective.Id)
             };
 
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
+
+            string historyQuery = @"
+                INSERT INTO ObjectiveHistory (ObjectiveId, StatusId, Progress, CreatedBy, CreatedAt)
+                VALUES (@ObjectiveId, @StatusId, @Progress, @CreatedBy, @CreatedAt)";
+
+
+
+            SqlParameter[] historyParameters = new SqlParameter[]
+            {
+                new SqlParameter("@ObjectiveId", objective.Id),
+                new SqlParameter("@StatusId", statusId),
+                new SqlParameter("@Progress", objective.Progress),
+                new SqlParameter("@CreatedBy", SingletonSession.Instancia.User.Id),
+                new SqlParameter("@CreatedAt", DateTime.Now)
+            };
+
+            dbHelper.ExecuteNonQuery(historyQuery, CommandType.Text, historyParameters);
+
+            string commentQuery = @"
+                INSERT INTO ObjectiveComments (ObjectiveId, Comment, CreatedBy, CreatedAt)
+                VALUES (@ObjectiveId, @Comment, @CreatedBy, @CreatedAt)";
+            SqlParameter[] commentParameters = new SqlParameter[]
+            {
+                new SqlParameter("@ObjectiveId", objective.Id),
+                new SqlParameter("@Comment", comment),
+                new SqlParameter("@CreatedBy", SingletonSession.Instancia.User.Id),
+                new SqlParameter("@CreatedAt", DateTime.Now)
+            };
+
+            dbHelper.ExecuteNonQuery(commentQuery, CommandType.Text, commentParameters);
         }
 
         public void DeleteObjective(int objectiveId)

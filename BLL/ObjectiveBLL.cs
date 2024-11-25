@@ -59,10 +59,10 @@ namespace BLL
             _objectiveDAL.AddObjective(objective);
         }
 
-        public void UpdateObjective(Objective objective)
+        public void UpdateObjective(ObjectiveDTO objective, string comment)
         {
             objective.UpdatedAt = DateTime.Now;
-            _objectiveDAL.UpdateObjective(objective);
+            _objectiveDAL.UpdateObjective(objective, comment);
         }
 
         public void DeleteObjective(int objectiveId)
