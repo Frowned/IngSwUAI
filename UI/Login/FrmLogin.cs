@@ -94,7 +94,7 @@ namespace UI
                 {
                     this.DialogResult = DialogResult.OK;
                     FrmPrincipal frmPrincipal = Program.ServiceProvider.GetRequiredService<FrmPrincipal>();
-                    frmPrincipal.Logout += (s, args) => this.Show();
+                    frmPrincipal.Logout += (s, args) => { this.Show(); TxtPassword.Text = String.Empty; TxtUsername.Text = String.Empty; };
                     frmPrincipal.Show();
                     frmPrincipal.Login();
                     this.Hide();

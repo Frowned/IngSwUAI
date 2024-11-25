@@ -148,7 +148,7 @@
             pnlObjectives.Controls.Add(btnViewAssignedObjectives);
             pnlObjectives.Controls.Add(btnCreateObjectives);
             pnlObjectives.Dock = DockStyle.Top;
-            pnlObjectives.Location = new Point(0, 1522);
+            pnlObjectives.Location = new Point(0, 1518);
             pnlObjectives.Name = "pnlObjectives";
             pnlObjectives.Size = new Size(357, 171);
             pnlObjectives.TabIndex = 17;
@@ -211,7 +211,7 @@
             btnObjectives.FlatStyle = FlatStyle.Flat;
             btnObjectives.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnObjectives.ForeColor = SystemColors.Control;
-            btnObjectives.Location = new Point(0, 1465);
+            btnObjectives.Location = new Point(0, 1461);
             btnObjectives.Name = "btnObjectives";
             btnObjectives.Size = new Size(357, 57);
             btnObjectives.TabIndex = 16;
@@ -229,7 +229,7 @@
             pnlRecognition.Controls.Add(btnReviewPendingNominations);
             pnlRecognition.Controls.Add(btnNominateCollaborator);
             pnlRecognition.Dock = DockStyle.Top;
-            pnlRecognition.Location = new Point(0, 1294);
+            pnlRecognition.Location = new Point(0, 1290);
             pnlRecognition.Name = "pnlRecognition";
             pnlRecognition.Size = new Size(357, 171);
             pnlRecognition.TabIndex = 15;
@@ -292,7 +292,7 @@
             btnRecognition.FlatStyle = FlatStyle.Flat;
             btnRecognition.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRecognition.ForeColor = SystemColors.Control;
-            btnRecognition.Location = new Point(0, 1237);
+            btnRecognition.Location = new Point(0, 1233);
             btnRecognition.Name = "btnRecognition";
             btnRecognition.Size = new Size(357, 57);
             btnRecognition.TabIndex = 14;
@@ -303,6 +303,8 @@
             // 
             // pnlAdmin
             // 
+            pnlAdmin.AutoSize = true;
+            pnlAdmin.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             pnlAdmin.BackColor = Color.FromArgb(34, 34, 52);
             pnlAdmin.Controls.Add(btnConfigureRewardPolicies);
             pnlAdmin.Controls.Add(btnConfigureRecognitionCategories);
@@ -314,7 +316,7 @@
             pnlAdmin.Dock = DockStyle.Top;
             pnlAdmin.Location = new Point(0, 834);
             pnlAdmin.Name = "pnlAdmin";
-            pnlAdmin.Size = new Size(357, 403);
+            pnlAdmin.Size = new Size(357, 399);
             pnlAdmin.TabIndex = 13;
             // 
             // btnConfigureRewardPolicies
@@ -558,7 +560,7 @@
             btnHelp.FlatStyle = FlatStyle.Flat;
             btnHelp.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnHelp.ForeColor = SystemColors.Control;
-            btnHelp.Location = new Point(0, 1693);
+            btnHelp.Location = new Point(0, 1689);
             btnHelp.Name = "btnHelp";
             btnHelp.Size = new Size(357, 57);
             btnHelp.TabIndex = 9;
@@ -702,7 +704,7 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLogout.ForeColor = SystemColors.Control;
-            btnLogout.Location = new Point(0, 1750);
+            btnLogout.Location = new Point(0, 1746);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(357, 57);
             btnLogout.TabIndex = 4;

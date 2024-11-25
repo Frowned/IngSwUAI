@@ -8,6 +8,7 @@ namespace BE.DTO
         public Guid NomineeId { get; set; }
         public string Nominee { get; set; }
         public string Category {get; set; }
+        public decimal Points { get; set; }
         public string StatusName { get; set; }
         public DateTime CreatedAt { get; set; }
     }

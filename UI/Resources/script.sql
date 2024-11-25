@@ -1073,9 +1073,6 @@ CREATE TABLE [dbo].[Objectives] (
     [PriorityId] INT NOT NULL,
     [CategoryId] INT NOT NULL,
     [Progress] INT NOT NULL DEFAULT 0,
-    [Comments] NVARCHAR(MAX) NULL,
-    [Attachments] VARBINARY(MAX) NULL,
-    [NotificationsEnabled] BIT NOT NULL DEFAULT 0,
     [ReviewDate] DATETIME NULL,
     [PointsAssigned] INT NOT NULL,
     [RewardPolicyId] INT NOT NULL,
@@ -1178,17 +1175,19 @@ GO
 -- Deshabilitar IDENTITY_INSERT para Objectives
 SET IDENTITY_INSERT [dbo].[Objectives] ON;
 
-INSERT INTO [dbo].[Objectives] ([Id], [Title], [Description], [StartDate], [EndDate], [ResponsibleUserId], [AssignedUserId], [StatusId], [PriorityId], [CategoryId], [Progress], [Comments], [Attachments], [NotificationsEnabled], [ReviewDate], [PointsAssigned], [RewardPolicyId], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
-(1, N'Vender 100 unidades', N'Vender 100 unidades del producto X', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 1, 1, 0, NULL, NULL, 1, NULL, 100, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(2, N'Desarrollar nueva característica', N'Desarrollar una nueva característica para el producto Y', GETDATE(), DATEADD(month, 2, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 2, 0, NULL, NULL, 1, NULL, 200, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(3, N'Resolver 50 tickets', N'Resolver 50 tickets de soporte', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 3, 3, 0, NULL, NULL, 1, NULL, 150, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(4, N'Lanzar campaña de marketing', N'Lanzar una nueva campaña de marketing para el producto Z', GETDATE(), DATEADD(month, 3, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 1, 4, 0, NULL, NULL, 1, NULL, 300, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(5, N'Mejorar la satisfacción del cliente', N'Mejorar la satisfacción del cliente en un 20%', GETDATE(), DATEADD(month, 4, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 2, 3, 0, NULL, NULL, 1, NULL, 250, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(6, N'Aumentar el tráfico web', N'Aumentar el tráfico web en un 30%', GETDATE(), DATEADD(month, 5, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 3, 4, 0, NULL, NULL, 1, NULL, 400, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(7, N'Reducir el tiempo de respuesta', N'Reducir el tiempo de respuesta para tickets de soporte en un 50%', GETDATE(), DATEADD(month, 6, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 4, 1, 3, 0, NULL, NULL, 1, NULL, 350, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(8, N'Ampliar el alcance del mercado', N'Ampliar el alcance del mercado a 3 nuevas regiones', GETDATE(), DATEADD(month, 7, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 4, 0, NULL, NULL, 1, NULL, 500, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(9, N'Mejorar la calidad del producto', N'Mejorar la calidad del producto reduciendo los defectos en un 40%', GETDATE(), DATEADD(month, 8, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 3, 2, 0, NULL, NULL, 1, NULL, 450, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(10, N'Optimizar la cadena de suministro', N'Optimizar la cadena de suministro para reducir costos en un 20%', GETDATE(), DATEADD(month, 9, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 1, 1, 0, NULL, NULL, 1, NULL, 600, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+INSERT INTO [dbo].[Objectives] 
+    ([Id], [Title], [Description], [StartDate], [EndDate], [ResponsibleUserId], [AssignedUserId], [StatusId], [PriorityId], [CategoryId], [Progress], [ReviewDate], [PointsAssigned], [RewardPolicyId], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) 
+VALUES 
+(1, N'Vender 100 unidades', N'Vender 100 unidades del producto X', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 1, 1, 0, NULL, 100, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Desarrollar nueva característica', N'Desarrollar una nueva característica para el producto Y', GETDATE(), DATEADD(month, 2, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 2, 0, NULL, 200, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Resolver 50 tickets', N'Resolver 50 tickets de soporte', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 3, 3, 0, NULL, 150, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Lanzar campaña de marketing', N'Lanzar una nueva campaña de marketing para el producto Z', GETDATE(), DATEADD(month, 3, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 1, 4, 0, NULL, 300, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(5, N'Mejorar la satisfacción del cliente', N'Mejorar la satisfacción del cliente en un 20%', GETDATE(), DATEADD(month, 4, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 2, 3, 0, NULL, 250, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(6, N'Aumentar el tráfico web', N'Aumentar el tráfico web en un 30%', GETDATE(), DATEADD(month, 5, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 3, 4, 0, NULL, 400, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(7, N'Reducir el tiempo de respuesta', N'Reducir el tiempo de respuesta para tickets de soporte en un 50%', GETDATE(), DATEADD(month, 6, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 4, 1, 3, 0, NULL, 350, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(8, N'Ampliar el alcance del mercado', N'Ampliar el alcance del mercado a 3 nuevas regiones', GETDATE(), DATEADD(month, 7, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 4, 0, NULL, 500, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(9, N'Mejorar la calidad del producto', N'Mejorar la calidad del producto reduciendo los defectos en un 40%', GETDATE(), DATEADD(month, 8, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 3, 2, 0, NULL, 450, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(10, N'Optimizar la cadena de suministro', N'Optimizar la cadena de suministro para reducir costos en un 20%', GETDATE(), DATEADD(month, 9, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 1, 1, 0, NULL, 600, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
 
 SET IDENTITY_INSERT [dbo].[Objectives] OFF;
 GO

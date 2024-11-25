@@ -1,4 +1,5 @@
 ﻿using BE.DTO;
+using BE.Entities;
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Interfaces.DAL;
 using System;
@@ -20,6 +21,58 @@ namespace BLL
         public List<ObjectiveHistoryDTO> GetObjectiveHistory(DateTime dateFrom, DateTime dateTo, Guid? collaboratorId)
         {
             return _objectiveDAL.GetObjectiveHistory(dateFrom, dateTo, collaboratorId);
+        }
+                public List<RewardPolicyDTO> GetRewardPolicies()
+        {
+            return _objectiveDAL.GetRewardPolicies();
+        }
+
+        public void AddRewardPolicy(RewardPolicy policy)
+        {
+            policy.CreatedAt = DateTime.Now;
+            _objectiveDAL.AddRewardPolicy(policy);
+        }
+
+        public void UpdateRewardPolicy(RewardPolicy policy)
+        {
+            policy.UpdatedAt = DateTime.Now;
+            _objectiveDAL.UpdateRewardPolicy(policy);
+        }
+
+        public void DeleteRewardPolicy(int policyId)
+        {
+            _objectiveDAL.DeleteRewardPolicy(policyId);
+        }
+
+        public List<PolicyCategoryDTO> GetPolicyCategories()
+        {
+            return _objectiveDAL.GetPolicyCategories();
+        }
+                public List<ObjectiveDTO> GetObjectives()
+        {
+            return _objectiveDAL.GetObjectives();
+        }
+
+        public void AddObjective(Objective objective)
+        {
+            objective.CreatedAt = DateTime.Now;
+            _objectiveDAL.AddObjective(objective);
+        }
+
+        public void UpdateObjective(Objective objective)
+        {
+            objective.UpdatedAt = DateTime.Now;
+            _objectiveDAL.UpdateObjective(objective);
+        }
+
+        public void DeleteObjective(int objectiveId)
+        {
+            _objectiveDAL.DeleteObjective(objectiveId);
+        }
+
+        public List<ObjectiveCommentDTO> GetObjectiveComments(int objectiveId)
+        {
+            return _objectiveDAL.GetObjectiveComments(objectiveId);
         }
     }
 }

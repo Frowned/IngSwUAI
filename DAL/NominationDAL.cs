@@ -145,7 +145,7 @@ namespace DAL
         {
             List<NominationDTO> nominations = new List<NominationDTO>();
             string query = @"
-                SELECT n.Id as NominationId, n.NominatorUserId, u1.Username AS Nominator, n.NomineeUserId, u2.Username AS Nominee, rc.Name AS Category, s.Name AS StatusName, n.CreatedAt
+                SELECT n.Id as NominationId, n.NominatorUserId, u1.Username AS Nominator, n.NomineeUserId, u2.Username AS Nominee, rc.Name AS Category, rc.Points, s.Name AS StatusName, n.CreatedAt
                 FROM Nominations n
                 INNER JOIN Users u1 ON n.NominatorUserId = u1.Id
                 INNER JOIN Users u2 ON n.NomineeUserId = u2.Id
@@ -168,6 +168,7 @@ namespace DAL
                     NomineeId = row.Field<Guid>("NomineeUserId"),
                     Nominee = row.Field<string>("Nominee"),
                     Category = row.Field<string>("Category"),
+                    Points = row.Field<int>("Points"),
                     StatusName = row.Field<string>("StatusName"),
                     CreatedAt = row.Field<DateTime>("CreatedAt")
                 });
@@ -204,12 +205,12 @@ namespace DAL
             dbHelper.ExecuteNonQuery(query, CommandType.Text, parameters);
         }
 
-        public void CancelNomination(int nominationId)
+        public void UpdateNomination(int nominationId, NominationStatuses status)
         {
             string query = "UPDATE Nominations SET StatusId = @StatusId WHERE Id = @Id";
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@StatusId", (int)NominationStatuses.CANCELED),
+                new SqlParameter("@StatusId", (int)status),
                 new SqlParameter("@Id", nominationId)
             };
 

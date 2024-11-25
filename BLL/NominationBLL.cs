@@ -60,23 +60,23 @@ namespace BLL
             _nominationDAL.AddNominationComment(nominationComment);
         }
 
-        public void CancelNomination(int nominationId)
+        public void UpdateNomination(int nominationId, NominationStatuses status, string comment)
         {
             NominationHistory nominationHistory = new NominationHistory
             {
                 NominationId = nominationId,
-                StatusId = (int)NominationStatuses.CANCELED, 
+                StatusId = (int)status, 
                 CreatedBy = SingletonSession.Instancia.User.Id,
                 CreatedAt = DateTime.Now
             };
             var nominationComment = new NominationComment
                 {
                     NominationId = nominationId,
-                    Comment = "Nomination cancelled by user.",
+                    Comment = comment,
                     CreatedBy = SingletonSession.Instancia.User.Id,
                     CreatedAt = DateTime.Now
                 };
-            _nominationDAL.CancelNomination(nominationId);
+            _nominationDAL.UpdateNomination(nominationId, status);
             _nominationDAL.AddNominationComment(nominationComment);
 
             _nominationDAL.AddNominationHistory(nominationHistory);

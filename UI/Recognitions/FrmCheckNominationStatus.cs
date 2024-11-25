@@ -149,7 +149,7 @@ namespace UI.Recognitions
                     return;
                 }
                 
-                _nominationBLL.CancelNomination(nominationId);
+                _nominationBLL.UpdateNomination(nominationId, NominationStatuses.CANCELED, "Nominación fue cancelada por el usuario");
                 PopulateNominations();
                 _logBLL.Save(new Log
                 {

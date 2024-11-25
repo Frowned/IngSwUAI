@@ -2,6 +2,7 @@
 using Infrastructure.Interfaces.BLL;
 using Infrastructure.Observer;
 using Infrastructure.Session;
+using UI.Reports;
 
 namespace UI.Logs
 {
@@ -102,6 +103,7 @@ namespace UI.Logs
 
         private void btnExport_Click(object sender, EventArgs e)
         {
+            PdfExporter.ExportDataGridViewToPdf(dgvLogs, "Reporte de Objetivos", "Registro detallado de objetivos en el sistema", false);
 
         }
     }

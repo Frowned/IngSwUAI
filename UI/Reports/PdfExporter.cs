@@ -14,7 +14,7 @@ namespace UI.Reports
 {
     public static class PdfExporter
     {
-        public static void ExportDataGridViewToPdf(DataGridView dataGridView, string titleText, string subtitleText)
+        public static void ExportDataGridViewToPdf(DataGridView dataGridView, string titleText, string subtitleText, bool isVerticalPage = true)
         {
             // Validar si el DataGridView está vacío
             if (dataGridView.Rows.Count == 0 || (dataGridView.Rows.Count == 1 && dataGridView.Rows[0].IsNewRow))
@@ -31,6 +31,12 @@ namespace UI.Reports
                 // Crear un documento de iText
                 var document = new Document(pdfDoc);
 
+                if(!isVerticalPage)
+                {
+                    // Rotar la página a horizontal
+                    pdfDoc.SetDefaultPageSize(iText.Kernel.Geom.PageSize.A4.Rotate());
+                }
+                
                 // Encabezado
                 var title = new Paragraph(titleText)
                     .SetTextAlignment(TextAlignment.CENTER)

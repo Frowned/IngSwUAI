@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BE.DTO;
 using BE.Entities;
+using BE.Enums;
 
 namespace Infrastructure.Interfaces.BLL
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.Interfaces.BLL
         List<NominationDTO> GetNominationsByUser(Guid userId);
         void AddNominationHistory(NominationHistory nominationHistory);
         void AddNominationComment(NominationComment nominationComment);
-        void CancelNomination(int nominationId);
+        void UpdateNomination(int nominationId, NominationStatuses status, string comment);
         List<NominationHistoryDTO> GetNominationHistory(DateTime dateFrom, DateTime dateTo, Guid? collaboratorId, int? recognitionTypeId);
     }
 }
