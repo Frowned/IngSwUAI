@@ -1113,11 +1113,11 @@ CREATE TABLE [dbo].[ObjectiveHistory] (
     [ObjectiveId] INT NOT NULL,
     [StatusId] INT NOT NULL,
     [Progress] INT NOT NULL,
-    [ChangedBy] UNIQUEIDENTIFIER NOT NULL,
-    [ChangedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT [FK_ObjectiveHistory_Objectives] FOREIGN KEY ([ObjectiveId]) REFERENCES [dbo].[Objectives]([Id]),
     CONSTRAINT [FK_ObjectiveHistory_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[ObjectiveStatuses]([Id]),
-    CONSTRAINT [FK_ObjectiveHistory_Users_ChangedBy] FOREIGN KEY ([ChangedBy]) REFERENCES [dbo].[Users]([Id])
+    CONSTRAINT [FK_ObjectiveHistory_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id])
 );
 
 -- Deshabilitar IDENTITY_INSERT para PolicyCategories
@@ -1224,7 +1224,7 @@ GO
 -- Deshabilitar IDENTITY_INSERT para ObjectiveHistory
 SET IDENTITY_INSERT [dbo].[ObjectiveHistory] ON;
 
-INSERT INTO [dbo].[ObjectiveHistory] ([Id], [ObjectiveId], [StatusId], [Progress], [ChangedBy], [ChangedAt]) VALUES 
+INSERT INTO [dbo].[ObjectiveHistory] ([Id], [ObjectiveId], [StatusId], [Progress], [CreatedBy], [CreatedAt]) VALUES 
 (1, 1, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
 (2, 1, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 10, GETDATE())),
 (3, 1, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 30, GETDATE())),
@@ -1328,11 +1328,11 @@ CREATE TABLE [dbo].[NominationHistory] (
     [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     [NominationId] INT NOT NULL,
     [StatusId] INT NOT NULL,
-    [ChangedBy] UNIQUEIDENTIFIER NOT NULL,
-    [ChangedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT [FK_NominationHistory_Nominations] FOREIGN KEY ([NominationId]) REFERENCES [dbo].[Nominations]([Id]),
     CONSTRAINT [FK_NominationHistory_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[NominationStatuses]([Id]),
-    CONSTRAINT [FK_NominationHistory_Users_ChangedBy] FOREIGN KEY ([ChangedBy]) REFERENCES [dbo].[Users]([Id])
+    CONSTRAINT [FK_NominationHistory_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id])
 );
 GO
 -- Deshabilitar IDENTITY_INSERT para RecognitionCategories
@@ -1352,7 +1352,8 @@ SET IDENTITY_INSERT [dbo].[NominationStatuses] ON;
 INSERT INTO [dbo].[NominationStatuses] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
 (1, N'Pendiente', N'La nominación está pendiente', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
 (2, N'Aprobada', N'La nominación ha sido aprobada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
-(3, N'Rechazada', N'La nominación ha sido rechazada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+(3, N'Rechazada', N'La nominación ha sido rechazada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Cancelada', N'La nominación ha sido cancelada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
 
 SET IDENTITY_INSERT [dbo].[NominationStatuses] OFF;
 GO
@@ -1370,7 +1371,7 @@ GO
 -- Deshabilitar IDENTITY_INSERT para NominationHistory
 SET IDENTITY_INSERT [dbo].[NominationHistory] ON;
 
-INSERT INTO [dbo].[NominationHistory] ([Id], [NominationId], [StatusId], [ChangedBy], [ChangedAt]) VALUES 
+INSERT INTO [dbo].[NominationHistory] ([Id], [NominationId], [StatusId], [CreatedBy], [CreatedAt]) VALUES 
 (1, 1, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
 (2, 2, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
 (3, 3, 1, '3a205255-2224-47cf-9207-74426cbb7f54', GETDATE()),
@@ -1389,7 +1390,31 @@ INSERT INTO [dbo].[NominationComments] ([Id], [NominationId], [Comment], [Create
 
 SET IDENTITY_INSERT [dbo].[NominationComments] OFF;
 GO
-
+CREATE TABLE [dbo].[NominationRules] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [RuleName] NVARCHAR(255) NOT NULL, -- Nombre de la regla
+    [RuleValue] NVARCHAR(255) NOT NULL, -- Valor asignado a la regla
+    [Description] NVARCHAR(255) NULL, -- Descripción de la regla
+    [IsActive] BIT NOT NULL DEFAULT 1, -- Indica si la regla está activa
+    [CreatedBy] uniqueidentifier NOT NULL, -- Usuario que creó la regla
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(), -- Fecha de creación
+    [UpdatedBy] uniqueidentifier NULL, -- Último usuario que modificó la regla
+    [UpdatedAt] DATETIME NULL -- Fecha de última actualización
+);
+INSERT INTO [dbo].[NominationRules] (RuleName, RuleValue, Description, CreatedBy)
+VALUES
+    -- Límite de nominaciones por usuario
+    ('MaxNominationsPerUser', '5', 'Número máximo de nominaciones por usuario al mes', '2EB2CE71-C0DB-43F3-A6FB-D23DABD608DF'),
+    
+    -- Meses mínimos de antigüedad
+    ('EligibilityMonths', '6', 'Meses mínimos de antigüedad para ser nominado', '2EB2CE71-C0DB-43F3-A6FB-D23DABD608DF'),
+    
+    -- Categorías permitidas
+    ('AllowedCategories', '1,2,3,4', 'Categorías permitidas para nominaciones', '2EB2CE71-C0DB-43F3-A6FB-D23DABD608DF'),
+    
+    -- Plazo para revisar nominaciones
+    ('ReviewDeadlineDays', '7', 'Tiempo máximo en días para revisar una nominación', '2EB2CE71-C0DB-43F3-A6FB-D23DABD608DF');
+GO
 USE [master]
 GO
 ALTER DATABASE [DB_SIFRE] SET  READ_WRITE 

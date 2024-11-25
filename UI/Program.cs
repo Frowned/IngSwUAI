@@ -58,6 +58,10 @@ namespace UI
             services.AddTransient<INominationDAL, NominationDAL>();
             services.AddTransient<IRecognitionCategoryBLL, RecognitionCategoryBLL>();
             services.AddTransient<IRecognitionCategoryDAL, RecognitionCategoryDAL>();
+            services.AddTransient<INominationRuleBLL, NominationRuleBLL>();
+            services.AddTransient<INominationRuleDAL, NominationRuleDAL>();
+            services.AddTransient<IObjectiveBLL, ObjectiveBLL>();
+            services.AddTransient<IObjectiveDAL, ObjectiveDAL>();
 
             services.AddTransient<FrmLogin>();
             services.AddTransient<FrmPrincipal>();

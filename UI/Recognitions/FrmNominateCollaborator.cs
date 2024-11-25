@@ -15,12 +15,14 @@ namespace UI.Recognitions
     public partial class FrmNominateCollaborator : Form, IObserverForm
     {
         private readonly INominationBLL _nominationBLL;
+        private readonly INominationRuleBLL _nominationRuleBLL;
         private readonly ILogBLL _logBLL;
 
-        public FrmNominateCollaborator(INominationBLL nominationBLL, ILogBLL logBLL)
+        public FrmNominateCollaborator(INominationBLL nominationBLL, ILogBLL logBLL, INominationRuleBLL nominationRuleBLL)
         {
             _nominationBLL = nominationBLL;
             _logBLL = logBLL;
+            _nominationRuleBLL = nominationRuleBLL;
             InitializeComponent();
             InitializeCustomComponents();
         }
@@ -51,6 +53,7 @@ namespace UI.Recognitions
 
         private void SubmitNomination()
         {
+
             // Validations
             if (cmbNominee.SelectedIndex == -1)
             {
@@ -69,7 +72,35 @@ namespace UI.Recognitions
                 MessageBox.Show("Por favor, ingrese comentarios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            // Fetch nomination rules
+            var rules = _nominationRuleBLL.GetNominationRules();
+            var maxNominationsPerUser = int.Parse(rules.Find(x => x.RuleName == "MaxNominationsPerUser").RuleValue);
+            var eligibilityMonths = int.Parse(rules.Find(x => x.RuleName == "EligibilityMonths").RuleValue);
+            var allowedCategories = rules.Find(x => x.RuleName == "AllowedCategories").RuleValue.Split(',').Select(int.Parse).ToList();
 
+            // Validate max nominations per user
+            var userNominationsCount = _nominationBLL.GetUserNominationsCount(SingletonSession.Instancia.User.Id, DateTime.Now);
+            if (userNominationsCount >= maxNominationsPerUser)
+            {
+                MessageBox.Show($"No puede realizar más de {maxNominationsPerUser} nominaciones por mes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Validate nominee eligibility
+            var nominee = (User)cmbNominee.SelectedItem;
+            if ((DateTime.Now - nominee.CreatedAt).TotalDays < eligibilityMonths * 30)
+            {
+                MessageBox.Show($"El colaborador debe tener al menos {eligibilityMonths} meses de antigüedad para ser nominado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Validate allowed categories
+            var selectedCategoryId = (int)cmbCategory.SelectedValue!;
+            if (!allowedCategories.Contains(selectedCategoryId))
+            {
+                MessageBox.Show("La categoría seleccionada no está permitida para nominaciones.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             var nomination = new Nomination
             {
                 NominatorUserId = SingletonSession.Instancia.User.Id,

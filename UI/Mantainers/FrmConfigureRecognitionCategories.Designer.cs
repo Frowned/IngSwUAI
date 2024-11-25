@@ -41,6 +41,9 @@
             // 
             // dgvCategories
             // 
+            dgvCategories.AllowUserToAddRows = false;
+            dgvCategories.AllowUserToDeleteRows = false;
+            dgvCategories.AllowUserToResizeColumns = false;
             dgvCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCategories.Location = new Point(49, 130);
             dgvCategories.Name = "dgvCategories";

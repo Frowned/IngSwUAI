@@ -559,6 +559,7 @@ namespace UI
         
         private void OpenForm<T>(ref T? formInstance, object sender, EventArgs e) where T : Form, IObserverForm
         {
+            CloseForms();
             if (formInstance == null || formInstance.IsDisposed)
             {
             formInstance = Program.ServiceProvider.GetRequiredService<T>();
@@ -569,10 +570,14 @@ namespace UI
             formInstance.Dock = DockStyle.Fill;
             formInstance.MdiParent = this;
             formInstance.Show();
+                formInstance.BringToFront();
+                formInstance.WindowState = FormWindowState.Minimized;
+                formInstance.WindowState = FormWindowState.Maximized;
             }
             else
             {
             formInstance.BringToFront();
+            formInstance.WindowState = FormWindowState.Minimized;
             formInstance.WindowState = FormWindowState.Maximized;
             }
             UpdateTitle((Control)sender);
