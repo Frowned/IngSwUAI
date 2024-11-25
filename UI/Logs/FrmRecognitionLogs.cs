@@ -11,11 +11,11 @@ using BE.DTO;
 using Infrastructure.Observer;
 using Infrastructure.Session;
 
-namespace UI.Mantainers
+namespace UI.Logs
 {
-    public partial class FrmConfigureRewardPolicies : Form, IObserverForm
+    public partial class FrmRecognitionLogs : Form, IObserverForm
     {
-        public FrmConfigureRewardPolicies()
+        public FrmRecognitionLogs()
         {
             InitializeComponent();
         }
@@ -44,18 +44,16 @@ namespace UI.Mantainers
             }
         }
 
-        private void FrmConfigureRewardPolicies_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmRecognitionLogs_Load(object sender, EventArgs e)
         {
-            SingletonSession.Instancia.RemoveObserver(this);
-
-        }
-
-        private void FrmConfigureRewardPolicies_Load(object sender, EventArgs e)
-        {
-
             MinimizeBox = false;
             MaximizeBox = false;
             ControlBox = false;
+        }
+
+        private void FrmRecognitionLogs_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SingletonSession.Instancia.RemoveObserver(this);
         }
     }
 }

@@ -158,7 +158,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(2017, 890);
             Controls.Add(btnExport);
             Controls.Add(textBox1);

@@ -136,7 +136,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(339, 911);
+            panel1.Size = new Size(383, 911);
             panel1.TabIndex = 3;
             // 
             // pnlObjectives
@@ -150,7 +150,7 @@
             pnlObjectives.Dock = DockStyle.Top;
             pnlObjectives.Location = new Point(0, 1522);
             pnlObjectives.Name = "pnlObjectives";
-            pnlObjectives.Size = new Size(313, 171);
+            pnlObjectives.Size = new Size(357, 171);
             pnlObjectives.TabIndex = 17;
             // 
             // btnEvaluateObjectives
@@ -163,7 +163,7 @@
             btnEvaluateObjectives.ForeColor = SystemColors.Control;
             btnEvaluateObjectives.Location = new Point(0, 114);
             btnEvaluateObjectives.Name = "btnEvaluateObjectives";
-            btnEvaluateObjectives.Size = new Size(313, 57);
+            btnEvaluateObjectives.Size = new Size(357, 57);
             btnEvaluateObjectives.TabIndex = 8;
             btnEvaluateObjectives.Tag = "MENU_NAME_EVALUATE_OBJECTIVES";
             btnEvaluateObjectives.Text = "Evaluar cumplimiento";
@@ -180,7 +180,7 @@
             btnViewAssignedObjectives.ForeColor = SystemColors.Control;
             btnViewAssignedObjectives.Location = new Point(0, 57);
             btnViewAssignedObjectives.Name = "btnViewAssignedObjectives";
-            btnViewAssignedObjectives.Size = new Size(313, 57);
+            btnViewAssignedObjectives.Size = new Size(357, 57);
             btnViewAssignedObjectives.TabIndex = 7;
             btnViewAssignedObjectives.Tag = "MENU_NAME_VIEW_ASSIGNED_OBJECTIVES";
             btnViewAssignedObjectives.Text = "Consultar objetivos asignados";
@@ -197,7 +197,7 @@
             btnCreateObjectives.ForeColor = SystemColors.Control;
             btnCreateObjectives.Location = new Point(0, 0);
             btnCreateObjectives.Name = "btnCreateObjectives";
-            btnCreateObjectives.Size = new Size(313, 57);
+            btnCreateObjectives.Size = new Size(357, 57);
             btnCreateObjectives.TabIndex = 6;
             btnCreateObjectives.Tag = "MENU_NAME_CREATE_OBJECTIVES";
             btnCreateObjectives.Text = "Crear objetivos";
@@ -213,7 +213,7 @@
             btnObjectives.ForeColor = SystemColors.Control;
             btnObjectives.Location = new Point(0, 1465);
             btnObjectives.Name = "btnObjectives";
-            btnObjectives.Size = new Size(313, 57);
+            btnObjectives.Size = new Size(357, 57);
             btnObjectives.TabIndex = 16;
             btnObjectives.Tag = "MENU_OBJECTIVES";
             btnObjectives.Text = "Objetivos";
@@ -231,7 +231,7 @@
             pnlRecognition.Dock = DockStyle.Top;
             pnlRecognition.Location = new Point(0, 1294);
             pnlRecognition.Name = "pnlRecognition";
-            pnlRecognition.Size = new Size(313, 171);
+            pnlRecognition.Size = new Size(357, 171);
             pnlRecognition.TabIndex = 15;
             // 
             // btnCheckNominationStatus
@@ -244,7 +244,7 @@
             btnCheckNominationStatus.ForeColor = SystemColors.Control;
             btnCheckNominationStatus.Location = new Point(0, 114);
             btnCheckNominationStatus.Name = "btnCheckNominationStatus";
-            btnCheckNominationStatus.Size = new Size(313, 57);
+            btnCheckNominationStatus.Size = new Size(357, 57);
             btnCheckNominationStatus.TabIndex = 8;
             btnCheckNominationStatus.Tag = "MENU_NAME_CHECK_NOMINATION_STATUS";
             btnCheckNominationStatus.Text = "Consultar estado de nominaciones";
@@ -261,7 +261,7 @@
             btnReviewPendingNominations.ForeColor = SystemColors.Control;
             btnReviewPendingNominations.Location = new Point(0, 57);
             btnReviewPendingNominations.Name = "btnReviewPendingNominations";
-            btnReviewPendingNominations.Size = new Size(313, 57);
+            btnReviewPendingNominations.Size = new Size(357, 57);
             btnReviewPendingNominations.TabIndex = 7;
             btnReviewPendingNominations.Tag = "MENU_NAME_REVIEW_PENDING_NOMINATIONS";
             btnReviewPendingNominations.Text = "Revisar nominaciones pendientes";
@@ -278,7 +278,7 @@
             btnNominateCollaborator.ForeColor = SystemColors.Control;
             btnNominateCollaborator.Location = new Point(0, 0);
             btnNominateCollaborator.Name = "btnNominateCollaborator";
-            btnNominateCollaborator.Size = new Size(313, 57);
+            btnNominateCollaborator.Size = new Size(357, 57);
             btnNominateCollaborator.TabIndex = 6;
             btnNominateCollaborator.Tag = "MENU_NAME_NOMINATE_COLLABORATOR";
             btnNominateCollaborator.Text = "Nominar a un colaborador";
@@ -294,7 +294,7 @@
             btnRecognition.ForeColor = SystemColors.Control;
             btnRecognition.Location = new Point(0, 1237);
             btnRecognition.Name = "btnRecognition";
-            btnRecognition.Size = new Size(313, 57);
+            btnRecognition.Size = new Size(357, 57);
             btnRecognition.TabIndex = 14;
             btnRecognition.Tag = "MENU_RECOGNITION";
             btnRecognition.Text = "Reconocimientos";
@@ -314,7 +314,7 @@
             pnlAdmin.Dock = DockStyle.Top;
             pnlAdmin.Location = new Point(0, 834);
             pnlAdmin.Name = "pnlAdmin";
-            pnlAdmin.Size = new Size(313, 403);
+            pnlAdmin.Size = new Size(357, 403);
             pnlAdmin.TabIndex = 13;
             // 
             // btnConfigureRewardPolicies
@@ -327,7 +327,7 @@
             btnConfigureRewardPolicies.ForeColor = SystemColors.Control;
             btnConfigureRewardPolicies.Location = new Point(0, 342);
             btnConfigureRewardPolicies.Name = "btnConfigureRewardPolicies";
-            btnConfigureRewardPolicies.Size = new Size(313, 57);
+            btnConfigureRewardPolicies.Size = new Size(357, 57);
             btnConfigureRewardPolicies.TabIndex = 12;
             btnConfigureRewardPolicies.Tag = "MENU_NAME_CONFIGURE_REWARD_POLICIES";
             btnConfigureRewardPolicies.Text = "Políticas de recompensa";
@@ -344,7 +344,7 @@
             btnConfigureRecognitionCategories.ForeColor = SystemColors.Control;
             btnConfigureRecognitionCategories.Location = new Point(0, 285);
             btnConfigureRecognitionCategories.Name = "btnConfigureRecognitionCategories";
-            btnConfigureRecognitionCategories.Size = new Size(313, 57);
+            btnConfigureRecognitionCategories.Size = new Size(357, 57);
             btnConfigureRecognitionCategories.TabIndex = 11;
             btnConfigureRecognitionCategories.Tag = "MENU_NAME_CONFIGURE_RECOGNITION_CATEGORIES";
             btnConfigureRecognitionCategories.Text = "Categorias reconocimiento";
@@ -361,7 +361,7 @@
             btnCustomizeNominationRules.ForeColor = SystemColors.Control;
             btnCustomizeNominationRules.Location = new Point(0, 228);
             btnCustomizeNominationRules.Name = "btnCustomizeNominationRules";
-            btnCustomizeNominationRules.Size = new Size(313, 57);
+            btnCustomizeNominationRules.Size = new Size(357, 57);
             btnCustomizeNominationRules.TabIndex = 10;
             btnCustomizeNominationRules.Tag = "MENU_NAME_CUSTOMIZE_NOMINATION_RULES";
             btnCustomizeNominationRules.Text = "Personalizar reglas de nominación";
@@ -378,7 +378,7 @@
             btnManageBackup.ForeColor = SystemColors.Control;
             btnManageBackup.Location = new Point(0, 171);
             btnManageBackup.Name = "btnManageBackup";
-            btnManageBackup.Size = new Size(313, 57);
+            btnManageBackup.Size = new Size(357, 57);
             btnManageBackup.TabIndex = 9;
             btnManageBackup.Tag = "MANAGE_BACKUP";
             btnManageBackup.Text = "Gestionar Backup";
@@ -395,7 +395,7 @@
             btnManageProducts.ForeColor = SystemColors.Control;
             btnManageProducts.Location = new Point(0, 114);
             btnManageProducts.Name = "btnManageProducts";
-            btnManageProducts.Size = new Size(313, 57);
+            btnManageProducts.Size = new Size(357, 57);
             btnManageProducts.TabIndex = 8;
             btnManageProducts.Tag = "MANAGE_PRODUCTS";
             btnManageProducts.Text = "Gestionar productos";
@@ -412,7 +412,7 @@
             btnManageLang.ForeColor = SystemColors.Control;
             btnManageLang.Location = new Point(0, 57);
             btnManageLang.Name = "btnManageLang";
-            btnManageLang.Size = new Size(313, 57);
+            btnManageLang.Size = new Size(357, 57);
             btnManageLang.TabIndex = 7;
             btnManageLang.Tag = "MANAGE_LANGUAGE";
             btnManageLang.Text = "Gestionar idioma";
@@ -429,7 +429,7 @@
             btnManageRoles.ForeColor = SystemColors.Control;
             btnManageRoles.Location = new Point(0, 0);
             btnManageRoles.Name = "btnManageRoles";
-            btnManageRoles.Size = new Size(313, 57);
+            btnManageRoles.Size = new Size(357, 57);
             btnManageRoles.TabIndex = 6;
             btnManageRoles.Tag = "MANAGE_ROLES";
             btnManageRoles.Text = "Gestionar perfiles";
@@ -445,7 +445,7 @@
             btnAdmin.ForeColor = SystemColors.Control;
             btnAdmin.Location = new Point(0, 777);
             btnAdmin.Name = "btnAdmin";
-            btnAdmin.Size = new Size(313, 57);
+            btnAdmin.Size = new Size(357, 57);
             btnAdmin.TabIndex = 12;
             btnAdmin.Tag = "MENU_ADMIN";
             btnAdmin.Text = "Configuración";
@@ -464,7 +464,7 @@
             pnlReports.Dock = DockStyle.Top;
             pnlReports.Location = new Point(0, 549);
             pnlReports.Name = "pnlReports";
-            pnlReports.Size = new Size(313, 228);
+            pnlReports.Size = new Size(357, 228);
             pnlReports.TabIndex = 11;
             // 
             // btnObjectivesReport
@@ -477,7 +477,7 @@
             btnObjectivesReport.ForeColor = SystemColors.Control;
             btnObjectivesReport.Location = new Point(0, 171);
             btnObjectivesReport.Name = "btnObjectivesReport";
-            btnObjectivesReport.Size = new Size(313, 57);
+            btnObjectivesReport.Size = new Size(357, 57);
             btnObjectivesReport.TabIndex = 9;
             btnObjectivesReport.Tag = "MENU_REPORT_OBJECTIVES";
             btnObjectivesReport.Text = "Bitácora de objetivos";
@@ -494,7 +494,7 @@
             btnGenerateRecognitionReport.ForeColor = SystemColors.Control;
             btnGenerateRecognitionReport.Location = new Point(0, 114);
             btnGenerateRecognitionReport.Name = "btnGenerateRecognitionReport";
-            btnGenerateRecognitionReport.Size = new Size(313, 57);
+            btnGenerateRecognitionReport.Size = new Size(357, 57);
             btnGenerateRecognitionReport.TabIndex = 8;
             btnGenerateRecognitionReport.Tag = "MENU_NAME_GENERATE_RECOGNITION_REPORT";
             btnGenerateRecognitionReport.Text = "Bitácora de reconocimientos";
@@ -511,7 +511,7 @@
             btnReportProducts.ForeColor = SystemColors.Control;
             btnReportProducts.Location = new Point(0, 57);
             btnReportProducts.Name = "btnReportProducts";
-            btnReportProducts.Size = new Size(313, 57);
+            btnReportProducts.Size = new Size(357, 57);
             btnReportProducts.TabIndex = 7;
             btnReportProducts.Tag = "";
             btnReportProducts.Text = "Bitácora productos";
@@ -528,7 +528,7 @@
             btnReportEvents.ForeColor = SystemColors.Control;
             btnReportEvents.Location = new Point(0, 0);
             btnReportEvents.Name = "btnReportEvents";
-            btnReportEvents.Size = new Size(313, 57);
+            btnReportEvents.Size = new Size(357, 57);
             btnReportEvents.TabIndex = 6;
             btnReportEvents.Tag = "";
             btnReportEvents.Text = "Bitácora eventos";
@@ -544,7 +544,7 @@
             btnReport.ForeColor = SystemColors.Control;
             btnReport.Location = new Point(0, 492);
             btnReport.Name = "btnReport";
-            btnReport.Size = new Size(313, 57);
+            btnReport.Size = new Size(357, 57);
             btnReport.TabIndex = 10;
             btnReport.Tag = "MENU_REPORTS";
             btnReport.Text = "Reportería";
@@ -560,7 +560,7 @@
             btnHelp.ForeColor = SystemColors.Control;
             btnHelp.Location = new Point(0, 1693);
             btnHelp.Name = "btnHelp";
-            btnHelp.Size = new Size(313, 57);
+            btnHelp.Size = new Size(357, 57);
             btnHelp.TabIndex = 9;
             btnHelp.Tag = "MENU_HELP";
             btnHelp.Text = "Ayuda";
@@ -576,7 +576,7 @@
             pnlProducts.Dock = DockStyle.Top;
             pnlProducts.Location = new Point(0, 435);
             pnlProducts.Name = "pnlProducts";
-            pnlProducts.Size = new Size(313, 57);
+            pnlProducts.Size = new Size(357, 57);
             pnlProducts.TabIndex = 8;
             // 
             // btnViewProducts
@@ -589,7 +589,7 @@
             btnViewProducts.ForeColor = SystemColors.Control;
             btnViewProducts.Location = new Point(0, 0);
             btnViewProducts.Name = "btnViewProducts";
-            btnViewProducts.Size = new Size(313, 57);
+            btnViewProducts.Size = new Size(357, 57);
             btnViewProducts.TabIndex = 6;
             btnViewProducts.Tag = "MENU_VIEW_PRODUCTS";
             btnViewProducts.Text = "Ver productos";
@@ -607,7 +607,7 @@
             btnProducts.ImageAlign = ContentAlignment.MiddleLeft;
             btnProducts.Location = new Point(0, 378);
             btnProducts.Name = "btnProducts";
-            btnProducts.Size = new Size(313, 57);
+            btnProducts.Size = new Size(357, 57);
             btnProducts.TabIndex = 7;
             btnProducts.Tag = "MENU_PRODUCTS";
             btnProducts.Text = "Catalogo";
@@ -625,7 +625,7 @@
             pnlPoints.Dock = DockStyle.Top;
             pnlPoints.Location = new Point(0, 207);
             pnlPoints.Name = "pnlPoints";
-            pnlPoints.Size = new Size(313, 171);
+            pnlPoints.Size = new Size(357, 171);
             pnlPoints.TabIndex = 6;
             // 
             // btnTransferPoints
@@ -638,7 +638,7 @@
             btnTransferPoints.ForeColor = SystemColors.Control;
             btnTransferPoints.Location = new Point(0, 114);
             btnTransferPoints.Name = "btnTransferPoints";
-            btnTransferPoints.Size = new Size(313, 57);
+            btnTransferPoints.Size = new Size(357, 57);
             btnTransferPoints.TabIndex = 8;
             btnTransferPoints.Tag = "MENU_TRANSFER_POINTS";
             btnTransferPoints.Text = "Transferir puntos";
@@ -655,7 +655,7 @@
             btnExchangePoints.ForeColor = SystemColors.Control;
             btnExchangePoints.Location = new Point(0, 57);
             btnExchangePoints.Name = "btnExchangePoints";
-            btnExchangePoints.Size = new Size(313, 57);
+            btnExchangePoints.Size = new Size(357, 57);
             btnExchangePoints.TabIndex = 7;
             btnExchangePoints.Tag = "MENU_EXCHANGE_POINTS";
             btnExchangePoints.Text = "Canjear puntos";
@@ -672,7 +672,7 @@
             btnCheckPoints.ForeColor = SystemColors.Control;
             btnCheckPoints.Location = new Point(0, 0);
             btnCheckPoints.Name = "btnCheckPoints";
-            btnCheckPoints.Size = new Size(313, 57);
+            btnCheckPoints.Size = new Size(357, 57);
             btnCheckPoints.TabIndex = 6;
             btnCheckPoints.Tag = "MENU_CHECK_POINTS";
             btnCheckPoints.Text = "Consultar puntos";
@@ -688,7 +688,7 @@
             btnPoints.ForeColor = SystemColors.Control;
             btnPoints.Location = new Point(0, 150);
             btnPoints.Name = "btnPoints";
-            btnPoints.Size = new Size(313, 57);
+            btnPoints.Size = new Size(357, 57);
             btnPoints.TabIndex = 5;
             btnPoints.Tag = "MENU_POINTS";
             btnPoints.Text = "Puntos";
@@ -704,7 +704,7 @@
             btnLogout.ForeColor = SystemColors.Control;
             btnLogout.Location = new Point(0, 1750);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(313, 57);
+            btnLogout.Size = new Size(357, 57);
             btnLogout.TabIndex = 4;
             btnLogout.Text = "Cerrar sesión";
             btnLogout.UseVisualStyleBackColor = true;
@@ -718,7 +718,7 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(313, 150);
+            panel3.Size = new Size(357, 150);
             panel3.TabIndex = 0;
             // 
             // panel2
@@ -728,12 +728,10 @@
             panel2.Controls.Add(lblTitle);
             panel2.Controls.Add(buttonsPnl);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(339, 0);
+            panel2.Location = new Point(383, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(842, 153);
+            panel2.Size = new Size(798, 153);
             panel2.TabIndex = 5;
-            panel2.DoubleClick += panel2_DoubleClick;
-            panel2.MouseDown += panel2_MouseDown;
             // 
             // lblTitle
             // 
@@ -754,7 +752,7 @@
             buttonsPnl.Controls.Add(btnMaximizeRestore);
             buttonsPnl.Controls.Add(btnClose);
             buttonsPnl.Dock = DockStyle.Right;
-            buttonsPnl.Location = new Point(668, 0);
+            buttonsPnl.Location = new Point(624, 0);
             buttonsPnl.Name = "buttonsPnl";
             buttonsPnl.Size = new Size(174, 153);
             buttonsPnl.TabIndex = 0;
@@ -765,7 +763,7 @@
             btnMinimize.FlatStyle = FlatStyle.Flat;
             btnMinimize.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnMinimize.ForeColor = SystemColors.ButtonFace;
-            btnMinimize.Location = new Point(33, 12);
+            btnMinimize.Location = new Point(78, 12);
             btnMinimize.Name = "btnMinimize";
             btnMinimize.Size = new Size(39, 34);
             btnMinimize.TabIndex = 2;
@@ -779,12 +777,13 @@
             btnMaximizeRestore.FlatStyle = FlatStyle.Flat;
             btnMaximizeRestore.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnMaximizeRestore.ForeColor = SystemColors.ButtonFace;
-            btnMaximizeRestore.Location = new Point(78, 12);
+            btnMaximizeRestore.Location = new Point(123, 52);
             btnMaximizeRestore.Name = "btnMaximizeRestore";
             btnMaximizeRestore.Size = new Size(39, 34);
             btnMaximizeRestore.TabIndex = 1;
             btnMaximizeRestore.Text = "🗗";
             btnMaximizeRestore.UseVisualStyleBackColor = false;
+            btnMaximizeRestore.Visible = false;
             btnMaximizeRestore.Click += btnMaximizeRestore_Click;
             // 
             // btnClose

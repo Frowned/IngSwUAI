@@ -34,5 +34,17 @@ namespace UI.Recognitions
                 }
             }
         }
+
+        private void FrmReviewPendingNominations_Load(object sender, EventArgs e)
+        {
+            MinimizeBox = false;
+            MaximizeBox = false;
+            ControlBox = false;
+        }
+
+        private void FrmReviewPendingNominations_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SingletonSession.Instancia.RemoveObserver(this);
+        }
     }
 }

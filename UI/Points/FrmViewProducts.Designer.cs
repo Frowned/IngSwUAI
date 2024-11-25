@@ -60,7 +60,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Window;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1701, 947);
             Controls.Add(label1);
             Controls.Add(DgvProducts);

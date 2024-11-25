@@ -34,5 +34,19 @@ namespace UI.Objectives
                 }
             }
         }
+
+        private void FrmEvaluateObjectives_Load(object sender, EventArgs e)
+        {
+            MinimizeBox = false;
+            MaximizeBox = false;
+            ControlBox = false;
+
+        }
+
+        private void FrmEvaluateObjectives_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SingletonSession.Instancia.RemoveObserver(this);
+
+        }
     }
 }

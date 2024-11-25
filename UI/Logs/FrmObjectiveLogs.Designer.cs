@@ -1,6 +1,6 @@
-﻿namespace UI.Mantainers
+﻿namespace UI.Logs
 {
-    partial class FrmManageNominationRules
+    partial class FrmObjectiveLogs
     {
         /// <summary>
         /// Required designer variable.
@@ -30,15 +30,15 @@
         {
             SuspendLayout();
             // 
-            // FrmManageNominationRules
+            // FrmObjectiveLogs
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Name = "FrmManageNominationRules";
-            Text = "FrmManageNominationRules";
-            FormClosed += FrmManageNominationRules_FormClosed;
-            Load += FrmManageNominationRules_Load;
+            Name = "FrmObjectiveLogs";
+            Text = "FrmObjectiveLogs";
+            FormClosed += FrmObjectiveLogs_FormClosed;
+            Load += FrmObjectiveLogs_Load;
             ResumeLayout(false);
         }
 

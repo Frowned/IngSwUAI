@@ -988,6 +988,407 @@ INSERT [dbo].[ProductLogs] ([Id], [ProductName], [Description], [Points], [Categ
 GO
 SET IDENTITY_INSERT [dbo].[ProductLogs] OFF
 GO
+-- Tabla de Categorías de Políticas
+CREATE TABLE [dbo].[PolicyCategories] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_PolicyCategories_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_PolicyCategories_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Políticas de Recompensas
+CREATE TABLE [dbo].[RewardPolicies] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [PolicyName] NVARCHAR(255) NOT NULL, -- Nombre descriptivo de la política
+    [Description] NVARCHAR(MAX) NULL, -- Descripción detallada
+    [ConversionRate] DECIMAL(10, 2) NOT NULL, -- Tasa de conversión de objetivos a puntos
+    [AccumulationLimit] DECIMAL(10, 2) NOT NULL, -- Límite de acumulación
+    [EffectiveFrom] DATETIME NOT NULL, -- Fecha de inicio
+    [EffectiveTo] DATETIME NULL, -- Fecha de fin
+    [IsActive] BIT NOT NULL DEFAULT 1, -- Activa o inactiva
+    [CategoryId] INT NULL, -- Relación con categorías de políticas
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_RewardPolicies_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_RewardPolicies_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_RewardPolicies_Categories] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[PolicyCategories]([Id])
+);
+
+-- Tabla de Estados de Objetivos
+CREATE TABLE [dbo].[ObjectiveStatuses] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_ObjectiveStatuses_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_ObjectiveStatuses_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Categorías de Objetivos
+CREATE TABLE [dbo].[ObjectiveCategories] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_ObjectiveCategories_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_ObjectiveCategories_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Prioridades de Objetivos
+CREATE TABLE [dbo].[ObjectivePriorities] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_ObjectivePriorities_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_ObjectivePriorities_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Objetivos
+CREATE TABLE [dbo].[Objectives] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Title] NVARCHAR(255) NOT NULL,
+    [Description] NVARCHAR(MAX) NOT NULL,
+    [StartDate] DATETIME NOT NULL,
+    [EndDate] DATETIME NOT NULL,
+    [ResponsibleUserId] UNIQUEIDENTIFIER NOT NULL,
+    [AssignedUserId] UNIQUEIDENTIFIER NOT NULL, -- Usuario asignado al objetivo
+    [StatusId] INT NOT NULL,
+    [PriorityId] INT NOT NULL,
+    [CategoryId] INT NOT NULL,
+    [Progress] INT NOT NULL DEFAULT 0,
+    [Comments] NVARCHAR(MAX) NULL,
+    [Attachments] VARBINARY(MAX) NULL,
+    [NotificationsEnabled] BIT NOT NULL DEFAULT 0,
+    [ReviewDate] DATETIME NULL,
+    [PointsAssigned] INT NOT NULL,
+    [RewardPolicyId] INT NOT NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_Objectives_Users_Responsible] FOREIGN KEY ([ResponsibleUserId]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Objectives_Users_Assigned] FOREIGN KEY ([AssignedUserId]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Objectives_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[ObjectiveStatuses]([Id]),
+    CONSTRAINT [FK_Objectives_Priority] FOREIGN KEY ([PriorityId]) REFERENCES [dbo].[ObjectivePriorities]([Id]),
+    CONSTRAINT [FK_Objectives_Categories] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[ObjectiveCategories]([Id]),
+    CONSTRAINT [FK_Objectives_RewardPolicies] FOREIGN KEY ([RewardPolicyId]) REFERENCES [dbo].[RewardPolicies]([Id]),
+    CONSTRAINT [FK_Objectives_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Objectives_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Comentarios sobre Objetivos
+CREATE TABLE [dbo].[ObjectiveComments] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ObjectiveId] INT NOT NULL,
+    [Comment] NVARCHAR(MAX) NOT NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_ObjectiveComments_Objectives] FOREIGN KEY ([ObjectiveId]) REFERENCES [dbo].[Objectives]([Id]),
+    CONSTRAINT [FK_ObjectiveComments_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_ObjectiveComments_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Tabla de Historial de Objetivos
+CREATE TABLE [dbo].[ObjectiveHistory] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ObjectiveId] INT NOT NULL,
+    [StatusId] INT NOT NULL,
+    [Progress] INT NOT NULL,
+    [ChangedBy] UNIQUEIDENTIFIER NOT NULL,
+    [ChangedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT [FK_ObjectiveHistory_Objectives] FOREIGN KEY ([ObjectiveId]) REFERENCES [dbo].[Objectives]([Id]),
+    CONSTRAINT [FK_ObjectiveHistory_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[ObjectiveStatuses]([Id]),
+    CONSTRAINT [FK_ObjectiveHistory_Users_ChangedBy] FOREIGN KEY ([ChangedBy]) REFERENCES [dbo].[Users]([Id])
+);
+
+-- Deshabilitar IDENTITY_INSERT para PolicyCategories
+SET IDENTITY_INSERT [dbo].[PolicyCategories] ON;
+
+INSERT INTO [dbo].[PolicyCategories] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'General', N'Políticas generales', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Ventas', N'Políticas relacionadas con ventas', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Desarrollo', N'Políticas relacionadas con desarrollo', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Soporte', N'Políticas relacionadas con soporte', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[PolicyCategories] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para RewardPolicies
+SET IDENTITY_INSERT [dbo].[RewardPolicies] ON;
+
+INSERT INTO [dbo].[RewardPolicies] ([Id], [PolicyName], [Description], [ConversionRate], [AccumulationLimit], [EffectiveFrom], [EffectiveTo], [IsActive], [CategoryId], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Política General', N'Política de recompensas general', 1.5, 10000, GETDATE(), NULL, 1, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Política de Ventas', N'Política de recompensas para ventas', 2.0, 15000, GETDATE(), NULL, 1, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Política de Desarrollo', N'Política de recompensas para desarrollo', 1.8, 12000, GETDATE(), NULL, 1, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Política de Soporte', N'Política de recompensas para soporte', 1.2, 8000, GETDATE(), NULL, 1, 4, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[RewardPolicies] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para ObjectiveStatuses
+SET IDENTITY_INSERT [dbo].[ObjectiveStatuses] ON;
+
+INSERT INTO [dbo].[ObjectiveStatuses] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Pendiente', N'El objetivo está pendiente', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'En Progreso', N'El objetivo está en progreso', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Completado', N'El objetivo está completado', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'En Espera', N'El objetivo está en espera', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[ObjectiveStatuses] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para ObjectiveCategories
+SET IDENTITY_INSERT [dbo].[ObjectiveCategories] ON;
+
+INSERT INTO [dbo].[ObjectiveCategories] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Ventas', N'Objetivos de ventas', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Desarrollo', N'Objetivos de desarrollo', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Soporte', N'Objetivos de soporte', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Marketing', N'Objetivos de marketing', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[ObjectiveCategories] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para ObjectivePriorities
+SET IDENTITY_INSERT [dbo].[ObjectivePriorities] ON;
+
+INSERT INTO [dbo].[ObjectivePriorities] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Alta', N'Objetivos de alta prioridad', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Media', N'Objetivos de prioridad media', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Baja', N'Objetivos de baja prioridad', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[ObjectivePriorities] OFF;
+GO
+
+-- Deshabilitar IDENTITY_INSERT para Objectives
+SET IDENTITY_INSERT [dbo].[Objectives] ON;
+
+INSERT INTO [dbo].[Objectives] ([Id], [Title], [Description], [StartDate], [EndDate], [ResponsibleUserId], [AssignedUserId], [StatusId], [PriorityId], [CategoryId], [Progress], [Comments], [Attachments], [NotificationsEnabled], [ReviewDate], [PointsAssigned], [RewardPolicyId], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Vender 100 unidades', N'Vender 100 unidades del producto X', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 1, 1, 0, NULL, NULL, 1, NULL, 100, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Desarrollar nueva característica', N'Desarrollar una nueva característica para el producto Y', GETDATE(), DATEADD(month, 2, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 2, 0, NULL, NULL, 1, NULL, 200, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Resolver 50 tickets', N'Resolver 50 tickets de soporte', GETDATE(), DATEADD(month, 1, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 3, 3, 0, NULL, NULL, 1, NULL, 150, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Lanzar campaña de marketing', N'Lanzar una nueva campaña de marketing para el producto Z', GETDATE(), DATEADD(month, 3, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 1, 4, 0, NULL, NULL, 1, NULL, 300, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(5, N'Mejorar la satisfacción del cliente', N'Mejorar la satisfacción del cliente en un 20%', GETDATE(), DATEADD(month, 4, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 2, 3, 0, NULL, NULL, 1, NULL, 250, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(6, N'Aumentar el tráfico web', N'Aumentar el tráfico web en un 30%', GETDATE(), DATEADD(month, 5, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 3, 4, 0, NULL, NULL, 1, NULL, 400, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(7, N'Reducir el tiempo de respuesta', N'Reducir el tiempo de respuesta para tickets de soporte en un 50%', GETDATE(), DATEADD(month, 6, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 4, 1, 3, 0, NULL, NULL, 1, NULL, 350, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(8, N'Ampliar el alcance del mercado', N'Ampliar el alcance del mercado a 3 nuevas regiones', GETDATE(), DATEADD(month, 7, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 2, 4, 0, NULL, NULL, 1, NULL, 500, 2, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(9, N'Mejorar la calidad del producto', N'Mejorar la calidad del producto reduciendo los defectos en un 40%', GETDATE(), DATEADD(month, 8, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 3, 3, 2, 0, NULL, NULL, 1, NULL, 450, 3, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(10, N'Optimizar la cadena de suministro', N'Optimizar la cadena de suministro para reducir costos en un 20%', GETDATE(), DATEADD(month, 9, GETDATE()), '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 1, 1, 1, 0, NULL, NULL, 1, NULL, 600, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[Objectives] OFF;
+GO
+
+-- Deshabilitar IDENTITY_INSERT para ObjectiveComments
+SET IDENTITY_INSERT [dbo].[ObjectiveComments] ON;
+
+INSERT INTO [dbo].[ObjectiveComments] ([Id], [ObjectiveId], [Comment], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, 1, N'Iniciando la venta de unidades.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, 1, N'Vendidas 50 unidades, vamos bien.', '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 10, GETDATE()), NULL, NULL),
+(3, 2, N'Comenzando el desarrollo de la nueva característica.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, 2, N'Característica en fase de pruebas.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 20, GETDATE()), NULL, NULL),
+(5, 3, N'Iniciando la resolución de tickets.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(6, 3, N'Resolvimos 25 tickets hasta ahora.', '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 15, GETDATE()), NULL, NULL),
+(7, 4, N'Planificando la campaña de marketing.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(8, 4, N'Campaña lanzada con éxito.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 30, GETDATE()), NULL, NULL),
+(9, 5, N'Analizando la satisfacción del cliente.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(10, 5, N'Satisfacción del cliente mejorada en un 10%.', '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 25, GETDATE()), NULL, NULL),
+(11, 6, N'Iniciando estrategias para aumentar el tráfico web.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(12, 6, N'Tráfico web aumentado en un 15%.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 35, GETDATE()), NULL, NULL),
+(13, 7, N'Implementando mejoras en el tiempo de respuesta.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(14, 7, N'Tiempo de respuesta reducido en un 25%.', '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 40, GETDATE()), NULL, NULL),
+(15, 8, N'Explorando nuevas regiones para el mercado.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(16, 8, N'Mercado expandido a 2 nuevas regiones.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 50, GETDATE()), NULL, NULL),
+(17, 9, N'Analizando defectos en el producto.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(18, 9, N'Defectos reducidos en un 20%.', '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 45, GETDATE()), NULL, NULL),
+(19, 10, N'Iniciando optimización de la cadena de suministro.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(20, 10, N'Costos reducidos en un 10%.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 55, GETDATE()), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[ObjectiveComments] OFF;
+GO
+
+-- Deshabilitar IDENTITY_INSERT para ObjectiveHistory
+SET IDENTITY_INSERT [dbo].[ObjectiveHistory] ON;
+
+INSERT INTO [dbo].[ObjectiveHistory] ([Id], [ObjectiveId], [StatusId], [Progress], [ChangedBy], [ChangedAt]) VALUES 
+(1, 1, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(2, 1, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 10, GETDATE())),
+(3, 1, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 30, GETDATE())),
+(4, 2, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(5, 2, 2, 50, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 20, GETDATE())),
+(6, 2, 3, 100, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 60, GETDATE())),
+(7, 3, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(8, 3, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 15, GETDATE())),
+(9, 3, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 30, GETDATE())),
+(10, 4, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(11, 4, 2, 50, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 30, GETDATE())),
+(12, 4, 3, 100, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 90, GETDATE())),
+(13, 5, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(14, 5, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 25, GETDATE())),
+(15, 5, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 50, GETDATE())),
+(16, 6, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(17, 6, 2, 50, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 35, GETDATE())),
+(18, 6, 3, 100, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 70, GETDATE())),
+(19, 7, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(20, 7, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 40, GETDATE())),
+(21, 7, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 80, GETDATE())),
+(22, 8, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(23, 8, 2, 50, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 50, GETDATE())),
+(24, 8, 3, 100, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 100, GETDATE())),
+(25, 9, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(26, 9, 2, 50, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 45, GETDATE())),
+(27, 9, 3, 100, '3a205255-2224-47cf-9207-74426cbb7f54', DATEADD(day, 90, GETDATE())),
+(28, 10, 1, 0, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(29, 10, 2, 50, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 55, GETDATE())),
+(30, 10, 3, 100, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', DATEADD(day, 110, GETDATE()));
+
+SET IDENTITY_INSERT [dbo].[ObjectiveHistory] OFF;
+GO
+-- Tabla de Categorías de Reconocimiento
+CREATE TABLE [dbo].[RecognitionCategories] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [Points] INT NOT NULL, -- Puntos asociados a la categoría
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_RecognitionCategories_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_RecognitionCategories_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+GO
+
+-- Tabla de Estados de Nominaciones
+CREATE TABLE [dbo].[NominationStatuses] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Description] NVARCHAR(255) NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_NominationStatuses_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_NominationStatuses_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+GO
+
+-- Tabla de Nominaciones
+CREATE TABLE [dbo].[Nominations] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [NominatorUserId] UNIQUEIDENTIFIER NOT NULL, -- Usuario que realiza la nominación
+    [NomineeUserId] UNIQUEIDENTIFIER NOT NULL, -- Usuario nominado
+    [CategoryId] INT NOT NULL, -- Categoría de reconocimiento
+    [StatusId] INT NOT NULL, -- Estado de la nominación
+    [Comments] NVARCHAR(MAX) NULL, -- Comentarios adicionales
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_Nominations_Users_Nominator] FOREIGN KEY ([NominatorUserId]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Nominations_Users_Nominee] FOREIGN KEY ([NomineeUserId]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Nominations_Categories] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[RecognitionCategories]([Id]),
+    CONSTRAINT [FK_Nominations_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[NominationStatuses]([Id]),
+    CONSTRAINT [FK_Nominations_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_Nominations_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+GO
+
+-- Tabla de Comentarios sobre Nominaciones
+CREATE TABLE [dbo].[NominationComments] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [NominationId] INT NOT NULL,
+    [Comment] NVARCHAR(MAX) NOT NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    [UpdatedBy] UNIQUEIDENTIFIER NULL,
+    [UpdatedAt] DATETIME NULL,
+    CONSTRAINT [FK_NominationComments_Nominations] FOREIGN KEY ([NominationId]) REFERENCES [dbo].[Nominations]([Id]),
+    CONSTRAINT [FK_NominationComments_Users_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users]([Id]),
+    CONSTRAINT [FK_NominationComments_Users_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users]([Id])
+);
+GO
+
+-- Tabla de Historial de Nominaciones
+CREATE TABLE [dbo].[NominationHistory] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [NominationId] INT NOT NULL,
+    [StatusId] INT NOT NULL,
+    [ChangedBy] UNIQUEIDENTIFIER NOT NULL,
+    [ChangedAt] DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT [FK_NominationHistory_Nominations] FOREIGN KEY ([NominationId]) REFERENCES [dbo].[Nominations]([Id]),
+    CONSTRAINT [FK_NominationHistory_Status] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[NominationStatuses]([Id]),
+    CONSTRAINT [FK_NominationHistory_Users_ChangedBy] FOREIGN KEY ([ChangedBy]) REFERENCES [dbo].[Users]([Id])
+);
+GO
+-- Deshabilitar IDENTITY_INSERT para RecognitionCategories
+SET IDENTITY_INSERT [dbo].[RecognitionCategories] ON;
+
+INSERT INTO [dbo].[RecognitionCategories] ([Id], [Name], [Description], [Points], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Innovación', N'Reconocimiento por innovación', 500, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Colaboración', N'Reconocimiento por colaboración', 300, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Excelencia', N'Reconocimiento por excelencia', 700, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(4, N'Liderazgo', N'Reconocimiento por liderazgo', 600, '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[RecognitionCategories] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para NominationStatuses
+SET IDENTITY_INSERT [dbo].[NominationStatuses] ON;
+
+INSERT INTO [dbo].[NominationStatuses] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, N'Pendiente', N'La nominación está pendiente', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, N'Aprobada', N'La nominación ha sido aprobada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, N'Rechazada', N'La nominación ha sido rechazada', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[NominationStatuses] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para Nominations
+SET IDENTITY_INSERT [dbo].[Nominations] ON;
+
+INSERT INTO [dbo].[Nominations] ([Id], [NominatorUserId], [NomineeUserId], [CategoryId], [StatusId], [Comments], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, '08095958-3051-46e0-8869-6e8619a20643', '3a205255-2224-47cf-9207-74426cbb7f54', 1, 1, N'Excelente trabajo en innovación.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, '08095958-3051-46e0-8869-6e8619a20643', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', 2, 1, N'Gran colaboración en el proyecto.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, '3a205255-2224-47cf-9207-74426cbb7f54', '08095958-3051-46e0-8869-6e8619a20643', 3, 1, N'Excelencia en la entrega del producto.', '3a205255-2224-47cf-9207-74426cbb7f54', GETDATE(), NULL, NULL),
+(4, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', '08095958-3051-46e0-8869-6e8619a20643', 4, 1, N'Liderazgo destacado en el equipo.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[Nominations] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para NominationHistory
+SET IDENTITY_INSERT [dbo].[NominationHistory] ON;
+
+INSERT INTO [dbo].[NominationHistory] ([Id], [NominationId], [StatusId], [ChangedBy], [ChangedAt]) VALUES 
+(1, 1, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(2, 2, 1, '08095958-3051-46e0-8869-6e8619a20643', GETDATE()),
+(3, 3, 1, '3a205255-2224-47cf-9207-74426cbb7f54', GETDATE()),
+(4, 4, 1, '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[NominationHistory] OFF;
+GO
+-- Deshabilitar IDENTITY_INSERT para NominationComments
+SET IDENTITY_INSERT [dbo].[NominationComments] ON;
+
+INSERT INTO [dbo].[NominationComments] ([Id], [NominationId], [Comment], [CreatedBy], [CreatedAt], [UpdatedBy], [UpdatedAt]) VALUES 
+(1, 1, N'Comentario adicional sobre la innovación.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(2, 2, N'Comentario adicional sobre la colaboración.', '08095958-3051-46e0-8869-6e8619a20643', GETDATE(), NULL, NULL),
+(3, 3, N'Comentario adicional sobre la excelencia.', '3a205255-2224-47cf-9207-74426cbb7f54', GETDATE(), NULL, NULL),
+(4, 4, N'Comentario adicional sobre el liderazgo.', '2eb2ce71-c0db-43f3-a6fb-d23dabd608df', GETDATE(), NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[NominationComments] OFF;
+GO
 
 USE [master]
 GO

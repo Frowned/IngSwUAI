@@ -44,7 +44,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(25, 40);
+            label1.Location = new Point(53, 94);
             label1.Name = "label1";
             label1.Size = new Size(116, 25);
             label1.TabIndex = 1;
@@ -53,7 +53,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(382, 40);
+            label2.Location = new Point(410, 94);
             label2.Name = "label2";
             label2.Size = new Size(160, 25);
             label2.TabIndex = 2;
@@ -63,14 +63,14 @@
             // 
             cmbCollaborator.FormattingEnabled = true;
             cmbCollaborator.Items.AddRange(new object[] { "Juan Perez" });
-            cmbCollaborator.Location = new Point(147, 40);
+            cmbCollaborator.Location = new Point(175, 94);
             cmbCollaborator.Name = "cmbCollaborator";
             cmbCollaborator.Size = new Size(182, 33);
             cmbCollaborator.TabIndex = 3;
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(550, 38);
+            numericUpDown1.Location = new Point(578, 92);
             numericUpDown1.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(180, 31);
@@ -81,7 +81,7 @@
             LblPoints.AutoSize = true;
             LblPoints.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold);
             LblPoints.ForeColor = Color.ForestGreen;
-            LblPoints.Location = new Point(1522, 41);
+            LblPoints.Location = new Point(1550, 95);
             LblPoints.Name = "LblPoints";
             LblPoints.Size = new Size(28, 32);
             LblPoints.TabIndex = 27;
@@ -93,7 +93,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold);
             label3.ForeColor = Color.ForestGreen;
-            label3.Location = new Point(1355, 41);
+            label3.Location = new Point(1383, 95);
             label3.Name = "label3";
             label3.Size = new Size(105, 32);
             label3.TabIndex = 26;
@@ -105,7 +105,7 @@
             btnTransfer.BackColor = Color.ForestGreen;
             btnTransfer.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTransfer.ForeColor = SystemColors.ButtonHighlight;
-            btnTransfer.Location = new Point(761, 33);
+            btnTransfer.Location = new Point(789, 87);
             btnTransfer.Margin = new Padding(4, 5, 4, 5);
             btnTransfer.Name = "btnTransfer";
             btnTransfer.Size = new Size(309, 49);
@@ -120,7 +120,7 @@
             btnExport.BackColor = Color.ForestGreen;
             btnExport.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExport.ForeColor = SystemColors.ButtonHighlight;
-            btnExport.Location = new Point(25, 912);
+            btnExport.Location = new Point(53, 966);
             btnExport.Margin = new Padding(4, 5, 4, 5);
             btnExport.Name = "btnExport";
             btnExport.Size = new Size(309, 49);
@@ -135,7 +135,7 @@
             DgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvHistory.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             DgvHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvHistory.Location = new Point(25, 109);
+            DgvHistory.Location = new Point(53, 163);
             DgvHistory.Name = "DgvHistory";
             DgvHistory.RowHeadersWidth = 62;
             DgvHistory.Size = new Size(1569, 780);
@@ -145,6 +145,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1655, 1219);
             Controls.Add(btnExport);
             Controls.Add(DgvHistory);
@@ -157,6 +158,8 @@
             Controls.Add(label1);
             Name = "FrmTransferPoints";
             Text = "FrmTransferPoints";
+            FormClosed += FrmTransferPoints_FormClosed;
+            Load += FrmTransferPoints_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ((System.ComponentModel.ISupportInitialize)DgvHistory).EndInit();
             ResumeLayout(false);

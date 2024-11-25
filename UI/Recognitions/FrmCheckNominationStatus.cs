@@ -34,5 +34,19 @@ namespace UI.Recognitions
                 }
             }
         }
+
+        private void FrmCheckNominationStatus_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SingletonSession.Instancia.RemoveObserver(this);
+
+        }
+
+        private void FrmCheckNominationStatus_Load(object sender, EventArgs e)
+        {
+
+            MinimizeBox = false;
+            MaximizeBox = false;
+            ControlBox = false;
+        }
     }
 }

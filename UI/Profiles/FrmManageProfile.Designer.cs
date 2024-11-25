@@ -378,7 +378,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Window;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1796, 1060);
             Controls.Add(BtnSaveRoleComponent);
             Controls.Add(label3);

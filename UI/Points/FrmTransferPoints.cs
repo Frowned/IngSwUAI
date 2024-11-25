@@ -64,7 +64,7 @@ namespace UI.Points
                 }
                 if (numericUpDown1.Text != "" && cmbCollaborator.SelectedItem != null)
                 {
-                     pointBLL.TransferPointsToUser(numericUpDown1.Value, ((UserDTO)cmbCollaborator.SelectedItem).Id);
+                    pointBLL.TransferPointsToUser(numericUpDown1.Value, ((UserDTO)cmbCollaborator.SelectedItem).Id);
                     MessageBox.Show("Puntos transferidos con éxito");
                     DgvHistory.DataSource = pointBLL.GetPointTransfers();
                     LblPoints.Text = pointBLL.GetPointsByUserId(SingletonSession.Instancia.User.Id).ToString();
@@ -80,6 +80,18 @@ namespace UI.Points
         {
             PdfExporter.ExportDataGridViewToPdf(DgvHistory, "Reporte de historial de transferencias", "Registro detallado de cambio de puntos entre usuarios");
 
+        }
+
+        private void FrmTransferPoints_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SingletonSession.Instancia.RemoveObserver(this);
+        }
+
+        private void FrmTransferPoints_Load(object sender, EventArgs e)
+        {
+            MinimizeBox = false;
+            MaximizeBox = false;
+            ControlBox = false;
         }
     }
 }

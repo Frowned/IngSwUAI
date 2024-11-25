@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "FrmCheckObjectives";
+            SuspendLayout();
+            // 
+            // FrmCheckObjectives
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Name = "FrmCheckObjectives";
+            Text = "FrmCheckObjectives";
+            FormClosed += FrmCheckObjectives_FormClosed;
+            Load += FrmCheckObjectives_Load;
+            ResumeLayout(false);
         }
 
         #endregion

@@ -475,367 +475,134 @@ namespace UI
         // Admin
         private void btnManageBackup_Click(object sender, EventArgs e)
         {
-            if (frmBackup == null || frmBackup.IsDisposed)
-            {
-                frmBackup = Program.ServiceProvider.GetRequiredService<FrmBackup>();
-                SingletonSession.Instancia.AddObserver(frmBackup);
-                frmBackup.MdiParent = this;
-                frmBackup.Show();
-            }
-            else
-            {
-                frmBackup.BringToFront();
-                frmBackup.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmBackup, sender, e);
         }
 
         private void btnManageProducts_Click(object sender, EventArgs e)
         {
-            if (frmAddProducts == null || frmAddProducts.IsDisposed)
-            {
-                frmAddProducts = Program.ServiceProvider.GetRequiredService<FrmAddProducts>();
-                SingletonSession.Instancia.AddObserver(frmAddProducts);
-                frmAddProducts.MdiParent = this;
-                frmAddProducts.Show();
-            }
-            else
-            {
-                frmAddProducts.BringToFront();
-                frmAddProducts.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmAddProducts, sender, e);
         }
 
         private void btnManageLang_Click(object sender, EventArgs e)
         {
-            if (frmManageLanguage == null || frmManageLanguage.IsDisposed)
-            {
-                frmManageLanguage = Program.ServiceProvider.GetRequiredService<FrmManageLanguage>();
-                SingletonSession.Instancia.AddObserver(frmManageLanguage);
-                frmManageLanguage.MdiParent = this;
-                frmManageLanguage.Show();
-            }
-            else
-            {
-                frmManageLanguage.BringToFront();
-                frmManageLanguage.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmManageLanguage, sender, e);
         }
 
         private void btnManageRoles_Click(object sender, EventArgs e)
         {
-            if (frmManageProfile == null || frmManageProfile.IsDisposed)
-            {
-                frmManageProfile = Program.ServiceProvider.GetRequiredService<FrmManageProfile>();
-                SingletonSession.Instancia.AddObserver(frmManageProfile);
-                frmManageProfile.MdiParent = this;
-                frmManageProfile.Show();
-            }
-            else
-            {
-                frmManageProfile.BringToFront();
-                frmManageProfile.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmManageProfile, sender, e);
         }
 
         private void btnCustomizeNominationRules_Click(object sender, EventArgs e)
         {
-            if (frmManageNominationRules == null || frmManageNominationRules.IsDisposed)
-            {
-                frmManageNominationRules = Program.ServiceProvider.GetRequiredService<FrmManageNominationRules>();
-                SingletonSession.Instancia.AddObserver(frmManageNominationRules);
-                frmManageNominationRules.MdiParent = this;
-                frmManageNominationRules.Show();
-            }
-            else
-            {
-                frmManageNominationRules.BringToFront();
-                frmManageNominationRules.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
-
+           OpenForm(ref frmManageNominationRules, sender, e);
         }
 
         private void btnConfigureRecognitionCategories_Click(object sender, EventArgs e)
         {
-            if (frmConfigureRecognitionCategories == null || frmConfigureRecognitionCategories.IsDisposed)
-            {
-                frmConfigureRecognitionCategories = Program.ServiceProvider.GetRequiredService<FrmConfigureRecognitionCategories>();
-                SingletonSession.Instancia.AddObserver(frmConfigureRecognitionCategories);
-                frmConfigureRecognitionCategories.MdiParent = this;
-                frmConfigureRecognitionCategories.Show();
-            }
-            else
-            {
-                frmConfigureRecognitionCategories.BringToFront();
-                frmConfigureRecognitionCategories.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmConfigureRecognitionCategories, sender, e);
         }
 
         private void btnConfigureRewardPolicies_Click(object sender, EventArgs e)
         {
-            if (frmConfigureRewardPolicies == null || frmConfigureRewardPolicies.IsDisposed)
-            {
-                frmConfigureRewardPolicies = Program.ServiceProvider.GetRequiredService<FrmConfigureRewardPolicies>();
-                SingletonSession.Instancia.AddObserver(frmConfigureRewardPolicies);
-                frmConfigureRewardPolicies.MdiParent = this;
-                frmConfigureRewardPolicies.Show();
-            }
-            else
-            {
-                frmConfigureRewardPolicies.BringToFront();
-                frmConfigureRewardPolicies.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
-
+            OpenForm(ref frmConfigureRewardPolicies, sender, e);
         }
 
         // Reportes
         private void btnReportProducts_Click(object sender, EventArgs e)
         {
-            if (frmProductsLogs == null || frmProductsLogs.IsDisposed)
-            {
-                frmProductsLogs = Program.ServiceProvider.GetRequiredService<FrmProductsLogs>();
-                SingletonSession.Instancia.AddObserver(frmProductsLogs);
-                frmProductsLogs.MdiParent = this;
-                frmProductsLogs.Show();
-            }
-            else
-            {
-                frmProductsLogs.BringToFront();
-                frmProductsLogs.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmProductsLogs, sender, e);
         }
 
         private void btnReportEvents_Click(object sender, EventArgs e)
         {
-            if (frmEventsLogs == null || frmEventsLogs.IsDisposed)
-            {
-                frmEventsLogs = Program.ServiceProvider.GetRequiredService<FrmEventsLogs>();
-                SingletonSession.Instancia.AddObserver(frmEventsLogs);
-                frmEventsLogs.MdiParent = this;
-                frmEventsLogs.Show();
-            }
-            else
-            {
-                frmEventsLogs.BringToFront();
-                frmEventsLogs.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmEventsLogs, sender, e);
         }
         private void btnGenerateRecognitionReport_Click(object sender, EventArgs e)
         {
-            if(frmRecognitionLogs == null || frmRecognitionLogs.IsDisposed)
-            {
-                frmRecognitionLogs = Program.ServiceProvider.GetRequiredService<FrmRecognitionLogs>();
-                SingletonSession.Instancia.AddObserver(frmRecognitionLogs);
-                frmRecognitionLogs.MdiParent = this;
-                frmRecognitionLogs.Show();
-            }
-            else
-            {
-                frmRecognitionLogs.BringToFront();
-                frmRecognitionLogs.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmRecognitionLogs, sender, e);
         }
 
         private void btnObjectivesReport_Click(object sender, EventArgs e)
         {
-            if(frmObjectiveLogs == null || frmObjectiveLogs.IsDisposed)
-            {
-                frmObjectiveLogs = Program.ServiceProvider.GetRequiredService<FrmObjectiveLogs>();
-                SingletonSession.Instancia.AddObserver(frmObjectiveLogs);
-                frmObjectiveLogs.MdiParent = this;
-                frmObjectiveLogs.Show();
-            }
-            else
-            {
-                frmObjectiveLogs.BringToFront();
-                frmObjectiveLogs.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
-
+            OpenForm(ref frmObjectiveLogs, sender, e);
         }
 
         // Productos
         private void btnViewProducts_Click(object sender, EventArgs e)
         {
-            if (frmViewProducts == null || frmViewProducts.IsDisposed)
-            {
-                frmViewProducts = Program.ServiceProvider.GetRequiredService<FrmViewProducts>();
-                SingletonSession.Instancia.AddObserver(frmViewProducts);
-                frmViewProducts.MdiParent = this;
-                frmViewProducts.Show();
-            }
-            else
-            {
-                frmViewProducts.BringToFront();
-                frmViewProducts.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmViewProducts, sender, e);
         }
 
         // Puntos
         private void btnTransferPoints_Click(object sender, EventArgs e)
         {
-            if (frmTransferPoints == null || frmTransferPoints.IsDisposed)
-            {
-                frmTransferPoints = Program.ServiceProvider.GetRequiredService<FrmTransferPoints>();
-                SingletonSession.Instancia.AddObserver(frmTransferPoints);
-                frmTransferPoints.MdiParent = this;
-                frmTransferPoints.Show();
-            }
-            else
-            {
-                frmTransferPoints.BringToFront();
-                frmTransferPoints.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmTransferPoints, sender, e);
         }
 
         private void btnExchangePoints_Click(object sender, EventArgs e)
         {
-            if (frmExchangePoints == null || frmExchangePoints.IsDisposed)
-            {
-                frmExchangePoints = Program.ServiceProvider.GetRequiredService<FrmExchangePoints>();
-                SingletonSession.Instancia.AddObserver(frmExchangePoints);
-                frmExchangePoints.MdiParent = this;
-                frmExchangePoints.Show();
-            }
-            else
-            {
-                frmExchangePoints.BringToFront();
-                frmExchangePoints.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmExchangePoints, sender, e);
         }
 
         private void btnCheckPoints_Click(object sender, EventArgs e)
         {
-            if (frmPoints == null || frmPoints.IsDisposed)
-            {
-                frmPoints = Program.ServiceProvider.GetRequiredService<FrmPoints>();
-                SingletonSession.Instancia.AddObserver(frmPoints);
-                frmPoints.MdiParent = this;
-                frmPoints.Show();
-            }
-            else
-            {
-                frmPoints.BringToFront();
-                frmPoints.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmPoints, sender, e);
         }
 
         // Reconocimiento
         private void btnNominateCollaborator_Click(object sender, EventArgs e)
         {
-            if(frmNominateCollaborator == null || frmNominateCollaborator.IsDisposed)
+            OpenForm(ref frmNominateCollaborator, sender, e);
+        }
+        
+        
+        private void OpenForm<T>(ref T? formInstance, object sender, EventArgs e) where T : Form, IObserverForm
+        {
+            if (formInstance == null || formInstance.IsDisposed)
             {
-                frmNominateCollaborator = Program.ServiceProvider.GetRequiredService<FrmNominateCollaborator>();
-                SingletonSession.Instancia.AddObserver(frmNominateCollaborator);
-                frmNominateCollaborator.MdiParent = this;
-                frmNominateCollaborator.Show();
+            formInstance = Program.ServiceProvider.GetRequiredService<T>();
+            SingletonSession.Instancia.AddObserver(formInstance);
+            formInstance.FormBorderStyle = FormBorderStyle.None;
+            formInstance.Width = this.Width;
+            formInstance.Height = this.Height;
+            formInstance.Dock = DockStyle.Fill;
+            formInstance.MdiParent = this;
+            formInstance.Show();
             }
             else
             {
-                frmNominateCollaborator.BringToFront();
-                frmNominateCollaborator.WindowState = FormWindowState.Maximized;
+            formInstance.BringToFront();
+            formInstance.WindowState = FormWindowState.Maximized;
             }
             UpdateTitle((Control)sender);
         }
 
         private void btnReviewPendingNominations_Click(object sender, EventArgs e)
         {
-            if(frmReviewPendingNominations == null || frmReviewPendingNominations.IsDisposed)
-            {
-                frmReviewPendingNominations = Program.ServiceProvider.GetRequiredService<FrmReviewPendingNominations>();
-                SingletonSession.Instancia.AddObserver(frmReviewPendingNominations);
-                frmReviewPendingNominations.MdiParent = this;
-                frmReviewPendingNominations.Show();
-            }
-            else
-            {
-                frmReviewPendingNominations.BringToFront();
-                frmReviewPendingNominations.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmReviewPendingNominations, sender, e);
         }
 
         private void btnCheckNominationStatus_Click(object sender, EventArgs e)
         {
-            if(frmCheckNominationStatus == null || frmCheckNominationStatus.IsDisposed)
-            {
-                frmCheckNominationStatus = Program.ServiceProvider.GetRequiredService<FrmCheckNominationStatus>();
-                SingletonSession.Instancia.AddObserver(frmCheckNominationStatus);
-                frmCheckNominationStatus.MdiParent = this;
-                frmCheckNominationStatus.Show();
-            }
-            else
-            {
-                frmCheckNominationStatus.BringToFront();
-                frmCheckNominationStatus.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmCheckNominationStatus, sender, e);
         }
 
         // Objetivos
         private void btnCreateObjectives_Click(object sender, EventArgs e)
         {
-            if(frmCreateObjectives == null || frmCreateObjectives.IsDisposed)
-            {
-                frmCreateObjectives = Program.ServiceProvider.GetRequiredService<FrmCreateObjectives>();
-                SingletonSession.Instancia.AddObserver(frmCreateObjectives);
-                frmCreateObjectives.MdiParent = this;
-                frmCreateObjectives.Show();
-            }
-            else
-            {
-                frmCreateObjectives.BringToFront();
-                frmCreateObjectives.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmCreateObjectives, sender, e);
         }
 
 
         private void btnViewAssignedObjectives_Click(object sender, EventArgs e)
         {
-            if(frmCheckObjectives == null || frmCheckObjectives.IsDisposed)
-            {
-                frmCheckObjectives = Program.ServiceProvider.GetRequiredService<FrmCheckObjectives>();
-                SingletonSession.Instancia.AddObserver(frmCheckObjectives);
-                frmCheckObjectives.MdiParent = this;
-                frmCheckObjectives.Show();
-            }
-            else
-            {
-                frmCheckObjectives.BringToFront();
-                frmCheckObjectives.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmCheckObjectives, sender, e);
         }
 
         private void btnEvaluateObjectives_Click(object sender, EventArgs e)
         {
-            if(frmEvaluateObjectives == null || frmEvaluateObjectives.IsDisposed)
-            {
-                frmEvaluateObjectives = Program.ServiceProvider.GetRequiredService<FrmEvaluateObjectives>();
-                SingletonSession.Instancia.AddObserver(frmEvaluateObjectives);
-                frmEvaluateObjectives.MdiParent = this;
-                frmEvaluateObjectives.Show();
-            }
-            else
-            {
-                frmEvaluateObjectives.BringToFront();
-                frmEvaluateObjectives.WindowState = FormWindowState.Maximized;
-            }
-            UpdateTitle((Control)sender);
+            OpenForm(ref frmEvaluateObjectives, sender, e);
         }
 
         //Drag Form

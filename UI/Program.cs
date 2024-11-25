@@ -13,11 +13,13 @@ using UI.Backup;
 using UI.Logs;
 using UI.Security;
 using UI.Reports;
+using UI.Recognitions;
+using UI.Objectives;
 namespace UI
 {
     internal static class Program
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
+        public static IServiceProvider? ServiceProvider { get; private set; }
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -52,6 +54,10 @@ namespace UI
             services.AddTransient<IBackupDAL, BackupDAL>();
             services.AddTransient<ICheckDigitBLL, CheckDigitBLL>();
             services.AddTransient<ICheckDigitDAL, CheckDigitDAL>();
+            services.AddTransient<INominationBLL, NominationBLL>();
+            services.AddTransient<INominationDAL, NominationDAL>();
+            services.AddTransient<IRecognitionCategoryBLL, RecognitionCategoryBLL>();
+            services.AddTransient<IRecognitionCategoryDAL, RecognitionCategoryDAL>();
 
             services.AddTransient<FrmLogin>();
             services.AddTransient<FrmPrincipal>();
@@ -67,6 +73,18 @@ namespace UI
             services.AddTransient<FrmInconsistencyManagement>();
             services.AddTransient<FrmTransferPoints>();
             services.AddTransient<FrmExchangeBenefits>();
+            services.AddTransient<FrmObjectiveLogs>();
+            services.AddTransient<FrmNominateCollaborator>();
+            services.AddTransient<FrmReviewPendingNominations>();
+            services.AddTransient<FrmCheckNominationStatus>();
+            services.AddTransient<FrmCheckObjectives>();
+            services.AddTransient<FrmCreateObjectives>();
+            services.AddTransient<FrmEvaluateObjectives>();
+            services.AddTransient<FrmManageNominationRules>();
+            services.AddTransient<FrmConfigureRewardPolicies>();
+            services.AddTransient<FrmConfigureRecognitionCategories>();
+            services.AddTransient<FrmRecognitionLogs>();
+            services.AddTransient<FrmObjectiveLogs>();
         }
     }
 }
